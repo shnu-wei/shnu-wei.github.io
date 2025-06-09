@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victor的分享空间 | 首页</title>
+    <meta name="description" content="欢迎来到Victor的分享空间。探索我的项目、思考与发现。">
+
+    <style>
+        /* --- 全局样式 --- */
+        :root {
+            --primary-color: #3498db; /* 主题色 */
+            --primary-hover-color: #2980b9;
+            --card-bg-color: #ffffff;
+            --page-bg-color: #f7f9fc;
+            --text-color: #333333;
+            --heading-color: #2c3e50;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            background-color: var(--page-bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- 头部设计 --- */
+        .page-header {
+            background-color: var(--card-bg-color);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--heading-color);
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .page-header .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- 主内容与卡片布局 --- */
+        .content-wrapper {
+            max-width: 960px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .share-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .share-card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .share-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px var(--shadow-color);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .share-card h2 {
+            font-size: 1.5rem;
+            margin: 0 0 0.75rem 0;
+            color: var(--heading-color);
+        }
+
+        .share-card p {
+            flex-grow: 1; /* 让描述部分占据多余空间，使按钮对齐 */
+            margin: 0 0 1.5rem 0;
+            color: #555;
+        }
+
+        .share-card .card-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 0.8rem 1.6rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .share-card .card-button:hover {
+            background-color: var(--primary-hover-color);
+        }
+
+        /* --- 页脚设计 --- */
+        .page-footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <h1>Victor's Hub</h1>
+        <p class="subtitle">一个记录和分享项目、思考与发现的数字空间。</p>
+    </header>
+
+    <main class="content-wrapper">
+        <div class="share-grid">
+
+            <article class="share-card">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                    </svg>
+                </div>
+                <h2>宝宝成长日志</h2>
+                <p>记录与分享小生命成长的珍贵点滴、育儿心得以及那些充满欢笑的瞬间。</p>
+                <a href="baobao.html" class="card-button">进入空间</a>
+            </article>
+
+            <article class="share-card">
+                 <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                    </svg>
+                 </div>
+                <h2>3D打印与建模</h2>
+                <p>探索三维世界的无限可能。这里有我的3D打印作品、建模技巧分享与技术评测。</p>
+                <a href="3d.html" class="card-button">查看项目</a>
+            </article>
+
+            </div>
+    </main>
+
+    <footer class="page-footer">
+        <p>&copy; 2025 Victor. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
