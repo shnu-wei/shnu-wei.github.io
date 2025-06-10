@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽样分布定理模拟</title>
+    <title>抽样分布定理模拟器 (最终版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +55,6 @@
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800">抽样分布定理模拟器</h1>
         </header>
 
-        <!-- Controls -->
         <div class="bg-white p-6 rounded-xl shadow-md mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
                 <div class="flex flex-col lg:col-span-1">
@@ -74,20 +73,19 @@
         </div>
         
         <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h2 class="text-2xl font-bold mb-4">当前样本数据 (n=<span id="n-val-display">30</span>)</h2>
+            <h2 class="text-2xl font-bold mb-4">当前样本数据点 (n=<span id="n-val-display">30</span>)</h2>
             <div id="currentSampleIcons" class="w-full bg-gray-50 border rounded-lg p-2"></div>
         </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="space-y-8">
             <div class="bg-white p-6 rounded-xl shadow-md"><h2 class="text-2xl font-bold mb-4 text-center">当前样本的分布</h2><div class="chart-container"><canvas id="sampleChart"></canvas></div><div class="mt-4 text-center bg-gray-100 p-4 rounded-lg"><p class="text-lg">样本均值 (x̄): <span id="sampleMean" class="font-bold text-blue-600">N/A</span></p><p class="text-lg">样本标准差 (s): <span id="sampleStdDev" class="font-bold text-blue-600">N/A</span></p></div></div>
             <div class="bg-white p-6 rounded-xl shadow-md"><h2 class="text-2xl font-bold mb-4 text-center">样本均值的抽样分布</h2><div class="chart-container"><canvas id="samplingDistChart"></canvas></div><div class="mt-4 text-center bg-gray-100 p-4 rounded-lg"><p class="text-lg">已抽样次数: <span id="numSamples" class="font-bold text-green-600">0</span></p><p class="text-lg">样本均值的均值 (μ_x̄): <span id="meanOfMeans" class="font-bold text-green-600">N/A</span></p><p class="text-lg">样本均值的标准差 (σ_x̄): <span id="stdDevOfMeans" class="font-bold text-green-600">N/A</span></p></div></div>
-        </div>
-
-        <div id="populationContainer" class="bg-white p-6 rounded-xl shadow-md mt-8 hidden">
-            <h2 class="text-2xl font-bold mb-4 text-center">总体分布 
-                <span class="text-base font-normal text-gray-500">(μ=112, σ=4.22, 基于固定种子生成 N=10,000)</span>
-            </h2>
-            <div class="chart-container"><canvas id="populationChart"></canvas></div>
+            <div id="populationContainer" class="bg-white p-6 rounded-xl shadow-md hidden">
+                <h2 class="text-2xl font-bold mb-4 text-center">总体分布 
+                    <span class="text-base font-normal text-gray-500">(μ=112, σ=4.22, 基于固定种子生成 N=10,000)</span>
+                </h2>
+                <div class="chart-container"><canvas id="populationChart"></canvas></div>
+            </div>
         </div>
 
     </div>
@@ -205,22 +203,23 @@
         }
 
         function updateCharts() {
-            const chartsToUpdate = [sampleChart, samplingDistChart, populationChart];
             let globalMin, globalMax;
 
             if (isAxisUnified) {
                 globalMin = 95;
                 globalMax = 130;
-                chartsToUpdate.forEach(chart => {
+            }
+            
+            const chartsToUpdate = [sampleChart, samplingDistChart, populationChart];
+            chartsToUpdate.forEach(chart => {
+                if (isAxisUnified) {
                     chart.options.scales.x.min = globalMin;
                     chart.options.scales.x.max = globalMax;
-                });
-            } else {
-                 chartsToUpdate.forEach(chart => {
+                } else {
                     delete chart.options.scales.x.min;
                     delete chart.options.scales.x.max;
-                });
-            }
+                }
+            });
 
             const sampleHist = createHistogramData(currentSample, 10, globalMin, globalMax);
             const distHist = createHistogramData(sampleMeans, 15, globalMin, globalMax);
@@ -228,13 +227,11 @@
 
             // Update Sample Chart
             sampleChart.data.datasets[0].data = sampleHist.data;
-            sampleChart.options.scales.x.barPercentage = 1.0;
-            sampleChart.options.scales.x.categoryPercentage = 1.0;
+            sampleChart.data.datasets[0].barThickness = sampleHist.binWidth * (isAxisUnified ? 15 : 25);
 
             // Update Sampling Distribution Chart
             samplingDistChart.data.datasets[0].data = distHist.data;
-            samplingDistChart.options.scales.x.barPercentage = 1.0;
-            samplingDistChart.options.scales.x.categoryPercentage = 1.0;
+            samplingDistChart.data.datasets[0].barThickness = distHist.binWidth * (isAxisUnified ? 15 : 25);
             const samplingTheoryCurve = samplingDistChart.data.datasets[1];
             if (sampleMeans.length > 0 && distHist.binWidth > 0) {
                 const sampleSize = parseInt(sampleSizeInput.value, 10);
@@ -246,8 +243,7 @@
             
             // Update Population Chart
             populationChart.data.datasets[0].data = populationHist.data;
-            populationChart.options.scales.x.barPercentage = 1.0;
-            populationChart.options.scales.x.categoryPercentage = 1.0;
+            populationChart.data.datasets[0].barThickness = populationHist.binWidth * (isAxisUnified ? 15 : 25);
             const populationTheoryCurve = populationChart.data.datasets[1];
             if (populationHist.binWidth > 0) {
                  populationTheoryCurve.data = createTheoryCurveData(populationHist.min, populationHist.max, populationHist.binWidth, POPULATION_MEAN, POPULATION_STD_DEV);
@@ -311,14 +307,15 @@
                 plugins:{ legend:{position:'top'}, tooltip:{ callbacks:{ 
                     title: () => '',
                     label: (ctx) => {
-                         if (ctx.dataset.type === 'line') {
-                            return `${ctx.dataset.label}: 在 x=${ctx.parsed.x.toFixed(2)} 处的概率密度`;
-                        }
+                        if (ctx.dataset.type === 'line') return `${ctx.dataset.label}: 在 x=${ctx.parsed.x.toFixed(2)} 处的概率密度`;
+                        
                         const xVal = ctx.parsed.x;
-                        const binWidth = createHistogramData( // Recalculate to get width for tooltip
-                            ctx.chart === sampleChart ? currentSample : (ctx.chart === samplingDistChart ? sampleMeans : populationSampleForHist),
-                             15, ctx.chart.options.scales.x.min, ctx.chart.options.scales.x.max
-                        ).binWidth;
+                        let binWidth = 0;
+                        try { // A bit of a hack to get binWidth for tooltip
+                           const histData = createHistogramData( ctx.chart === sampleChart ? currentSample : (ctx.chart === samplingDistChart ? sampleMeans : populationSampleForHist), 15, ctx.chart.options.scales.x.min, ctx.chart.options.scales.x.max);
+                           binWidth = histData.binWidth;
+                        } catch(e) {}
+                        if (!binWidth) return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}%`;
 
                         const binStart = xVal - binWidth / 2;
                         const binEnd = xVal + binWidth / 2;
@@ -327,12 +324,12 @@
                 }}}
             });
             
-            sampleChart = new Chart($('sampleChart').getContext('2d'), { type: 'bar', data: { datasets: [{ label: '当前样本', backgroundColor: 'rgba(59, 130, 246, 0.7)', barPercentage: 1.0, categoryPercentage: 1.0 }] }, options: commonOptions('身高 (cm)') });
+            sampleChart = new Chart($('sampleChart').getContext('2d'), { type: 'bar', data: { datasets: [{ label: '当前样本', backgroundColor: 'rgba(59, 130, 246, 0.7)' }] }, options: commonOptions('身高 (cm)') });
             
             samplingDistChart = new Chart($('samplingDistChart').getContext('2d'), { 
                 type: 'bar', 
                 data: { datasets: [ 
-                    { label: '样本均值的分布', data: [], backgroundColor: 'rgba(16, 185, 129, 0.7)', order: 2, barPercentage: 1.0, categoryPercentage: 1.0 }, 
+                    { label: '样本均值的分布', data: [], backgroundColor: 'rgba(16, 185, 129, 0.7)', order: 2 }, 
                     { label: '理论抽样分布', type: 'line', data: [], borderColor: 'rgba(249, 115, 22, 1)', borderWidth: 2, fill: false, pointRadius: 0, order: 1 }
                 ]}, 
                 options: commonOptions('样本均值 (cm)') 
@@ -347,7 +344,7 @@
                 type: 'bar',
                 data: {
                     datasets: [
-                        { label: '模拟总体分布', data: populationHist.data, backgroundColor: 'rgba(139, 92, 246, 0.7)', order: 2, barPercentage: 1.0, categoryPercentage: 1.0 },
+                        { label: '模拟总体分布', data: populationHist.data, backgroundColor: 'rgba(139, 92, 246, 0.7)', order: 2 },
                         { label: '理论总体分布', type: 'line', data: populationTheoryData, borderColor: 'rgba(139, 92, 246, 1)', borderWidth: 2, borderDash: [5, 5], fill: false, pointRadius: 0, order: 1 }
                     ]
                 },
@@ -383,8 +380,8 @@
         unifyAxisBtn.addEventListener('click', toggleAxisUnification);
         
         togglePopulationBtn.addEventListener('click', () => {
-            const isHidden = populationContainer.classList.toggle('hidden');
-            togglePopulationBtn.textContent = isHidden ? '显示总体分布' : '隐藏总体分布';
+            populationContainer.classList.toggle('hidden');
+            togglePopulationBtn.textContent = populationContainer.classList.contains('hidden') ? '显示总体分布' : '隐藏总体分布';
         });
 
         sampleSizeInput.addEventListener('input', e => { 
