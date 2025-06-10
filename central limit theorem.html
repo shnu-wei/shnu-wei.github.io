@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽样分布定理模拟器 (最终版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        .child-icon-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 2px;
+            padding-bottom: 5px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+        .child-icon-container:hover {
+            background-color: #e0f2fe; /* light-blue-100 */
+        }
+        .child-icon-svg {
+            width: 25px;
+            transition: height 0.3s ease-in-out;
+        }
+        #currentSampleIcons {
+            display: flex;
+            align-items: flex-end; /* Align icons to the bottom */
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            min-height: 150px; /* Ensure container has a minimum height */
+            position: relative; /* Positioning context for the reference line */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">抽样分布定理模拟器</h1>
+        </header>
+
+        <!-- Controls -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+                <div class="flex flex-col lg:col-span-1">
+                    <label for="sampleSize" class="mb-2 font-semibold text-gray-700">1. 设置样本量 (n)</label>
+                    <input type="number" id="sampleSize" value="30" min="2" max="1000" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+                <div class="flex flex-col"><button id="drawSampleBtn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-transform transform active:scale-95">抽取 1 个</button></div>
+                <div class="flex flex-col"><button id="draw10SamplesBtn" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-transform transform active:scale-95">抽取 10 个</button></div>
+                <div class="flex flex-col"><button id="draw100SamplesBtn" class="w-full bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700 active:bg-purple-800 transition-transform transform active:scale-95">抽取 100 个</button></div>
+                <div class="flex flex-col"><button id="resetBtn" class="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 active:bg-red-700 transition-transform transform active:scale-95">重置所有</button></div>
+            </div>
+             <div class="border-t border-gray-200 mt-6 pt-4 flex justify-center items-center gap-4">
+                <button id="unifyAxisBtn" class="bg-slate-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-slate-700 active:bg-slate-800 transition-transform transform active:scale-95">统一所有X轴</button>
+                <button id="togglePopulationBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-5 rounded-lg">显示总体分布</button>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-2xl font-bold mb-4">当前样本数据点 (n=<span id="n-val-display">30</span>)</h2>
+            <div id="currentSampleIcons" class="w-full bg-gray-50 border rounded-lg p-2"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-xl shadow-md"><h2 class="text-2xl font-bold mb-4 text-center">当前样本的分布</h2><div class="chart-container"><canvas id="sampleChart"></canvas></div><div class="mt-4 text-center bg-gray-100 p-4 rounded-lg"><p class="text-lg">样本均值 (x̄): <span id="sampleMean" class="font-bold text-blue-600">N/A</span></p><p class="text-lg">样本标准差 (s): <span id="sampleStdDev" class="font-bold text-blue-600">N/A</span></p></div></div>
+            <div class="bg-white p-6 rounded-xl shadow-md"><h2 class="text-2xl font-bold mb-4 text-center">样本均值的抽样分布</h2><div class="chart-container"><canvas id="samplingDistChart"></canvas></div><div class="mt-4 text-center bg-gray-100 p-4 rounded-lg"><p class="text-lg">已抽样次数: <span id="numSamples" class="font-bold text-green-600">0</span></p><p class="text-lg">样本均值的均值 (μ_x̄): <span id="meanOfMeans" class="font-bold text-green-600">N/A</span></p><p class="text-lg">样本均值的标准差 (σ_x̄): <span id="stdDevOfMeans" class="font-bold text-green-600">N/A</span></p></div></div>
+        </div>
+
+        <div id="populationContainer" class="bg-white p-6 rounded-xl shadow-md mt-8 hidden">
+            <h2 class="text-2xl font-bold mb-4 text-center">总体分布 
+                <span class="text-base font-normal text-gray-500">(μ=112, σ=4.22, 基于固定种子生成 N=10,000)</span>
+            </h2>
+            <div class="chart-container"><canvas id="populationChart"></canvas></div>
+        </div>
+
+    </div>
+
+    <script>
+        const POPULATION_MEAN = 112, POPULATION_STD_DEV = 4.22;
+        let sampleMeans = [], currentSample = [], isDrawingMultiple = false, isAxisUnified = false;
+        let populationSampleForHist = []; 
+
+        const $ = id => document.getElementById(id);
+        const sampleSizeInput = $('sampleSize'), drawSampleBtn = $('drawSampleBtn'), draw10SamplesBtn = $('draw10SamplesBtn'), draw100SamplesBtn = $('draw100SamplesBtn'), resetBtn = $('resetBtn'), unifyAxisBtn = $('unifyAxisBtn'), togglePopulationBtn = $('togglePopulationBtn'),
+              sampleMeanEl = $('sampleMean'), sampleStdDevEl = $('sampleStdDev'), numSamplesEl = $('numSamples'), meanOfMeansEl = $('meanOfMeans'),
+              stdDevOfMeansEl = $('stdDevOfMeans'), currentSampleIconsEl = $('currentSampleIcons'), nValDisplayEl = $('n-val-display'), populationContainer = $('populationContainer');
+
+        let sampleChart, samplingDistChart, populationChart;
+
+        function createSeededRandom(seed) {
+            let s = seed;
+            return function() { s = Math.sin(s) * 10000; return s - Math.floor(s); };
+        }
+
+        function generateNormalRandom(mean, stdDev, rng = Math.random) {
+            let u1 = 0, u2 = 0;
+            while (u1 === 0) u1 = rng();
+            while (u2 === 0) u2 = rng();
+            const z = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+            return z * stdDev + mean;
+        }
+        
+        const normalPDF = (x, mean, stdDev) => (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mean) / stdDev, 2));
+        
+        const calculateMean = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+        
+        function calculateStdDev(arr) {
+            if (arr.length < 2) return 0;
+            const n = arr.length, mean = calculateMean(arr);
+            return Math.sqrt(arr.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / (n - 1));
+        }
+
+        function drawSample() {
+            const sampleSize = parseInt(sampleSizeInput.value, 10);
+            if (isNaN(sampleSize) || sampleSize < 2) { alert("样本量必须是大于等于2的数字。"); return; }
+            currentSample = Array.from({ length: sampleSize }, () => generateNormalRandom(POPULATION_MEAN, POPULATION_STD_DEV));
+            sampleMeans.push(calculateMean(currentSample));
+            updateUI();
+        }
+        
+        function drawMultipleSamplesAnimated(count) {
+            if (isDrawingMultiple) return;
+            isDrawingMultiple = true; toggleButtons(false); let i = 0;
+            const interval = setInterval(() => {
+                if (i++ >= count) { clearInterval(interval); isDrawingMultiple = false; toggleButtons(true); return; }
+                drawSample();
+            }, 150);
+        }
+
+        function drawMultipleSamplesFast(count) {
+            if (isDrawingMultiple) return;
+            isDrawingMultiple = true;
+            toggleButtons(false);
+            
+            setTimeout(() => {
+                const sampleSize = parseInt(sampleSizeInput.value, 10);
+                if (isNaN(sampleSize) || sampleSize < 2) {
+                    alert("样本量必须是大于等于2的数字。");
+                    isDrawingMultiple = false; toggleButtons(true); return;
+                }
+                for(let i = 0; i < count; i++) {
+                    const newSample = Array.from({ length: sampleSize }, () => generateNormalRandom(POPULATION_MEAN, POPULATION_STD_DEV));
+                    sampleMeans.push(calculateMean(newSample));
+                    if (i === count - 1) currentSample = newSample;
+                }
+                updateUI();
+                isDrawingMultiple = false; toggleButtons(true);
+            }, 10);
+        }
+
+        function updateUI() {
+            sampleMeanEl.textContent = calculateMean(currentSample).toFixed(2);
+            sampleStdDevEl.textContent = calculateStdDev(currentSample).toFixed(2);
+            numSamplesEl.textContent = sampleMeans.length;
+            meanOfMeansEl.textContent = calculateMean(sampleMeans).toFixed(2);
+            stdDevOfMeansEl.textContent = calculateStdDev(sampleMeans).toFixed(2);
+            displayCurrentSampleIcons(currentSample);
+            updateCharts();
+        }
+
+        const childSVG = `<svg viewBox="0 0 32 80" xmlns="http://www.w3.org/2000/svg" class="child-icon-svg" style="fill: #3b82f6;"><circle cx="16" cy="10" r="8"/><rect x="8" y="20" width="16" height="35" rx="8"/><rect x="5" y="55" width="8" height="25" rx="4"/><rect x="19" y="55" width="8" height="25" rx="4"/></svg>`;
+        const mapValueToHeight = (v, i_min=95, i_max=129, o_min=40, o_max=110) => o_min + (Math.max(i_min, Math.min(v, i_max)) - i_min) * (o_max-o_min) / (i_max-i_min);
+
+        function displayCurrentSampleIcons(sample) {
+            currentSampleIconsEl.innerHTML = ''; nValDisplayEl.textContent = sample.length;
+            setupReferenceLine(); const fragment = document.createDocumentFragment();
+            sample.sort((a,b) => a - b).forEach(value => {
+                const iconContainer = document.createElement('div');
+                iconContainer.className = 'child-icon-container'; iconContainer.title = `身高: ${value.toFixed(2)} cm`;
+                iconContainer.innerHTML = childSVG; iconContainer.querySelector('svg').style.height = `${mapValueToHeight(value)}px`;
+                fragment.appendChild(iconContainer);
+            });
+            currentSampleIconsEl.appendChild(fragment);
+        }
+
+        function setupReferenceLine() {
+            const container = currentSampleIconsEl; const refHeight = 100, lineBottom = mapValueToHeight(refHeight);
+            const line = document.createElement('div'); Object.assign(line.style, { position: 'absolute', width: '100%', borderTop: '2px dashed #9ca3af', bottom: `${lineBottom}px`, left: '0', zIndex: '1' });
+            const label = document.createElement('span'); label.textContent = `${refHeight}cm`; Object.assign(label.style, { position: 'absolute', bottom: `${lineBottom - 9}px`, left: '5px', color: '#6b7280', fontSize: '12px', backgroundColor: '#f3f4f6', padding: '0 4px', zIndex: '1' });
+            container.append(line, label);
+        }
+        
+        function toggleAxisUnification() {
+            isAxisUnified = !isAxisUnified;
+            unifyAxisBtn.textContent = isAxisUnified ? '独立X轴' : '统一所有X轴';
+            unifyAxisBtn.classList.toggle('bg-green-600', isAxisUnified); unifyAxisBtn.classList.toggle('bg-slate-600', !isAxisUnified);
+            updateCharts();
+        }
+
+        function updateCharts() {
+            const chartsToUpdate = [sampleChart, samplingDistChart, populationChart];
+            let globalMin, globalMax;
+
+            if (isAxisUnified) {
+                globalMin = 95;
+                globalMax = 130;
+                chartsToUpdate.forEach(chart => {
+                    chart.options.scales.x.min = globalMin;
+                    chart.options.scales.x.max = globalMax;
+                });
+            } else {
+                 chartsToUpdate.forEach(chart => {
+                    delete chart.options.scales.x.min;
+                    delete chart.options.scales.x.max;
+                });
+            }
+
+            const sampleHist = createHistogramData(currentSample, 10, globalMin, globalMax);
+            const distHist = createHistogramData(sampleMeans, 15, globalMin, globalMax);
+            const populationHist = createHistogramData(populationSampleForHist, 15, globalMin, globalMax);
+
+            // Update Sample Chart
+            sampleChart.data.datasets[0].data = sampleHist.data;
+            sampleChart.options.scales.x.barPercentage = 1.0;
+            sampleChart.options.scales.x.categoryPercentage = 1.0;
+
+            // Update Sampling Distribution Chart
+            samplingDistChart.data.datasets[0].data = distHist.data;
+            samplingDistChart.options.scales.x.barPercentage = 1.0;
+            samplingDistChart.options.scales.x.categoryPercentage = 1.0;
+            const samplingTheoryCurve = samplingDistChart.data.datasets[1];
+            if (sampleMeans.length > 0 && distHist.binWidth > 0) {
+                const sampleSize = parseInt(sampleSizeInput.value, 10);
+                const stdError = POPULATION_STD_DEV / Math.sqrt(sampleSize);
+                samplingTheoryCurve.data = createTheoryCurveData(distHist.min, distHist.max, distHist.binWidth, POPULATION_MEAN, stdError);
+            } else {
+                samplingTheoryCurve.data = [];
+            }
+            
+            // Update Population Chart
+            populationChart.data.datasets[0].data = populationHist.data;
+            populationChart.options.scales.x.barPercentage = 1.0;
+            populationChart.options.scales.x.categoryPercentage = 1.0;
+            const populationTheoryCurve = populationChart.data.datasets[1];
+            if (populationHist.binWidth > 0) {
+                 populationTheoryCurve.data = createTheoryCurveData(populationHist.min, populationHist.max, populationHist.binWidth, POPULATION_MEAN, POPULATION_STD_DEV);
+            } else {
+                 populationTheoryCurve.data = [];
+            }
+
+            chartsToUpdate.forEach(chart => chart.update('none'));
+        }
+        
+        function createTheoryCurveData(min, max, binWidth, mean, stdDev) {
+             const curveData = [];
+             for (let x = min; x <= max; x += binWidth / 4) {
+                curveData.push({x: x, y: normalPDF(x, mean, stdDev) * binWidth * 100});
+             }
+             return curveData;
+        }
+
+        function createHistogramData(data, numBins, forceMin = null, forceMax = null) {
+            if (data.length === 0) return { data: [], binWidth: 0, min: 0, max: 0 };
+            
+            let min = forceMin ?? Math.min(...data);
+            let max = forceMax ?? Math.max(...data);
+            if (min === max) { min -= 1; max += 1; }
+
+            const binWidth = isAxisUnified ? 2 : (max - min) / numBins;
+            if (binWidth <= 0) return { data: [], binWidth: 0, min, max };
+            
+            const numEffectiveBins = Math.ceil((max - min) / binWidth);
+            const bins = new Array(numEffectiveBins).fill(0);
+            
+            data.forEach(value => {
+                if (value >= min && value < max) {
+                    let binIndex = Math.floor((value - min) / binWidth);
+                    bins[binIndex]++;
+                } else if (value === max) {
+                    bins[numEffectiveBins - 1]++;
+                }
+            });
+
+            const percentages = bins.map(count => (count / data.length) * 100);
+            const chartData = percentages.map((p, i) => ({
+                x: min + (i + 0.5) * binWidth,
+                y: p
+            }));
+
+            return { data: chartData, binWidth, min, max };
+        }
+
+        function initializeCharts() {
+            if (sampleChart) sampleChart.destroy(); 
+            if (samplingDistChart) samplingDistChart.destroy();
+            if (populationChart) populationChart.destroy();
+
+            const commonOptions = (title) => ({ 
+                responsive: true, maintainAspectRatio: false, animation: {duration: 0}, 
+                scales:{ 
+                    y:{ stacked: false, beginAtZero: true, grace: '5%', title:{display:true, text:'百分比 (%)'}, ticks: { callback: value => value.toFixed(1) + '%' }}, 
+                    x:{ type: 'linear', title:{display:true, text:title}}
+                }, 
+                plugins:{ legend:{position:'top'}, tooltip:{ callbacks:{ 
+                    title: () => '',
+                    label: (ctx) => {
+                         if (ctx.dataset.type === 'line') {
+                            return `${ctx.dataset.label}: 在 x=${ctx.parsed.x.toFixed(2)} 处的概率密度`;
+                        }
+                        const xVal = ctx.parsed.x;
+                        const binWidth = createHistogramData( // Recalculate to get width for tooltip
+                            ctx.chart === sampleChart ? currentSample : (ctx.chart === samplingDistChart ? sampleMeans : populationSampleForHist),
+                             15, ctx.chart.options.scales.x.min, ctx.chart.options.scales.x.max
+                        ).binWidth;
+
+                        const binStart = xVal - binWidth / 2;
+                        const binEnd = xVal + binWidth / 2;
+                        return `${ctx.dataset.label} [${binStart.toFixed(1)}-${binEnd.toFixed(1)}]: ${ctx.parsed.y.toFixed(2)}%`;
+                    }
+                }}}
+            });
+            
+            sampleChart = new Chart($('sampleChart').getContext('2d'), { type: 'bar', data: { datasets: [{ label: '当前样本', backgroundColor: 'rgba(59, 130, 246, 0.7)', barPercentage: 1.0, categoryPercentage: 1.0 }] }, options: commonOptions('身高 (cm)') });
+            
+            samplingDistChart = new Chart($('samplingDistChart').getContext('2d'), { 
+                type: 'bar', 
+                data: { datasets: [ 
+                    { label: '样本均值的分布', data: [], backgroundColor: 'rgba(16, 185, 129, 0.7)', order: 2, barPercentage: 1.0, categoryPercentage: 1.0 }, 
+                    { label: '理论抽样分布', type: 'line', data: [], borderColor: 'rgba(249, 115, 22, 1)', borderWidth: 2, fill: false, pointRadius: 0, order: 1 }
+                ]}, 
+                options: commonOptions('样本均值 (cm)') 
+            });
+
+            const seededRng = createSeededRandom(1234);
+            populationSampleForHist = Array.from({ length: 10000 }, () => generateNormalRandom(POPULATION_MEAN, POPULATION_STD_DEV, seededRng));
+            const populationHist = createHistogramData(populationSampleForHist, 15);
+            const populationTheoryData = createTheoryCurveData(populationHist.min, populationHist.max, populationHist.binWidth, POPULATION_MEAN, POPULATION_STD_DEV);
+
+            populationChart = new Chart($('populationChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    datasets: [
+                        { label: '模拟总体分布', data: populationHist.data, backgroundColor: 'rgba(139, 92, 246, 0.7)', order: 2, barPercentage: 1.0, categoryPercentage: 1.0 },
+                        { label: '理论总体分布', type: 'line', data: populationTheoryData, borderColor: 'rgba(139, 92, 246, 1)', borderWidth: 2, borderDash: [5, 5], fill: false, pointRadius: 0, order: 1 }
+                    ]
+                },
+                options: commonOptions('身高 (cm)')
+            });
+        }
+        
+        function reset() {
+            sampleMeans = []; currentSample = []; isDrawingMultiple = false;
+            if (isAxisUnified) { toggleAxisUnification(); }
+            
+            sampleMeanEl.textContent = 'N/A'; sampleStdDevEl.textContent = 'N/A'; numSamplesEl.textContent = '0';
+            meanOfMeansEl.textContent = 'N/A'; stdDevOfMeansEl.textContent = 'N/A';
+            currentSampleIconsEl.innerHTML = ''; setupReferenceLine(); nValDisplayEl.textContent = sampleSizeInput.value;
+            
+            populationContainer.classList.add('hidden');
+            togglePopulationBtn.textContent = '显示总体分布';
+
+            initializeCharts();
+            updateCharts(); 
+        }
+        
+        function toggleButtons(enabled) {
+            [drawSampleBtn, draw10SamplesBtn, draw100SamplesBtn, resetBtn, sampleSizeInput, unifyAxisBtn, togglePopulationBtn].forEach(el => el.disabled = !enabled);
+            [drawSampleBtn, draw10SamplesBtn, draw100SamplesBtn, resetBtn, unifyAxisBtn, togglePopulationBtn].forEach(el => el.classList.toggle('opacity-50', !enabled));
+        }
+
+        window.onload = reset;
+        drawSampleBtn.addEventListener('click', drawSample);
+        draw10SamplesBtn.addEventListener('click', () => drawMultipleSamplesAnimated(10));
+        draw100SamplesBtn.addEventListener('click', () => drawMultipleSamplesFast(100));
+        resetBtn.addEventListener('click', reset);
+        unifyAxisBtn.addEventListener('click', toggleAxisUnification);
+        
+        togglePopulationBtn.addEventListener('click', () => {
+            const isHidden = populationContainer.classList.toggle('hidden');
+            togglePopulationBtn.textContent = isHidden ? '显示总体分布' : '隐藏总体分布';
+        });
+
+        sampleSizeInput.addEventListener('input', e => { 
+            nValDisplayEl.textContent = e.target.value; 
+            if (sampleMeans.length > 0) updateCharts();
+        });
+
+    </script>
+</body>
+</html>
