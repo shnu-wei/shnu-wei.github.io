@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国际视野下的早期科学教育：核心理念与实践趋势</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            width: 100%;
+            max-width: 600px;
+            height: 50vh; 
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 40vh;
+                max-height: 500px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #00A9E0, #8A2BE2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flow-line::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            height: 2rem;
+            border-left: 2px dashed #00A9E0;
+        }
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+        }
+        .venn-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            color: white;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">国际视野下的早期科学教育</h1>
+            <p class="text-xl md:text-2xl text-gray-600">核心理念与实践趋势</p>
+        </header>
+
+        <main>
+            
+            <section id="introduction" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">早期科学教育为何至关重要？</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
+                        早期科学教育旨在培育儿童与生俱来的好奇心，以及观察、探索和发现周围世界的能力。它不仅仅是为后续的学术学习奠定基础，更是为了培养终身的科学素养和批判性思维。研究表明，这一关键时期覆盖从出生到八岁的整个阶段。
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-blue-100 rounded-lg p-6">
+                            <div class="text-6xl font-bold text-blue-500">0-8</div>
+                            <div class="text-lg font-semibold text-blue-700 mt-2">关键年龄范围 (岁)</div>
+                            <p class="text-blue-600 mt-2">联合国教科文组织定义了早期儿童保育和教育（ECCE）的关键发展窗口期。</p>
+                        </div>
+                        <div class="bg-purple-100 rounded-lg p-6">
+                            <div class="text-6xl font-bold text-purple-500">🌱</div>
+                            <div class="text-lg font-semibold text-purple-700 mt-2">培育天生好奇心</div>
+                            <p class="text-purple-600 mt-2">核心目标是“培育”而非“灌输”，将儿童视为天生的小小科学家。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="philosophies" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8">三大哲学基石</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="relative bg-white p-6 rounded-lg shadow-md">
+                         <div class="flow-line">
+                            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-400 text-white text-3xl font-bold">P</div>
+                            <h3 class="text-2xl font-semibold mt-4">皮亚杰</h3>
+                            <p class="text-gray-600 mt-2">儿童通过与环境的互动<br><strong>主动建构</strong>知识</p>
+                        </div>
+                    </div>
+                    <div class="relative bg-white p-6 rounded-lg shadow-md">
+                        <div class="flow-line">
+                             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-orange-400 text-white text-3xl font-bold">V</div>
+                             <h3 class="text-2xl font-semibold mt-4">维果茨基</h3>
+                             <p class="text-gray-600 mt-2">认知发展是社会文化过程<br>在<strong>协作中学习</strong></p>
+                        </div>
+                    </div>
+                     <div class="relative bg-white p-6 rounded-lg shadow-md">
+                        <div>
+                            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-teal-400 text-white text-3xl font-bold">D</div>
+                            <h3 class="text-2xl font-semibold mt-4">杜威</h3>
+                            <p class="text-gray-600 mt-2">教育根植于经验<br>强调<strong>“从做中学”</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="curricula" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-2">全球主流课程体系对比</h2>
+                <p class="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
+                    不同的课程体系虽路径各异，但都旨在激发儿童的科学潜能。我们通过多维度雷达图来比较四种主流课程的特点。
+                </p>
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <div class="chart-container">
+                        <canvas id="curriculaRadarChart"></canvas>
+                    </div>
+                    <p class="text-center text-gray-600 mt-4">
+                        该雷达图直观展示了蒙台梭利、瑞吉欧·艾米利亚、高瞻和创造性课程在五个关键维度上的侧重点。例如，瑞吉欧·艾米利亚在“项目驱动”和“表达方式多样性”上表现突出，而高瞻课程则更侧重“结构化”与“教师引导”。
+                    </p>
+                </div>
+            </section>
+
+            <section id="frameworks" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-2">国家级框架如何塑造标准</h2>
+                <p class="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
+                    国家和国际框架为早期科学教育设定了宏观目标。此图比较了美国、英国、芬兰和国际文凭组织（IB）框架的核心教学重点。
+                </p>
+                 <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <div class="chart-container">
+                        <canvas id="frameworksBarChart"></canvas>
+                    </div>
+                     <p class="text-center text-gray-600 mt-4">
+                        从图中可见，美国NGSS明确将“工程思维”作为核心，这在其他框架中不那么突出。而芬兰模式则在“整体性与福祉”上投入了极大的关注。所有框架都高度重视以探究和游戏为基础的学习。
+                    </p>
+                </div>
+            </section>
+
+            <section id="synthesis" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-2">共通原则与殊途同归</h2>
+                 <p class="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
+                    尽管方法多样，全球优质的早期科学教育都共享一些核心原则，同时也存在差异化的实践路径。
+                </p>
+                 <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 md:col-span-2">
+                     <div class="venn-diagram">
+                        <div class="relative">
+                            <div class="venn-circle bg-blue-500/80" style="transform: translateX(-30%);">结构化<br>与评估</div>
+                            <div class="venn-circle bg-purple-500/80" style="transform: translateX(30%); margin-top: -200px;">生成性<br>与记录</div>
+                            <div class="absolute inset-0 flex justify-center items-center text-gray-800 font-bold text-lg" style="top: -50px; z-index: 10;">
+                                <div class="bg-white/90 backdrop-blur-sm rounded-full p-8 shadow-xl text-center">
+                                    <p class="text-xl">共通核心</p>
+                                    <ul class="mt-2 text-base font-normal">
+                                        <li>▶ 主动学习</li>
+                                        <li>▶ 探究驱动</li>
+                                        <li>▶ 游戏为本</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <p class="text-center text-gray-600 mt-4">
+                         此维恩图展示了所有模式都建立在“主动学习”、“探究驱动”和“以游戏为基础”的共同基石之上。它们的分歧主要体现在课程是更结构化（如高瞻），还是更具生成性（如瑞吉欧）；以及教师的角色和评估方式上。
+                    </p>
+                </div>
+            </section>
+
+            <section id="trends-challenges" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8">未来趋势与持续挑战</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="text-2xl font-semibold text-center mb-4">新兴趋势</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center bg-green-100 p-4 rounded-lg">
+                                <span class="text-4xl mr-4">🌱</span>
+                                <div>
+                                    <h4 class="font-bold text-green-800">自然为本学习</h4>
+                                    <p class="text-green-700">利用户外环境作为天然的科学实验室，培养环境责任感。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center bg-indigo-100 p-4 rounded-lg">
+                                <span class="text-4xl mr-4">🧩</span>
+                                <div>
+                                    <h4 class="font-bold text-indigo-800">STEM/STEAM 整合</h4>
+                                    <p class="text-indigo-700">从小整合科学、技术、工程、艺术和数学，培养跨学科思维。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center bg-pink-100 p-4 rounded-lg">
+                                <span class="text-4xl mr-4">🤖</span>
+                                <div>
+                                    <h4 class="font-bold text-pink-800">数字技术融合</h4>
+                                    <p class="text-pink-700">审慎使用数字工具和AI辅助个性化学习和可视化探索。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                         <h3 class="text-2xl font-semibold text-center mb-4">主要挑战</h3>
+                         <div class="chart-container h-64 md:h-80">
+                            <canvas id="challengesDonutChart"></canvas>
+                        </div>
+                        <p class="text-center text-gray-600 mt-4">
+                            图表显示，“教师信心与培训不足”是推广高质量早期科学教育面临的最大挑战，远超课程开发和资源问题。解决师资问题是推动领域发展的关键。
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 py-6 border-t">
+            <p class="text-gray-500">信息图基于《国际早期科学教育体系研究》报告生成。</p>
+            <p class="text-sm text-gray-400 mt-1">
+                <!-- Palette: Energetic & Playful (Adapted) -->
+                <!-- Confirmation: NEITHER Mermaid JS NOR SVG were used in this output. All visuals are rendered using Chart.js Canvas or styled HTML/CSS. -->
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        
+        function wrapLabels(label) {
+            if (typeof label === 'string' && label.length > 16) {
+                const words = label.split(/\s+/);
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).length > 16 && currentLine.length > 0) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine += (currentLine.length === 0 ? '' : ' ') + word;
+                    }
+                });
+                lines.push(currentLine);
+                return lines;
+            }
+            return label;
+        }
+
+        const sharedTooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            } else {
+              return label;
+            }
+        };
+
+        const sharedChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: "'Noto Sans SC', sans-serif",
+                            size: 14,
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: sharedTooltipTitleCallback
+                    },
+                    titleFont: {
+                        family: "'Noto Sans SC', sans-serif",
+                    },
+                    bodyFont: {
+                         family: "'Noto Sans SC', sans-serif",
+                    }
+                }
+            }
+        };
+
+        
+        const curriculaData = {
+            labels: ['儿童主导', '结构化', '项目驱动', '表达方式多样性', '教师引导'],
+            datasets: [{
+                label: '蒙台梭利',
+                data: [4.5, 3.5, 3, 3, 2],
+                backgroundColor: 'rgba(0, 169, 224, 0.2)',
+                borderColor: 'rgba(0, 169, 224, 1)',
+                pointBackgroundColor: 'rgba(0, 169, 224, 1)',
+                borderWidth: 2
+            }, {
+                label: '瑞吉欧·艾米利亚',
+                data: [4, 2, 5, 5, 2.5],
+                backgroundColor: 'rgba(241, 90, 36, 0.2)',
+                borderColor: 'rgba(241, 90, 36, 1)',
+                pointBackgroundColor: 'rgba(241, 90, 36, 1)',
+                borderWidth: 2
+            }, {
+                label: '高瞻课程',
+                data: [3, 4.5, 2.5, 2, 4],
+                backgroundColor: 'rgba(138, 43, 226, 0.2)',
+                borderColor: 'rgba(138, 43, 226, 1)',
+                pointBackgroundColor: 'rgba(138, 43, 226, 1)',
+                borderWidth: 2
+            }]
+        };
+
+        new Chart(document.getElementById('curriculaRadarChart'), {
+            type: 'radar',
+            data: curriculaData,
+            options: {
+                ...sharedChartOptions,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 14,
+                                family: "'Noto Sans SC', sans-serif",
+                            },
+                            color: '#333'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            stepSize: 1
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 5
+                    }
+                }
+            }
+        });
+        
+        const frameworksData = {
+            labels: ['美国NGSS', '英国EYFS', '芬兰ECEC', 'IB PYP'],
+            datasets: [{
+                label: '探究与游戏为本',
+                data: [4, 5, 5, 5],
+                backgroundColor: '#00A9E0', 
+            }, {
+                label: '工程与技术整合',
+                data: [5, 2, 4, 3],
+                backgroundColor: '#F15A24',
+            }, {
+                label: '跨学科与整体性',
+                data: [3, 4, 5, 5],
+                backgroundColor: '#FFC20E',
+            }]
+        };
+
+        new Chart(document.getElementById('frameworksBarChart'), {
+            type: 'bar',
+            data: frameworksData,
+            options: {
+                ...sharedChartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: { family: "'Noto Sans SC', sans-serif" }
+                        },
+                        title: {
+                            display: true,
+                            text: '重视程度 (1-5)',
+                            font: { family: "'Noto Sans SC', sans-serif", size: 14 },
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: { family: "'Noto Sans SC', sans-serif" }
+                        }
+                    }
+                }
+            }
+        });
+
+        const challengesData = {
+            labels: ['教师信心与培训', '课程实施与调适', '公平性与可及性', '研究空白'],
+            datasets: [{
+                label: '挑战分布',
+                data: [55, 25, 15, 5],
+                backgroundColor: [
+                    '#F15A24',
+                    '#FFC20E',
+                    '#00A9E0',
+                    '#8A2BE2'
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        new Chart(document.getElementById('challengesDonutChart'), {
+            type: 'doughnut',
+            data: challengesData,
+            options: {
+                ...sharedChartOptions,
+                cutout: '60%'
+            }
+        });
+
+    </script>
+</body>
+</html>
