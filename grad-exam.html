@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教育硕士考研科目备考指南 (详细版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+        }
+        .tab-active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .tab-inactive {
+            background-color: white;
+            color: #4b5563;
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+            display: none;
+        }
+        .content-card.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+        .book-item {
+            background-color: #f9fafb;
+            border-left: 4px solid #4f46e5;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+            border-left: 2px solid #e5e7eb;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            top: 0.25rem;
+            height: 1rem;
+            width: 1rem;
+            background-color: #4f46e5;
+            border-radius: 9999px;
+            border: 2px solid white;
+        }
+        .timeline-date {
+            font-weight: 600;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- 页面标题 -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">教育硕士考研科目备考指南</h1>
+            <p class="mt-2 text-lg text-gray-600">系统化、分阶段、全方位备考策略深度解析</p>
+        </header>
+
+        <!-- 科目导航栏 -->
+        <nav id="tabs" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+            <!-- JavaScript会在这里动态生成按钮 -->
+        </nav>
+
+        <!-- 内容显示区域 -->
+        <main id="tab-content">
+            <!-- JavaScript会在这里动态生成内容 -->
+        </main>
+    </div>
+
+    <script>
+        // 考研科目数据
+        const subjectsData = [
+            {
+                id: 'politics',
+                name: '思想政治理论 (101)',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>`,
+                content: {
+                    title: "思想政治理论 (101) 深度攻略",
+                    description: "全国统一命题，满分100分。本科目系统性强，复习需要将理解、记忆和练习紧密结合，并高度关注年度时政热点。",
+                    sections: [
+                        {
+                            title: "试卷结构与核心模块",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>`,
+                            htmlContent: `
+                                <div class="space-y-4">
+                                    <p><b>分值构成：</b>单项选择题 (16分) + 多项选择题 (34分) + 材料分析题 (50分)。</p>
+                                    <p class="font-semibold text-gray-800">模块权重:</p>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                        <li><b>马原 & 习思想:</b> 各占约22%，合计44%，是考试的绝对核心。</li>
+                                        <li><b>史纲 & 思修法治:</b> 各占约15%。</li>
+                                        <li><b>毛中特 & 时政:</b> 各占约13%。</li>
+                                    </ul>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "题型应对战略",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+                            htmlContent: `
+                                <div class="space-y-2">
+                                    <p><b>得选择者得高分：</b>多选题评分规则为“全有或全无”，是区分60分和80分水平的关键战场。必须通过大量练习（如肖秀荣1000题）来精准把握知识点，不仅知其然，更要知其所以然。</p>
+                                    <p><b>分析题求稳：</b>分析题评分相对灵活，只要言之有理、踩点沾边即可得分。后期重点背诵核心预测卷（如肖四）的分析题，是性价比最高的提分策略。</p>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "全年分阶段作战计划",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0H5.25M17.25 12h.008v.008h-.008V12zM12.75 12h.008v.008h-.008V12zM8.25 12h.008v.008h-.008V12zM12.75 16.5h.008v.008h-.008v-.008zM8.25 16.5h.008v.008h-.008v-.008zM17.25 16.5h.008v.008h-.008v-.008z" /></svg>`,
+                            timeline: [
+                                { date: "现在 - 8月底 (基础夯实)", content: "<b>核心任务：</b>跟随名师课程，通读核心教材，理解为主，完成首轮习题。重点攻克马原的抽象概念。制作思维导图，理清逻辑。" },
+                                { date: "9月 - 10月底 (强化提升)", content: "<b>核心任务：</b>二刷习题，主攻错题。打破章节壁垒，进行知识串联。开始学习分析题答题方法论，积累素材。" },
+                                { date: "11月 - 12月初 (冲刺背诵)", content: "<b>核心任务：</b>高强度背诵冲刺手册（如肖八）。开始进行模拟卷选择题训练，保持手感。关注时政热点。" },
+                                { date: "12月初 - 考前 (终极预测)", content: "<b>核心任务：</b>集中全部精力背诵核心押题卷（特别是肖四）的分析题。进行2-3次全真模拟，调整状态。" }
+                            ]
+                        },
+                        {
+                            title: "核心参考书目评析",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" /></svg>`,
+                            books: [
+                                { name: "肖秀荣系列 (权威之选)", desc: "《精讲精练》、《1000题》、《8套卷》、《4套卷》。前命题人背景，权威性高，体系完整。特别是《肖八》《肖四》因其高命中率，已成为市场共识的冲刺必备品。" },
+                                { name: "徐涛系列 (生动易懂)", desc: "《核心考案》、《优题库》、《冲刺背诵笔记》。授课风格风趣，逻辑清晰，非常适合零基础或对政治畏难的考生入门，与视频课程高度匹配。" },
+                                { name: "选择策略", desc: "基础阶段可根据学习偏好在肖、徐之间二选一。但无论前期跟谁，冲刺阶段都强烈建议纳入肖秀荣的《8套卷》和《4套卷》作为核心预测材料。" }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                id: 'english',
+                name: '英语（二）(204)',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C13.18 7.061 14.289 7.5 15.5 7.5c1.21 0 2.32-.439 3.166-1.136m0 0V3m-3.166 2.364c.543-.432 1.157-.78 1.833-1.066M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+                content: {
+                    title: "英语（二）(204) 卓越之路",
+                    description: "全国统一命题，满分100分。专为专业硕士设置，侧重应用能力，整体难度低于英语（一）。复习核心在于“词汇为基，真题为王，方法为要”。",
+                     sections: [
+                        {
+                            title: "试卷结构与关键区别",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197" /></svg>`,
+                            htmlContent: `
+                                <div class="space-y-4">
+                                    <p><b>分值构成：</b>完形填空 (10分) + 阅读理解A节 (40分) + 新题型 (10分) + 翻译 (15分) + 写作 (25分)。</p>
+                                    <p class="font-semibold text-gray-800">与英语（一）的关键区别:</p>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                        <li><b>翻译:</b> 英语（二）为150词段落翻译，注重整体文意；英语（一）为5个长难句翻译，注重语法结构。</li>
+                                        <li><b>写作:</b> 英语（二）大作文多为图表作文，考察数据分析与描述能力；英语（一）多为图画作文，考察社会现象的引申思考。</li>
+                                        <li><b>整体难度:</b> 英语（二）在词汇、阅读文章难度和长难句复杂性上均低于英语（一）。<b>务必使用英语（二）真题备考，方向错误是致命的。</b></li>
+                                    </ul>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "全年分阶段制胜方略",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0H5.25M17.25 12h.008v.008h-.008V12zM12.75 12h.008v.008h-.008V12zM8.25 12h.008v.008h-.008V12zM12.75 16.5h.008v.008h-.008v-.008zM8.25 16.5h.008v.008h-.008v-.008zM17.25 16.5h.008v.008h-.008v-.008z" /></svg>`,
+                            timeline: [
+                                { date: "现在 - 6月底 (基础奠定)", content: "<b>核心任务：</b>完成第一轮词汇背诵。系统学习语法，重点突破长难句。每日进行长难句拆解分析练习。" },
+                                { date: "7月 - 10月底 (强化应用)", content: "<b>核心任务：</b>系统精做英语（二）历年真题，分析文章、题型和出题思路。开始学习大小作文的写作方法，背诵范文并模仿。启动翻译和新题型专项训练。" },
+                                { date: "11月 - 12月 (冲刺模考)", content: "<b>核心任务：</b>高强度复习词汇。进行整套真题的模拟考试，严格控时。熟练背诵自己的作文模板，并进行押题练习。回顾错题本。" }
+                            ]
+                        },
+                         {
+                            title: "“强强联合”工具箱指南",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" /></svg>`,
+                            books: [
+                                { name: "词汇 (基石)", desc: "《红宝书》（全面）、《恋练有词》（语境记忆）或背单词APP。选择一种并坚持到底。" },
+                                { name: "历年真题 (圣经)", desc: "张剑《黄皮书》系列（英语二版）。解析最详尽，洞察命题思路，是精研真题的不二之选。" },
+                                { name: "阅读方法 (利器)", desc: "唐迟《阅读的逻辑》。教授系统性的宏观篇章分析和逻辑解题技巧，帮助提升思维层次。" },
+                                { name: "写作指导 (法宝)", desc: "王江涛《高分写作》。提供“背诵+模仿+原创”的完整提分路径，包含大量优质范文和模板。" },
+                                { name: "审慎提醒", desc: "辅导老师是辅助，而非根本。应重方法论，轻个人秀，对营销宣传保持批判性判断。备考的基石永远是官方大纲和历年真题。" }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                id: 'edu333',
+                name: '333 教育综合',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0l-2.072-1.036A48.402 48.402 0 0112 4.493a48.403 48.403 0 0111.82 4.617l-2.072 1.036m-15.482 0A50.697 50.697 0 0112 13.489a50.697 50.697 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15a.75.75 0 100-1.5.75.75 0 000 1.5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M18.75 15a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>`,
+                content: {
+                    title: "333 教育综合 统考精解",
+                    description: "自2024年起采用全国统一命题，满分150分。新大纲强调从“知识复述”到“能力应用”的范式转移，备考策略需全面升级。",
+                     sections: [
+                        {
+                            title: "试卷结构与模块分值",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>`,
+                            htmlContent: `
+                                <div class="space-y-4">
+                                    <p><b>题型构成：</b>单项选择题 (60分) + 论述题 (30分) + 材料分析题 (60分)。</p>
+                                    <p class="font-semibold text-gray-800">模块权重:</p>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                        <li><b>教育学原理:</b> 约60分，考查基础理论。</li>
+                                        <li><b>中外教育史:</b> 约50分，考查历史脉络与思想。</li>
+                                        <li><b>教育心理学:</b> 约40分，考查心理规律与教育应用。</li>
+                                    </ul>
+                                    <p><b>战略核心：</b>选择题覆盖面广，是基础盘；材料分析题分值最高，是决胜关键。</p>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "材料分析题解题范式",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>`,
+                            htmlContent: `
+                                <div class="space-y-2">
+                                    <p><b>第一步：识别核心问题。</b>用一两句精炼语言概括材料中的核心矛盾。</p>
+                                    <p><b>第二步：链接相关理论。</b>明确指出可以用于解释该现象的教育学或心理学理论。</p>
+                                    <p><b>第三步：展开分析论证。</b>运用理论对案例进行深入剖析，解释问题为何发生。</p>
+                                    <p><b>第四步：提出对策建议。</b>基于理论分析，给出具体、可操作的解决方案。</p>
+                                </div>
+                            `
+                        },
+                         {
+                            title: "全年分阶段备考规划",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0H5.25M17.25 12h.008v.008h-.008V12zM12.75 12h.008v.008h-.008V12zM8.25 12h.008v.008h-.008V12zM12.75 16.5h.008v.008h-.008v-.008zM8.25 16.5h.008v.008h-.008v-.008zM17.25 16.5h.008v.008h-.008v-.008z" /></svg>`,
+                            timeline: [
+                                { date: "3月-8月 (基础奠定)", content: "<b>核心任务：</b>通读各科核心教材，以理解为主。构建各科思维导图，建立宏观知识框架。" },
+                                { date: "9月-10月 (强化巩固)", content: "<b>核心任务：</b>精读教材，细化知识点。系统练习历年真题（包括名校自命题真题），熟悉题型，把握命题规律。" },
+                                { date: "11月-12月初 (冲刺背诵)", content: "<b>核心任务：</b>高强度背诵核心概念、理论要点。进行整套真题的模拟考试，训练考场状态。" },
+                                { date: "12月中旬-考前 (查漏补缺)", content: "<b>核心任务：</b>回归错题本，攻克薄弱环节。关注当年教育热点，为材料分析题积累素材。" }
+                            ]
+                        },
+                        {
+                            title: "核心参考书目评析",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" /></svg>`,
+                            books: [
+                                { name: "《教育学》(王道俊、郭文安)", desc: "理论体系完整，论述深入，适合第一轮打下坚实的理论根基。" },
+                                { name: "《教育学基础》(十二校联编)", desc: "框架清晰，重点突出，非常适合后期梳理知识体系和冲刺背诵。" },
+                                { name: "《中国教育史》(孙培青)", desc: "该领域的“圣经”级教材，内容权威详实，与大纲高度契合。" },
+                                { name: "《外国教育史教程》(吴式颖)", desc: "流传最广的经典教材，全面覆盖重要教育家、制度与思潮。" },
+                                { name: "《当代教育心理学》(陈琦、刘儒德)", desc: "权威性强，内容紧跟前沿，被众多高校指定为核心参考书。" }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                id: 'pro',
+                name: '专业课 (以835为例)',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-1.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" /></svg>`,
+                content: {
+                    title: "专业课 - 以上海师大学前教育(835)为例",
+                    description: "由招生单位自主命题，旨在全面评估考生的综合素养、思辨能力和反思精神。其核心是考察将多学科知识融会贯通以解决实际问题的能力。",
+                     sections: [
+                        {
+                            title: "考试哲学与题型解析",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197" /></svg>`,
+                            htmlContent: `
+                                <div class="space-y-4">
+                                    <p><b>核心题型：</b>简答题 (理论基石) + 材料分析题 (批判性应用) + 活动方案设计题 (教学实践)。</p>
+                                    <p class="font-semibold text-gray-800">命题特点:</p>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                        <li><b>综合性:</b> 要求打破学科壁垒，将发展心理学、教育学和课程论有机结合。</li>
+                                        <li><b>思辨性:</b> 关注社会热点（如“幼师专业性”、“幼升小”），考查对复杂议题的批判性见解。</li>
+                                        <li><b>实践性:</b> 强调理论向教学实践的转化能力，活动设计题是重中之重。</li>
+                                    </ul>
+                                </div>
+                            `
+                        },
+                         {
+                            title: "一体化备考策略",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0H5.25M17.25 12h.008v.008h-.008V12zM12.75 12h.008v.008h-.008V12zM8.25 12h.008v.008h-.008V12zM12.75 16.5h.008v.008h-.008v-.008zM8.25 16.5h.008v.008h-.008v-.008zM17.25 16.5h.008v.008h-.008v-.008z" /></svg>`,
+                            timeline: [
+                                { date: "第一阶段 (奠定基础)", content: "<b>核心任务：</b>逐本精读三本核心参考书，制作详尽笔记或思维导图，重点梳理核心概念与理论。" },
+                                { date: "第二阶段 (主题整合)", content: "<b>核心任务：</b>放弃按书本章节复习，转为按“主题”（如幼儿游戏、师幼互动）进行知识重构，将三本书的相关论述整合到一起。" },
+                                { date: "第三阶段 (应用实战)", content: "<b>核心任务：</b>将主要精力投入“活动方案设计题”的专项练习，并利用真题进行完整的定时模考，训练答题节奏。" }
+                            ]
+                        },
+                        {
+                            title: "三位一体核心书目体系",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" /></svg>`,
+                            books: [
+                                { name: "《学前儿童发展》(李燕)", desc: "<b>角色：科学基础 (Why)。</b>回答“为何如此教”，为活动设计提供年龄适宜性的科学依据。" },
+                                { name: "《学前教育学》(王海澜)", desc: "<b>角色：理论框架 (What/Who)。</b>回答“教的本质是什么”，为材料分析提供核心理论支撑。" },
+                                { name: "《幼儿园课程》(高敬)", desc: "<b>角色：实践路径 (How)。</b>回答“如何去教”，为活动方案设计提供结构、流程等具体方法。" },
+                                { name: "拓展视野", desc: "除核心教材外，还应精读<b>《幼儿园教育指导纲要（试行）》</b>，并定期阅读<b>《学前教育研究》</b>等权威期刊，关注政策动态与学术前沿。" }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ];
+
+        const tabsContainer = document.getElementById('tabs');
+        const contentContainer = document.getElementById('tab-content');
+
+        function renderContent(subject) {
+            const card = document.createElement('div');
+            card.id = subject.id;
+            card.className = `content-card p-6 md:p-8`;
+
+            let sectionsHtml = '';
+            subject.content.sections.forEach(section => {
+                let sectionContent = '';
+                if (section.htmlContent) {
+                    sectionContent = section.htmlContent;
+                }
+                
+                if (section.timeline) {
+                    let timelineItemsHtml = '';
+                    section.timeline.forEach(item => {
+                        timelineItemsHtml += `
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <p class="timeline-date">${item.date}</p>
+                                <div class="text-gray-600">${item.content}</div>
+                            </div>
+                        `;
+                    });
+                    sectionContent = `<div class="timeline mt-4">${timelineItemsHtml}</div>`;
+                }
+                
+                if (section.books) {
+                     let booksHtml = '';
+                     section.books.forEach(book => {
+                        booksHtml += `
+                            <div class="p-4 rounded-lg mt-4 book-item">
+                                <p class="font-semibold text-gray-800">${book.name}</p>
+                                <p class="text-gray-600">${book.desc}</p>
+                            </div>
+                        `;
+                    });
+                    sectionContent = `<div>${booksHtml}</div>`;
+                }
+
+                sectionsHtml += `
+                    <div class="mb-8 last:mb-0">
+                        <h3 class="text-xl font-bold text-gray-800 flex items-center mb-2">
+                           <span class="mr-3 p-2 bg-indigo-100 rounded-full text-indigo-600">${section.icon}</span>
+                            ${section.title}
+                        </h3>
+                        <div class="pl-10">${sectionContent}</div>
+                    </div>
+                `;
+            });
+
+            card.innerHTML = `
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">${subject.content.title}</h2>
+                <p class="text-gray-600 mb-8">${subject.content.description}</p>
+                <div>
+                    ${sectionsHtml}
+                </div>
+            `;
+            contentContainer.appendChild(card);
+        }
+
+        // 动态生成标签页按钮和内容
+        subjectsData.forEach((subject, index) => {
+            // 创建按钮
+            const button = document.createElement('button');
+            button.className = `flex items-center gap-2 px-4 py-2 text-sm md:text-base font-medium rounded-lg shadow-sm transition-all duration-300 ${index === 0 ? 'tab-active' : 'tab-inactive'}`;
+            button.dataset.tab = subject.id;
+            button.innerHTML = `${subject.icon} ${subject.name}`;
+            tabsContainer.appendChild(button);
+
+            // 渲染内容
+            renderContent(subject);
+        });
+        
+        // 初始显示第一个
+        contentContainer.querySelector('.content-card').classList.add('active');
+
+
+        // 添加点击事件
+        tabsContainer.addEventListener('click', (e) => {
+            const clickedButton = e.target.closest('button');
+            if (!clickedButton) return;
+            
+            const tabId = clickedButton.dataset.tab;
+
+            // 更新按钮样式
+            tabsContainer.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('tab-inactive');
+            });
+            clickedButton.classList.add('tab-active');
+            clickedButton.classList.remove('tab-inactive');
+            
+            // 更新内容显示
+            contentContainer.querySelectorAll('.content-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        });
+
+    </script>
+</body>
+</html>
