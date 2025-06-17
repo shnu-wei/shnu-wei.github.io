@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024年非全日制研究生考试结果分析报告</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 引入Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 350px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .section-title {
+            font-size: 1.875rem; /* 30px */
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem; /* 24px */
+            text-align: center;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 0.5rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem; /* 24px */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- 页面标题 -->
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">2024年非全日制研究生考试结果分析报告</h1>
+            <p class="mt-4 text-lg text-slate-600">一份深入、全面的多维度可视化分析</p>
+        </header>
+
+        <!-- 第一部分: 考试总体情况分析 -->
+        <section class="mb-16">
+            <h2 class="section-title">一、 考试总体情况分析</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8 items-center">
+                <!-- 核心发现 -->
+                <div class="lg:col-span-3 space-y-6">
+                    <h3 class="text-2xl font-semibold text-slate-700 mb-4">核心发现</h3>
+                    <div class="space-y-4">
+                        <div class="card bg-blue-50 border-l-4 border-blue-500">
+                            <h4 class="font-bold text-blue-800">高缺考率</h4>
+                            <p class="text-slate-600">近四分之一 (24.62%) 的报名者未参加考试，是考生流失的最初环节。</p>
+                        </div>
+                        <div class="card bg-red-50 border-l-4 border-red-500">
+                            <h4 class="font-bold text-red-800">单科淘汰率高</h4>
+                            <p class="text-slate-600">超过半数 (52.31%) 的考生因单科成绩未达标被淘汰，这是筛选的主要环节。</p>
+                        </div>
+                         <div class="card bg-amber-50 border-l-4 border-amber-500">
+                            <h4 class="font-bold text-amber-800">总分通过率极低</h4>
+                            <p class="text-slate-600">仅 1.54% (1人) 的考生最终总分过线，显示出考试综合难度极高。</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 考生参与及结果分布图表 -->
+                <div class="lg:col-span-2 card">
+                     <h3 class="text-xl font-semibold text-center text-slate-700 mb-2">考生参与及结果分布</h3>
+                     <p class="text-center text-slate-500 font-medium mb-4">总人数: 65人</p>
+                    <div class="chart-container">
+                        <canvas id="participationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+             <!-- 结论 -->
+            <div class="mt-8 card bg-gray-800 text-white">
+                <h3 class="text-2xl font-semibold mb-4 text-center">总体结论</h3>
+                <p class="text-lg text-center leading-relaxed">本次考试筛选力度大，缺考现象突出。在实际参考的考生中，<strong class="text-yellow-300">单科成绩</strong>是主要的淘汰因素。尽管部分考生单科表现尚可，但考试的综合能力要求使得总分过线难度极大，最终通过率仅为 <strong class="text-green-300">1.54%</strong>，挑战巨大。</p>
+            </div>
+        </section>
+
+        <!-- 第二部分: 各科目成绩及过线情况分析 -->
+        <section class="mb-16">
+            <h2 class="section-title">二、 各科目成绩及过线情况分析</h2>
+            <p class="text-center text-slate-600 mb-8">(基于49名实际考生数据)</p>
+            
+            <!-- 各科目数据概览表格 -->
+            <div class="card mb-12 overflow-x-auto">
+                 <h3 class="text-2xl font-semibold text-slate-700 mb-4 text-center">各科目数据概览</h3>
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="p-3 font-semibold text-slate-700 border-b-2 border-slate-200">科目名称</th>
+                            <th class="p-3 font-semibold text-slate-700 border-b-2 border-slate-200 text-center">过线分数线</th>
+                            <th class="p-3 font-semibold text-slate-700 border-b-2 border-slate-200 text-center">过线比例 (%)</th>
+                            <th class="p-3 font-semibold text-slate-700 border-b-2 border-slate-200 text-center">平均分</th>
+                            <th class="p-3 font-semibold text-slate-700 border-b-2 border-slate-200 text-center">中位数</th>
+                            <th class="p-3 font-semibold text-slate-700 border-b-2 border-slate-200 text-center">标准差</th>
+                            <th class="p-3 font-semibold text-slate-700 border-b-2 border-slate-200 text-center">最高分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 border-b border-slate-200">政治理论</td>
+                            <td class="p-3 border-b border-slate-200 text-center">&gt;=51</td>
+                            <td class="p-3 border-b border-slate-200 text-center">61.22%</td>
+                            <td class="p-3 border-b border-slate-200 text-center">52.28</td>
+                            <td class="p-3 border-b border-slate-200 text-center">53</td>
+                            <td class="p-3 border-b border-slate-200 text-center">9.56</td>
+                            <td class="p-3 border-b border-slate-200 text-center">71</td>
+                        </tr>
+                        <tr class="hover:bg-red-50 text-red-700 font-medium">
+                            <td class="p-3 border-b border-slate-200">外国语</td>
+                            <td class="p-3 border-b border-slate-200 text-center">&gt;=51</td>
+                            <td class="p-3 border-b border-slate-200 text-center">30.61%</td>
+                            <td class="p-3 border-b border-slate-200 text-center">47.68</td>
+                            <td class="p-3 border-b border-slate-200 text-center">47</td>
+                            <td class="p-3 border-b border-slate-200 text-center">13.45</td>
+                            <td class="p-3 border-b border-slate-200 text-center">78</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 border-b border-slate-200">专业课一 (333)</td>
+                            <td class="p-3 border-b border-slate-200 text-center">&gt;=77</td>
+                            <td class="p-3 border-b border-slate-200 text-center">59.18%</td>
+                            <td class="p-3 border-b border-slate-200 text-center">81.34</td>
+                            <td class="p-3 border-b border-slate-200 text-center">79</td>
+                            <td class="p-3 border-b border-slate-200 text-center">11.88</td>
+                            <td class="p-3 border-b border-slate-200 text-center">107</td>
+                        </tr>
+                        <tr class="hover:bg-green-50 text-green-700 font-medium">
+                            <td class="p-3 border-b border-slate-200">专业课二 (835)</td>
+                            <td class="p-3 border-b border-slate-200 text-center">&gt;=77</td>
+                            <td class="p-3 border-b border-slate-200 text-center">87.76%</td>
+                            <td class="p-3 border-b border-slate-200 text-center">94.32</td>
+                            <td class="p-3 border-b border-slate-200 text-center">95</td>
+                            <td class="p-3 border-b border-slate-200 text-center">13.38</td>
+                            <td class="p-3 border-b border-slate-200 text-center">119</td>
+                        </tr>
+                        <tr class="bg-indigo-100 text-indigo-800 font-bold hover:bg-indigo-200">
+                            <td class="p-3 border-b border-slate-200">总分</td>
+                            <td class="p-3 border-b border-slate-200 text-center">341</td>
+                            <td class="p-3 border-b border-slate-200 text-center">2.04%</td>
+                            <td class="p-3 border-b border-slate-200 text-center">275.62</td>
+                            <td class="p-3 border-b border-slate-200 text-center">270</td>
+                            <td class="p-3 border-b border-slate-200 text-center">39.47</td>
+                            <td class="p-3 border-b border-slate-200 text-center">357</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 可视化图表 -->
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <!-- 各科过线比例雷达图 -->
+                <div class="card">
+                     <h3 class="text-xl font-semibold text-center text-slate-700 mb-4">各科过线比例对比</h3>
+                     <div class="chart-container h-[400px]">
+                        <canvas id="passRateRadarChart"></canvas>
+                    </div>
+                </div>
+                <!-- 各科平均分与分数线对比图 -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-center text-slate-700 mb-4">各科平均分 vs 分数线</h3>
+                    <div class="chart-container h-[400px]">
+                        <canvas id="averageScoreBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新增：总分对比图 -->
+            <div class="grid grid-cols-1 md:w-1/2 mx-auto">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-center text-slate-700 mb-4">总分平均分 vs 总分分数线</h3>
+                    <div class="chart-container h-[400px]">
+                        <canvas id="totalScoreChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 科目综合分析 -->
+            <div class="mt-12 grid md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-slate-700 mb-4">科目表现解读</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-red-500 font-bold mr-3 text-lg">▼</span>
+                            <div><strong>关键短板 (外国语):</strong> 平均分远低于过线标准，过线率仅 <strong class="text-red-600">30.61%</strong>，是影响总体通过率的核心因素。</div>
+                        </li>
+                        <li class="flex items-start">
+                             <span class="text-green-500 font-bold mr-3 text-lg">▲</span>
+                            <div><strong>优势科目 (专业课二):</strong> 表现最佳，平均分与过线率均遥遥领先，是考生的主要得分点。</div>
+                        </li>
+                         <li class="flex items-start">
+                             <span class="text-blue-500 font-bold mr-3 text-lg">▬</span>
+                            <div><strong>中等难度 (政治 & 专业课一):</strong> 难度适中，具备一定的区分度，但仍是部分考生的挑战。</div>
+                        </li>
+                    </ul>
+                </div>
+                 <div class="card bg-indigo-600 text-white">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">综合分析</h3>
+                    <p class="text-lg leading-relaxed">数据显示，考生的<strong class="text-yellow-200">科目能力极不均衡</strong>。尽管在优势科目（专业课二）上表现出色，但薄弱科目（特别是外国语）的巨大短板严重拖累了总分。这表明考生需要<strong class="text-yellow-200">全面发展，弥补短板</strong>，才能应对考试的综合性挑战，任何一门科目的失利都可能导致最终的失败。</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 第三部分: 建议 -->
+        <section>
+             <h2 class="section-title">三、 未来策略与建议</h2>
+             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <h4 class="font-bold text-slate-800 mb-2">深入分析缺考原因</h4>
+                    <p class="text-slate-600">针对24.62%的“报名但未考”情况，探究具体原因，以优化后续考试组织。</p>
+                </div>
+                <div class="card">
+                     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-red-100 text-red-600 mb-4">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <h4 class="font-bold text-slate-800 mb-2">定位各科难点</h4>
+                    <p class="text-slate-600">统计各科目“单科不过线”的具体人数，明确各科目的实际难度及考生薄弱环节。</p>
+                </div>
+                <div class="card">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 text-yellow-600 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </div>
+                    <h4 class="font-bold text-slate-800 mb-2">评估临界考生</h4>
+                    <p class="text-slate-600">分析“单科过线”但总分未过线考生的分数分布，了解其与总录取线的差距。</p>
+                </div>
+                <div class="card">
+                     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-100 text-green-600 mb-4">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-5.747-4.243l11.494 0" /></svg>
+                    </div>
+                    <h4 class="font-bold text-slate-800 mb-2">强化薄弱科目辅导</h4>
+                    <p class="text-slate-600">鉴于外国语科目的低通过率，应重点关注并加强该科目的教学与辅导。</p>
+                </div>
+             </div>
+        </section>
+
+    </div>
+
+    <script>
+        // 等待DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 图表全局配置
+            Chart.defaults.font.family = "'Inter', 'Noto Sans SC', sans-serif";
+            Chart.defaults.color = '#334155'; // slate-700
+
+            // 1. 考生参与及结果分布 - 饼图
+            const participationCtx = document.getElementById('participationChart').getContext('2d');
+            const participationData = {
+                percentages: [52.31, 24.62, 18.46, 3.08, 1.54],
+                counts: [34, 16, 12, 2, 1]
+            };
+            new Chart(participationCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['单科不过线', '报名但未考', '单科过线', '考试但放弃', '总分过线'],
+                    datasets: [{
+                        label: '考生分布',
+                        data: participationData.percentages,
+                        backgroundColor: [
+                            '#ef4444', // red-500
+                            '#f59e0b', // amber-500
+                            '#3b82f6', // blue-600
+                            '#64748b', // slate-500
+                            '#22c55e', // green-500
+                        ],
+                        borderColor: '#f8fafc',
+                        borderWidth: 3,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'rectRounded'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const percentage = context.raw || 0;
+                                    const count = participationData.counts[context.dataIndex];
+                                    return `${label}: ${count}人 (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. 各科过线比例 - 雷达图
+            const passRateCtx = document.getElementById('passRateRadarChart').getContext('2d');
+            new Chart(passRateCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['政治理论', '外国语', '专业课一 (333)', '专业课二 (835)'],
+                    datasets: [{
+                        label: '过线比例 (%)',
+                        data: [61.22, 30.61, 59.18, 87.76],
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        pointBackgroundColor: 'rgb(59, 130, 246)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(59, 130, 246)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#cbd5e1' // slate-300
+                            },
+                            grid: {
+                                color: '#e2e8f0' // slate-200
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                },
+                                color: '#1e293b' // slate-800
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                stepSize: 20,
+                                callback: function(value) {
+                                    return value + '%'
+                                }
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // 3. 各科平均分与分数线 - 柱状图
+            const averageScoreCtx = document.getElementById('averageScoreBarChart').getContext('2d');
+            new Chart(averageScoreCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['政治理论', '外国语', '专业课一', '专业课二'],
+                    datasets: [{
+                        label: '平均分',
+                        data: [52.28, 47.68, 81.34, 94.32],
+                        backgroundColor: '#3b82f6', // blue-600
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }, {
+                        label: '过线分数线',
+                        data: [51, 51, 77, 77],
+                        backgroundColor: '#ef4444', // red-500
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e2e8f0' // slate-200
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    }
+                }
+            });
+
+            // 4. 新增：总分平均分与分数线 - 柱状图
+            const totalScoreCtx = document.getElementById('totalScoreChart').getContext('2d');
+            new Chart(totalScoreCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['总分'],
+                    datasets: [{
+                        label: '平均分',
+                        data: [275.62],
+                        backgroundColor: '#818cf8', // indigo-400
+                        borderRadius: 4,
+                        barPercentage: 0.5
+                    }, {
+                        label: '过线分数线',
+                        data: [341],
+                        backgroundColor: '#f87171', // red-400
+                        borderRadius: 4,
+                        barPercentage: 0.5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 250,
+                            grid: {
+                                color: '#e2e8f0' // slate-200
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
