@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025考研政治真题及答案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'Microsoft YaHei', sans-serif;
+        }
+        .question-option {
+            transition: all 0.2s ease-in-out;
+        }
+        .question-option.selected {
+            background-color: #dbeafe; /* blue-100 */
+            border-color: #3b82f6; /* blue-500 */
+        }
+        .question-option.correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #22c55e; /* green-500 */
+        }
+        .question-option.incorrect {
+            background-color: #fee2e2; /* red-100 */
+            border-color: #ef4444; /* red-500 */
+        }
+        .question-option.reveal-correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #22c55e; /* green-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="app" class="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+        <!-- 头部信息 -->
+        <header class="text-center mb-8">
+            <h1 id="main-title" class="text-3xl sm:text-4xl font-bold text-gray-900"></h1>
+            <p id="source-info" class="text-sm text-gray-500 mt-2"></p>
+        </header>
+
+        <!-- 简介 -->
+        <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+            <p id="introduction" class="text-gray-600 leading-relaxed"></p>
+        </div>
+
+        <!-- 控制按钮 -->
+        <div class="sticky top-0 bg-gray-50/80 backdrop-blur-sm z-10 py-4 mb-8 flex justify-center items-center gap-4">
+            <button id="toggle-answers-btn" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition-transform transform hover:scale-105">
+                显示答案
+            </button>
+             <div id="score-container" class="hidden text-lg font-semibold text-gray-700">
+                得分: <span id="score" class="text-blue-600">0</span> / <span id="total-score">50</span>
+            </div>
+        </div>
+
+
+        <!-- 题目容器 -->
+        <main class="space-y-12">
+            <section id="single-choice-section">
+                <h2 class="text-2xl font-bold border-b-2 border-blue-500 pb-2 mb-6">一、单项选择题</h2>
+                <div id="single-choice-container" class="space-y-6"></div>
+            </section>
+
+            <section id="multiple-choice-section">
+                <h2 class="text-2xl font-bold border-b-2 border-green-500 pb-2 mb-6">二、多项选择题</h2>
+                <div id="multiple-choice-container" class="space-y-6"></div>
+            </section>
+
+            <section id="analysis-section">
+                <h2 class="text-2xl font-bold border-b-2 border-purple-500 pb-2 mb-6">三、分析题</h2>
+                <div id="analysis-container" class="space-y-6"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // 考研政治题目数据
+        const examData = {
+            title: "2025考研政治真题及答案-新东方版",
+            source: "2025-01-03 11:51:54 来源：网络",
+            introduction: "作为考研的重要科目之一，政治一直是广大考生关注的焦点。通过解析真题和提供详细答案，帮助考生更好地理解考研政治的命题思路和答题技巧，是提高政治成绩的有效途径。下面是2025考研政治真题及答案-新东方版，希望对大家备考有所帮助。",
+            singleChoice: [
+                { id: 1, question: "习近平强调，要“树立大农业观、大食物观，向耕地草原森林海洋、向植物动物微生物要热量、要蛋白，全方位多途径开发食品资源”,“既向陆地要食物，也向海洋要食物，耕海牧渔，建设海上牧场、蓝色粮仓”,构建多元化食物供给体系。“大农业观”“大食物观”突出体现的思维方式是", options: { A: "极限思维", B: "历史思维", C: "系统思维", D: "逆向思维" }, answer: "C" },
+                { id: 2, question: "马克思认为：“对人类生活形式的思索，从而对这些形式的科学分析，总是采取同实际发展相反的道路。这种思索是从事后开始的，就是说，是从发展过程的完成的结果开始的。”这一方法所揭示的实际内涵是：历史的发展总是按照时间顺序从过去到现在以至未来，而对历史的认识则要遵循相反的顺序，与从后思索法一致的是", options: { A: "我思故我在", B: "人体解剖是对猴子解剖的钥匙", C: "逻辑和历史在具体环节上具有一致性", D: "世界发展的一般过程拒斥事物个别发展过程的特殊性" }, answer: "B" },
+                { id: 3, question: "唯物史观从人民群众创造历史这一前提出发，既明确了人民群众是历史的创造者，也不否认个人在历史中的作用。习近平总书记在纪念毛泽东诞辰120周年座谈会上，对历史人物作出了精辟的论述：“不能把历史顺境中的成功简单归功于个人，也不能把历史逆境中的挫折归咎于个人，不能用今天的时代条件、发展水平和认识水平去衡量，要求前人达到今天的要求，不能苛求前人做出今天人做出的成果。”这一论述表明", options: { A: "杰出人物与人民群众的历史作用是同等重要的", B: "杰出人物的智慧和性格能够改变历史发展的基本方向", C: "杰出人物在逆境时发挥的作用比在顺境时更大", D: "要从特定历史条件出发，对历史人物做具体全面的考察和评价" }, answer: "D" },
+                { id: 4, question: "1916年列宁在《无产阶级革命的军事纲领》一文中指出：“社会主义将在一个或几个国家获得胜利，而其余的国家在一段时间内将仍然是资产阶级的或资产阶级以前的国家。”列宁得出这一结论的依据是", options: { A: "世界各国无产阶级的国际大联盟已经形成", B: "资本主义普选制为社会主义革命创造了新条件", C: "资本主义的发展在各个国家极不平衡", D: "工人阶级的革命意志与经济发展水平正相关" }, answer: "C" },
+                { id: 5, question: "独立自主是毛泽东思想活的灵魂，毛泽东在《论本本主义》一文中指出，“中国革命斗争的胜利要靠中国同志了解中国情况”,这是最初对独立自主思想的明确表述，毛泽东作出这一表述是为了", options: { A: "巩固和发展统一战线", B: "反对党内存在的教条主义倾向", C: "防止各种非无产阶级思想的产生", D: "去除红军中遗留的旧军队不良作风" }, answer: "B" },
+                { id: 6, question: "邓小平理论作为中国特色社会主义理论体系的开篇之作，第一次比较系统地初步回答了建设中国特色社会主义的一系列基本问题，其中为建设中国特色社会主义提供总依据的是", options: { A: "社会主义根本任务和发展战略理论", B: "社会主义本质理论", C: "社会主义初级阶段理论", D: "社会主义社会矛盾学说" }, answer: "C" },
+                { id: 7, question: "任何文化要立得住，行得远，要有引领力、凝聚力、塑造力、辐射力，必须有自己的文化主体性，习近平总书记指出：“中国共产党历来重视文化，新时代我们在道路自信、理论自信、制度自信的基础上新增了文化自信。文化自信就来自我们的文化主体性。”新时代这一主体性最有力的体现", options: { A: "创立习近平新时代中国特色社会主义思想", B: "实现中华优秀传统文化创造性转化，创新性发展", C: "铸牢中华民族共同体意识", D: "把握中华文明发展规律" }, answer: "A" },
+                { id: 8, question: "开放是中国式现代化的鲜明标识。开放是高质量发展的必然选择，是实现中华民族伟大复兴的关键一招，中国坚定不移实施高水平对外开放。当前，我国构建更高水平开放型经济体制的重点是", options: { A: "全局性开放", B: "要素型开放", C: "政策性开放", D: "制度型开放" }, answer: "D" },
+                { id: 9, question: "经过接续奋斗，我国社会建设全面加强，幼有所育，学有所教，劳有所得，病有所医，老有所养，住有所居，弱有所扶得到更好实现，人民对美好生活的向往不断变成现实，新时代加强社会建设重要着力点是", options: { A: "健全和完善社会保障体系", B: "加强城乡社区治理", C: "建立健全第三次分配机制", D: "建设更高水平的平安中国" }, answer: "B" },
+                { id: 10, question: "鸦片战争后，随着资本帝国主义的侵入，中国社会经济发生了很大的变化.毛泽东在《中国革命和中国共产党》一文中提出，外国资本的侵入，破坏了中国自给自足的自然经济的基础，为中国资本主义生产的发展造成了某些客观的条件和可能，这是变化的一个方面;还有和这个变化同时存在的另一个方面，这就是", options: { A: "封建地主的土地所有制遭到彻底破坏", B: "帝国主义勾结中国封建势力压迫中国资本主义的发展", C: "地方性农业经济的破产和统一的资本主义经济的形成", D: "中国在政治、经济上完全成为西方的附庸" }, answer: "B" },
+                { id: 11, question: "实现中华民族伟大复兴是中华民族近代以来最伟大的梦想。在近代中国，一些爱国人士提出“实业救国”主张，并为此付出了巨大努力，但并没有实现救国的目标。近代中国“实业救国”的道路之所以走不通，是因为", options: { A: "民族独立和人民解放尚未实现", B: "工业基础落后，工人阶级人数不多", C: "各地区政经济、政治、文化发展不平衡", D: "农民日益贫困化，以至于大批破产" }, answer: "A" },
+                { id: 12, question: "七大是一次胜利的大会，团结的大会，下列选项中符合七大最大的贡献的是", options: { A: "将毛泽东思想确立为党的指导思想，并写入党章", B: "提出了工作重心由农村转向城市", C: "提出思想建党政治建军", D: "概括了毛泽东思想活的灵魂" }, answer: "A" },
+                { id: 13, question: "1981年党的十一届六中全会通过了《关于建国以来党的若干历史问题的决议》,此次决议表明", options: { A: "把工作重心从农村转移到城市", B: "强调社会各项建设要服从到经济建设中来", C: "开启了改革开放和社会主义现代化新时期", D: "优先发展重工业" }, answer: "C" },
+                { id: 14, question: "互联网是人们获取信息和交流沟通的重要渠道，深刻影响着每个人的生活、工作、学习。移动支付信息、信用卡消费记录等，都是足以“定义”个体的数据信息。这些信息被非法使用，会侵害当事人的隐私权。《民法典》规定，任何组织或个人不得以刺探、侵扰、泄露、公开等方式侵害他人的隐私权。隐私权属于", options: { A: "生命健康权", B: "民主管理权", C: "人格尊严权", D: "通信自由权" }, answer: "C" },
+                { id: 15, question: "中国共产党第二十届中央委员会第三次全体会议(二十届三中全会)在北京召开，并通过了《中共中央关于进一步全面深化改革、推进中国式现代化的决定》,中国式现代化的基础性和战略性支撑是", options: { A: "高水平的社会主义市场经济体制", B: "科学的宏观调控、有效的政府治理", C: "相互协调的物质文明和精神文明", D: "教育、科技、人才" }, answer: "D" },
+                { id: 16, question: "2024年9月4日到6日，中非合作论坛在京召开。中非合作论坛最重要的成果之一是首次提出", options: { A: "支持非盟成为二十国集团成员", B: "欢迎更多非洲国家加入“金砖大家庭”", C: "在非洲启动建设农业发展与减贫示范村", D: "在非洲打造全球安全倡议“合作示范区”" }, answer: "A" }
+            ],
+            multipleChoice: [
+                { id: 17, question: "与病毒斗争的协同进化是人类演化的重要推动力之一。一方面，病毒在使人类饱受疾病甚至死亡的围绕中，不断对人类基因进行利用与改造。另一方面，人类的免疫系统在积极对抗病毒入侵时，或有效清除外来微生物，或整合到人类基因中的病毒与宿主细胞接触实现协同进化，人与病毒的关系，推出人与自然的关系的正确判断是", options: { A: "人与自然关系纯粹是自然界生物演化的过程", B: "人类社会活动的规律由生物进化的规律决定", C: "人与自然和谐共生以自然界的客观规律为基础", D: "人的活动和选择性与自然界先进性是动态统一的" }, answer: ["C", "D"] },
+                { id: 18, question: "人机接口技术变为现实，表明人类意识：", options: { A: "能够通过人工智能机器实现对象化现实化", B: "能够被具有情感、意念、意识的人工智能取代", C: "能够还原为数字符号并取代人类交往真情实感", D: "能够物化为机器的物质运动而延伸意识载体的功能" }, answer: ["A", "D"] },
+                { id: 19, question: "竹子全身都是宝，苏东坡曾感叹：“记岭南竹岭南人，当有愧于竹。食者竹笋，庇者竹瓦，载者竹筏，爨者竹薪，衣者竹皮，书者竹纸，履者竹鞋，真可谓一日不可无此君也耶。”竹子多样功能表明，事物价值", options: { A: "随着客体、主体及其相互关系的变化而变化", B: "随主体兴趣、感情和欲望的转移而变化", C: "随实践的发展由潜在的价值转变为现实的价值", D: "随客体属性的自然显露而转化为社会价值" }, answer: ["A", "C"] },
+                { id: 20, question: "马克思在分析使用价值和价值时，“一个物可以有用，并且是劳动产品，但是不是商品。”下列选项中符合马克思说“一个物”的是", options: { A: "中世纪农民为封建主作为代役租的粮食", B: "农民为家人生产并用于消费的农副产品", C: "农业资本家为获取利润而生产的农产品", D: "封建社会时期佃农生产给地主的地租" }, answer: ["A", "B", "D"] },
+                { id: 21, question: "随着工业现代化自动化生产方式的采用，新的生产管理方式和组织方式正在不断的展开.当代资本主义社会生产当中，工人现在更多从事监督工作，操作者的工作实现了从传统生产方式到现代化生产方式的转变。", options: { A: "说明生产资料所有制性质正在发生根本变化", B: "说明资本主义的生产关系正在适应生产力的发展而调节", C: "说明资本主义社会的阶级结构和社会阶层关系正在适应新的变化", D: "说明资产阶级如果不对生产工具和生产关系进行革命就不能生存" }, answer: ["B", "C", "D"] },
+                { id: 22, question: "中国共产党的历史是一部不断推进马克思主义中国化时代化的历史，在马克思主义中国化时代化的进程中产生了毛泽东思想，邓小平理论，三个代表重要思想，科学发展观，习近平新时代中国特色社会主义思想，马克思主义中国化时代化的理论成果是一脉相承又与时俱进的关系，主要体现在", options: { A: "都面对共同的时代主题和历史任务", B: "都贯穿实事求是、群众路线、独立自主的立场观点和方法", C: "都科学回答了时代重大理论和实践课题", D: "都以独创性的理论成果丰富发展了马克思主义" }, answer: ["B", "C", "D"] },
+                { id: 23, question: "民营经济是推动我国全面建成社会主义现代化强国的重要力量。截至2024年9月底，我国实有民营经济主体量已达1.8亿户，占经营主体总量的96.3%,70余年间增长超4倍。民营经济迅速发展充分说明", options: { A: "非公有制经济发展的政策制度环境不断优化", B: "促进非公有制经济发展壮大的体制机制不断完善", C: "非公有制经济在国民经济中主导作用不断强化", D: "非公有制经济发展活力不断提升" }, answer: ["A", "B", "D"] },
+                { id: 24, question: "人民当家作主必须通过一定的制度予以保障。在上海虹桥街道古北市民中心有幅漫画：一道绚丽的彩虹桥悬挂天空，这一头是虹桥街道，那一头是全国人大。一只白鸽把信从这头捎到那头。虹桥街道是全国人大常委会法工委首批设立的四个基层立法联系点之一。设立基层立法联系点有利于", options: { A: "健全汇集民智工作机制", B: "完善民意表达平台和载体", C: "践行全过程人民民主", D: "丰富中国特色社会主义民主形式" }, answer: ["A", "B", "C", "D"] },
+                { id: 25, question: "近些年，我国每年主要电器产品报废量超2亿台，手机废弃量达4亿部以上，其中蕴藏着大量有色金属、塑料、橡胶等资源。加快发展方式绿色转型，必须更加重视资源的再生循环利用，加快构建废弃物循环利用体系。据预测，到2030年，我国固废分类资源化利用的产值规模将达7-8万亿元。推动废弃物循环利用，有利于", options: { A: "形成节约集约循环利用的资源观", B: "转化资源利用方式，提高利用效率", C: "实现生产系统和生活系统循环链接", D: "科学推进水土流失综合治理" }, answer: ["A", "B", "C"] },
+                { id: 26, question: "高质量发展，文化是重要支点。近些年来，我国的文化产业得到了很大的发展，文化活力增强，文化对经济社会的发展起到了很大的作用。文化之所以能够成为高质量发展的重要支点，是因为", options: { A: "文化能为经济社会发展提供价值指引和精神力量", B: "文化建设是解决新时代主要矛盾的根本途径", C: "文化融入经济活动有助于激发发展动能，提升发展品质", D: "文化繁荣有助于促进社会创新创造的活力动力" }, answer: ["A", "C", "D"] },
+                { id: 27, question: "1921年7月23日，中国共产党第一次全国代表大会在上海召开，宣告了中国共产党的成立。中国共产党成立的历史特点有", options: { A: "从一开始就是一个以马克思列宁主义理论为基础的党", B: "是在半封建半殖民地中国的农民运动基础上产生的党", C: "从一开始就注重和其他政党或政治力量合作的党", D: "是一个区别于第二国际旧式社会改良党的新型工人阶级革命政党" }, answer: ["A", "D"] },
+                { id: 28, question: "党的六届六中全会是抗日战争即将进入新阶段所召开的会议.毛泽东曾说：“六中全会决定中国之命运。”下列关于六届六中全会表述正确的有", options: { A: "会议上毛泽东明确提出“马克思主义的中国化”命题", B: "会议指明了由新民主主义社会向社会主义社会转变的发展方向", C: "会议纠正了王明的右倾错误，统一了全党的思想和步调", D: "会议指出了小资产阶级思想的根源、表现和纠正方法" }, answer: ["A", "C"] },
+                { id: 29, question: "1992年1.18-2.21邓小平先后去武昌，深圳，珠海，上海视察，发表了重要讲话。以下属于讲话的重要论断有", options: { A: "革命是发展生产力，改革也是发展生产力", B: "走自己的路，建设有中国特色的社会主义", C: "计划多一点还是市场多一点，不是社会主义和资本主义的根本区别", D: "在整个改革开放过程中，必须始终坚持四项基本原则" }, answer: ["A", "C", "D"] },
+                { id: 30, question: "法治思维的要义是把对法治的尊崇和对法治的敬畏转化为思维和行为方式，法治思维内容丰富，其中之一是法律至上。法律至上的表现为", options: { A: "法律必须遵守，违法必受惩罚", B: "按照法律的逻辑来分析和解决一切社会问题", C: "法律在本国主权范围内对所有人具有普遍约束", D: "当同一次社会关系受多种社会规范的调整，而多种社会规范又相互矛盾时，要优先考虑法律规范的适用" }, answer: ["A", "C", "D"] },
+                { id: 31, question: "集体主义是社会主义道德的最高原则，是调节国家利益、社会整体利益和个人利益的基本原则，集体主义", options: { A: "个人利益应无条件服从集体利益", B: "国家利益高于个人利益", C: "集体利益是个人利益的总和", D: "国家尊重和保护个人利益" }, answer: ["B", "D"] },
+                { id: 32, question: "2024年6月21日，最高人民法院、最高人民检察院、公安部、国家安全部、司法部联合制定印发了《关于依法惩治“台独”顽固分子分裂国家、煽动分裂国家犯罪的意见》,该意见自发布之日起施行，其意义和作用体现在", options: { A: "明确了各类台独分裂行径的犯罪性质、刑事责任和惩处程序", B: "回应了两岸最大多数民众的诉求与期盼", C: "彰显了捍卫国家主权、统一和领土完整的坚定立场", D: "充实了反台独、反干涉的法律“工具箱”" }, answer: ["A", "B", "C", "D"] },
+                { id: 33, question: "金砖合作机制诞生于新兴市场和发展中国家群体性崛起的历史大潮中，牵动着世界格局演变和国际力量对比。成立18年来，金砖不断发展壮大，金砖国家的人口占全球近一半，经济总量占世界比重超过三成，对世界经济增长贡献超过50%.2024年10月22日到24日，金砖国家领导人第十六次会晤在喀山举行，决定邀请新一批国家成为金砖伙伴国，金砖机制持续壮大。金砖合作常葆活力关键在于", options: { A: "以开放包容为胸襟", B: "以合作共赢为目标", C: "以公平正义为追求", D: "以构建同盟为路径" }, answer: ["A", "B", "C"] }
+            ],
+            analysisQuestions: [
+                 { id: 34, question: "材料1：认识就其本性而言，或者对漫长的世代系列来说是相对的而且必然是逐步趋于完善的，或者就像在天体演化学、地质学和人类历史中一样，由于历史材料不足，甚至永远是有缺陷的和不完善的，而谁要以真正的、不变的、最后的终极的真理的标准来衡量认识，那么,他只是证明他自己的无知和荒谬，即使真正的动机并不像在这里那样是要求个人不犯错误。真理和谬误，正如一切在两极对立中运动的逻辑范畴一样，只是在非常有限的领域内才具有绝对的意义。\n材料2：改革作为一项复杂的系统工程，是对未知的探索，既要有“设计图”也要有“施工图”,要加强顶层设计和摸着石头过河的“两面结合”.", subQuestions: ["(1) 如何理解“认识就其本性而言，或者对漫长的世代系列来说是相对的而且必然是逐步趋于完善的，或者……由于历史材料不足，甚至永远是有缺陷的和不完善的”?(5分)", "(2) 试说明加强顶层设计和摸着石头过河的“两手并用”蕴含着的“知”与“行”的辩证关系.(5分)"], answer: "【参考答案】\n(1) 这段话体现了马克思主义认识论中关于真理的绝对性和相对性的辩证关系原理。真理是绝对性和相对性的统一。\n真理的绝对性是指真理的内容是客观的，是不以人的意志为转移的，它正确地反映了客观世界及其规律。同时，人类的认识能力是无限的，能够最终认识无限发展的物质世界。\n真理的相对性是指，在一定历史条件下，人们对世界的认识总是有限的、不完善的。任何真理都只能是对客观世界某一方面、某一发展阶段的近似正确的反映。材料中提到的“认识是相对的”、“逐步趋于完善”、“有缺陷和不完善的”都体现了真理的相对性。\n绝对真理和相对真理是相互联结、相互转化的。真理的发展过程，就是由相对真理走向绝对真理的永无止境的过程。任何真理都是绝对真理和相对真理的统一。材料中的论述正是对这一原理的深刻阐释。\n(2) “顶层设计”和“摸着石头过河”的结合体现了认识与实践（知与行）的辩证关系。\n认识对实践具有指导作用。顶层设计是在实践开始前对实践活动的目标、路径、方法的总体规划，是“知”的体现，它为改革这一伟大的实践提供了科学的指导，避免了盲目性。\n实践是认识的基础，是认识的来源和发展的动力，也是检验认识真理性的唯一标准。“摸着石头过河”是在改革实践中不断探索、总结经验、发现规律的过程。这是“行”的体现，通过实践来探索未知，为“顶层设计”的完善和修正提供现实依据，并最终检验其正确性。\n“顶层设计”和“摸着石头过河”的结合，正是“知”与“行”的统一。在科学认识的指导下进行实践（顶层设计指导改革），又在实践中不断深化和发展认识（摸着石头过河检验和完善顶层设计），从而推动改革不断向前发展。" },
+                { id: 35, question: "材料1：制度稳则国家稳，制度强则国家强。制度优势是一个政党、国家的最大优势，一个国家的现代化不仅是经济，科技，国防的现代化，更是制度和治理的现代化。\n材料2：高质量发展是新时代的硬道理，完整、准确、全面贯彻新发展理念，全面贯彻新发展把加快建设现代化经济体系推进高水平科技自立自强加快构建新发展格局统筹推进深层次改革和高水平开放统筹高质量发展和高水平安全等战略任务落实到位，完善推动高质量发展的考评体系，为推动高质量发展打牢基础。", subQuestions: ["(1) 如何理解“新时代全面深化改革取得重大制度成果，书写了中国之制新篇章”?(5分)", "(2) 进一步全面深化改革为什么能够为“推动高质量发展，推进中国式现代化持续注入强劲动力”?(5分)"], answer: "【参考答案】\n(1) 新时代全面深化改革，坚持和完善中国特色社会主义制度、推进国家治理体系和治理能力现代化，取得了一系列重大制度成果。这主要体现在：\n①党的领导制度体系不断完善，党的领导核心作用更加彰显。\n②中国特色社会主义根本制度、基本制度、重要制度更加巩固和发展，各领域基础性制度框架基本建立。\n③国家治理体系和治理能力现代化水平显著提高，制度优势更好地转化为治理效能。\n④在经济、政治、文化、社会、生态文明等各方面形成了一系列更加成熟、更加定型的制度，为党和国家事业发展提供了坚实的制度保障，开创了“中国之治”的新境界。\n(2) 全面深化改革是推动高质量发展、推进中国式现代化的根本动力。\n①改革能够破解发展难题。通过改革，可以破除制约高质量发展的思想观念和体制机制弊端，打通堵点、解决难点。\n②改革能够增强发展活力。通过深化市场化改革、扩大高水平开放，能够有效激发各类经营主体的活力，解放和发展社会生产力。\n③改革能够完善发展环境。通过构建高水平社会主义市场经济体制，营造市场化、法治化、国际化的一流营商环境，为高质量发展提供制度保障。\n④改革能够激发创新动力。通过科技体制、教育体制等改革，能够促进科技自立自强，为高质量发展提供强大的科技和人才支撑。因此，只有坚定不移地全面深化改革，才能为高质量发展和中国式现代化提供源源不断的强劲动力。" },
+                { id: 36, question: "材料1：1938年5月26日~6月3日，毛泽东在延安发表了《论持久战》。中国要战胜并消灭日本帝国主义要满足三个主要条件。\n材料2：2022年，在抗日战争胜利暨反法西斯战争胜利75周年.抗日战争是近代以来时间最长，规模最大，牺牲人数最多的解放战争。在民族危亡之际，中国共产党坚持抗日战争的正确方向。", subQuestions: ["(1) 如何理解“就中国人民的立场而言”,“中国人民大联合”是战胜并消灭日本帝国主义的主要条件?", "(2) 抗日战争的胜利对中华民族“从近代以来深陷危机到实现中华民族伟大复兴”有何重要历史意义?"], answer: "【参考答案】\n(1) 毛泽东在《论持久战》中系统地阐述了抗日战争的规律。他指出，中日战争不是任何别的战争，乃是半殖民地半封建的中国和帝国主义的日本之间在二十世纪三十年代进行的一个决死的战争。“中国人民大联合”是战胜日本的主要条件，其理解如下：\n①抗日战争是全民族的战争，必须动员和依靠全国人民。日本帝国主义的侵略，给中华民族带来了空前的危机。要取得胜利，就必须唤起民众，实现最广泛的人民大联合，形成人民战争的汪洋大海。\n②中国共产党倡导和促成了抗日民族统一战线。这是中国人民大联合的核心。它团结了国内一切可以团结的抗日力量（包括工人、农民、知识分子、小资产阶级、民族资产阶级以及部分爱国地主和军阀），共同抵抗外来侵略。\n③人民是战争伟力之最深厚的根源。只有实现了人民的大联合，才能为持久抗战提供源源不断的人力、物力和财力支持，才能弥补中国在武器装备等方面的劣势，最终拖垮和战胜敌人。\n(2) 抗日战争的伟大胜利，是中华民族从近代以来陷入深重危机走向伟大复兴的历史转折点，具有重大的历史意义：\n①彻底粉碎了日本军国主义殖民奴役中国的图谋，捍卫了国家主权和领土完整。\n②促进了中华民族的觉醒，形成了伟大的抗战精神，成为激励中国人民克服一切艰难险阻、为实现中华民族伟大复兴而奋斗的强大精神动力。\n③中国共产党在全民族抗战中发挥了中流砥柱的作用，其领导地位和指导作用在实践中得到确立，为新民主主义革命在全国的胜利奠定了坚实基础。\n④中国的抗日战争是世界反法西斯战争的重要组成部分，对世界反法西斯战争的胜利作出了巨大贡献，中国的国际地位得到显著提高。" },
+                { id: 37, question: "材料：我国曾是荒漠化最严重的国家之一，经过持续系统治理，取得了举世瞩目的成就，谱写了可歌可泣的故事。治沙，要有直面挑战、敢为人先的“闯劲”...为了建设塞罕坝，陈彦娴喝雪水、吃咸菜...一句承诺，让“六老汉”三代人40多年薪火相传...“新时代治沙人种下的不仅仅是一棵棵树，还是一种信念，一种精神”。", subQuestions: ["(1) 如何理解“新时代治沙人种下的不仅仅是一棵棵树，还是一种信念，一种精神”?(6分)", "(2) 在干事创业中，新时代青年应该从治沙人的事迹中汲取怎样的力量?(4分)"], answer: "【参考答案】\n(1) 这句话深刻揭示了新时代治沙实践超越了其物质层面，升华到了精神和价值层面。其内涵可从以下几方面理解：\n①它是一种人与自然和谐共生的生态文明信念。治沙人种下的树，是改善生态、建设美丽中国的具体行动，体现了对“绿水青山就是金山银山”理念的坚定信仰和忠实践行。\n②它是一种迎难而上、百折不挠的奋斗精神。治沙是在极其艰苦的条件下进行的斗争，治沙人的事迹体现了中华民族不畏艰难、坚韧不拔、敢于斗争、敢于胜利的伟大奋斗精神。\n③它是一种功成不必在我、功成必定有我的奉献精神。从“六老汉”三代人薪火相传到右玉县委一任接着一任干，体现了久久为功、无私奉献的崇高境界和历史担当。\n④它是一种开拓创新、科学求实的科学精神。治沙不是蛮干，而是遵循自然规律，科学规划，不断探索和运用新的技术和方法。\n总之，治沙人种下的是绿色的希望，更是精神的丰碑，为全社会树立了宝贵的价值标杆。\n(22) 新时代青年可以从治沙人的事迹中汲取以下力量：\n①汲取理想信念的力量。要树立远大理想，将个人发展融入国家富强、民族复兴的伟大事业之中。\n②汲取艰苦奋斗的力量。要不怕困难、不畏挑战，在实干中成就事业，在奋斗中实现价值。\n③汲取无私奉献的力量。要培养奉献精神，正确处理个人利益与集体利益、国家利益的关系，在奉献社会中实现人生价值。\n④汲取开拓创新的力量。要勇于创新，敢为人先，用知识和智慧为国家发展贡献力量，在实现中国梦的生动实践中放飞青春梦想。" },
+                { id: 38, question: "材料1：近年来，互联网、大数据、云计算、人工智能、区块链等技术加速创新，日益融入经济社会发展各领域、全过程。各国竞相制定数字经济发展战略，出台鼓励政策，数字经济发展速度之快，辐射范围之广、影响程度之深前所未有。数字经济“正在成为重组全球要素资源，重塑是全球经济结构、改变全球竞争格局的关键力量”。\n材料2：自2017年习首次提出建设“数字丝绸之路”一来，中国与共建“一带一路”国家在数字贸易规则、数据安全合作等方面进行了诸多探索。", subQuestions: ["(1) 如何理解数字经济“正在成为重组全球要素资源，重塑是全球经济结构、改变全球竞争格局的关键力量”(6分)", "(2) 弥补数字鸿沟，迈进更加美好的“数字未来”，为什么要“加快推动网络空间创新发展、安全发展、惠普发展”?(4分)"], answer: "【参考答案】\n(1) 数字经济作为一种新的经济形态，正从以下几方面深刻影响全球：\n①重组全球要素资源：数据作为新的生产要素，其流动性、共享性、可复制性改变了传统要素的配置方式，促进了技术、资本、人才等要素在全球范围内的优化组合。\n②重塑全球经济结构：数字经济催生了新产业、新业态、新模式，推动了传统产业的数字化转型，正在重塑全球产业链、供应链和价值链，改变了全球经济的产业格局。\n③改变全球竞争格局：数字技术和数字基础设施成为国家竞争力的核心要素。各国围绕数字技术、数字规则、数字市场等领域的竞争日趋激烈，数字经济的发展水平直接影响一个国家在全球竞争中的地位和主动权。\n(2) “创新、安全、惠普”是构建网络空间命运共同体的必然要求，其重要性体现在：\n①创新是发展的动力。只有坚持创新驱动，才能把握数字时代的新机遇，为经济社会发展提供新动能，同时应对网络空间层出不穷的新挑战。\n②安全是发展的前提。网络安全是国家安全的重要组成部分。没有网络安全，数字经济的发展就无从谈起，个人隐私、企业利益和国家安全都将受到威胁。\n③惠普是发展的目标。发展数字经济的最终目的是为了造福全人类。推动惠普发展，就是要弥合数字鸿沟，让不同国家、不同地区、不同人群都能共享数字技术发展的成果，促进社会公平，实现共同繁荣，共同迈向美好的数字未来。" }
+            ]
+        };
+
+        let answersVisible = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 渲染页面内容
+            document.getElementById('main-title').textContent = examData.title;
+            document.getElementById('source-info').textContent = examData.source;
+            document.getElementById('introduction').textContent = examData.introduction;
+
+            renderQuestions('single', examData.singleChoice, document.getElementById('single-choice-container'));
+            renderQuestions('multiple', examData.multipleChoice, document.getElementById('multiple-choice-container'));
+            renderAnalysisQuestions();
+
+            // 绑定事件
+            document.getElementById('toggle-answers-btn').addEventListener('click', toggleAnswers);
+        });
+
+        // 渲染选择题
+        function renderQuestions(type, questions, container) {
+            questions.forEach(q => {
+                const questionWrapper = document.createElement('div');
+                questionWrapper.className = 'bg-white p-6 rounded-lg shadow-sm';
+                questionWrapper.id = `q-${q.id}`;
+
+                const questionText = document.createElement('p');
+                questionText.className = 'font-semibold text-gray-800 mb-4';
+                questionText.textContent = `${q.id}. ${q.question}`;
+                questionWrapper.appendChild(questionText);
+
+                const optionsWrapper = document.createElement('div');
+                optionsWrapper.className = 'space-y-3';
+                optionsWrapper.dataset.questionId = q.id;
+                optionsWrapper.dataset.type = type;
+
+                for (const key in q.options) {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'question-option border-2 border-gray-200 p-3 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-400';
+                    optionDiv.textContent = `${key}. ${q.options[key]}`;
+                    optionDiv.dataset.option = key;
+                    optionDiv.addEventListener('click', () => selectOption(optionDiv, type));
+                    optionsWrapper.appendChild(optionDiv);
+                }
+
+                questionWrapper.appendChild(optionsWrapper);
+                container.appendChild(questionWrapper);
+            });
+        }
+
+        // 渲染分析题
+        function renderAnalysisQuestions() {
+            const container = document.getElementById('analysis-container');
+            examData.analysisQuestions.forEach(q => {
+                const questionWrapper = document.createElement('div');
+                questionWrapper.className = 'bg-white p-6 rounded-lg shadow-sm';
+                questionWrapper.id = `q-${q.id}`;
+
+                const questionText = document.createElement('p');
+                questionText.className = 'font-semibold text-gray-800 mb-4 whitespace-pre-wrap';
+                questionText.innerHTML = `${q.id}. ${q.question.replace(/\n/g, '<br>')}`;
+                questionWrapper.appendChild(questionText);
+                
+                if (q.subQuestions && q.subQuestions.length > 0) {
+                    const subQuestionsList = document.createElement('div');
+                    subQuestionsList.className = 'space-y-2 mb-4 pl-4';
+                    q.subQuestions.forEach(sq => {
+                        const subQText = document.createElement('p');
+                        subQText.className = 'text-gray-700';
+                        subQText.textContent = sq;
+                        subQuestionsList.appendChild(subQText);
+                    });
+                    questionWrapper.appendChild(subQuestionsList);
+                }
+
+                const answerDiv = document.createElement('div');
+                answerDiv.id = `answer-${q.id}`;
+                answerDiv.className = 'hidden mt-4 p-4 bg-gray-100 rounded-md border-l-4 border-purple-400';
+                
+                const answerTitle = document.createElement('h4');
+                answerTitle.className = 'font-bold text-gray-700 mb-2';
+                answerTitle.textContent = '参考答案：';
+                answerDiv.appendChild(answerTitle);
+
+                const answerContent = document.createElement('p');
+                answerContent.className = 'text-gray-600 whitespace-pre-wrap leading-relaxed';
+                answerContent.textContent = q.answer;
+                answerDiv.appendChild(answerContent);
+
+                questionWrapper.appendChild(answerDiv);
+                container.appendChild(questionWrapper);
+            });
+        }
+
+        // 处理选项点击事件
+        function selectOption(optionDiv, type) {
+            if (answersVisible) return; // 答案显示后禁止修改
+
+            if (type === 'single') {
+                // 单选：先清除同组其他选项的选中状态
+                const parent = optionDiv.parentElement;
+                parent.querySelectorAll('.question-option').forEach(opt => opt.classList.remove('selected'));
+                optionDiv.classList.add('selected');
+            } else {
+                // 多选：切换选中状态
+                optionDiv.classList.toggle('selected');
+            }
+        }
+        
+        // 切换答案显示/隐藏
+        function toggleAnswers() {
+            answersVisible = !answersVisible;
+            const btn = document.getElementById('toggle-answers-btn');
+            const scoreContainer = document.getElementById('score-container');
+            
+            btn.textContent = answersVisible ? '隐藏答案' : '显示答案';
+            if(answersVisible) {
+                checkAllAnswers();
+                scoreContainer.classList.remove('hidden');
+            } else {
+                hideAllAnswers();
+                scoreContainer.classList.add('hidden');
+            }
+        }
+        
+        function hideAllAnswers() {
+             // 隐藏选择题答案
+            document.querySelectorAll('.question-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect', 'reveal-correct');
+            });
+            // 隐藏分析题答案
+            examData.analysisQuestions.forEach(q => {
+                document.getElementById(`answer-${q.id}`).classList.add('hidden');
+            });
+            // 重置分数
+            document.getElementById('score').textContent = '0';
+        }
+
+        // 核对所有答案并显示
+        function checkAllAnswers() {
+            let currentScore = 0;
+            
+            // 检查单选题
+            examData.singleChoice.forEach(q => {
+                const optionsContainer = document.querySelector(`#q-${q.id} .space-y-3`);
+                const selectedOption = optionsContainer.querySelector('.selected');
+                let isCorrect = false;
+                if (selectedOption && selectedOption.dataset.option === q.answer) {
+                    isCorrect = true;
+                    currentScore += 1; // 单选题1分
+                }
+                
+                optionsContainer.querySelectorAll('.question-option').forEach(opt => {
+                    const optionKey = opt.dataset.option;
+                    if (optionKey === q.answer) {
+                        opt.classList.add('reveal-correct'); // 正确答案高亮
+                    }
+                    if (opt.classList.contains('selected')) {
+                        if (isCorrect) {
+                            opt.classList.add('correct');
+                        } else {
+                            opt.classList.add('incorrect');
+                        }
+                    }
+                });
+            });
+
+            // 检查多选题
+            examData.multipleChoice.forEach(q => {
+                const optionsContainer = document.querySelector(`#q-${q.id} .space-y-3`);
+                const selectedOptions = Array.from(optionsContainer.querySelectorAll('.selected')).map(opt => opt.dataset.option);
+                
+                // 排序后比较，确保顺序不影响结果
+                const isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(q.answer.sort());
+                if (isCorrect) {
+                    currentScore += 2; // 多选题2分
+                }
+                
+                optionsContainer.querySelectorAll('.question-option').forEach(opt => {
+                    const optionKey = opt.dataset.option;
+                    if (q.answer.includes(optionKey)) {
+                         opt.classList.add('reveal-correct'); // 正确答案高亮
+                    }
+                    if (opt.classList.contains('selected')) {
+                        if (q.answer.includes(optionKey)) {
+                            opt.classList.add('correct');
+                        } else {
+                             opt.classList.add('incorrect');
+                        }
+                    }
+                });
+            });
+
+            // 显示分析题答案
+            examData.analysisQuestions.forEach(q => {
+                document.getElementById(`answer-${q.id}`).classList.remove('hidden');
+                currentScore += 10; // 假设分析题都答对得10分，仅为演示
+            });
+            
+            // 更新总分
+            document.getElementById('score').textContent = currentScore;
+            // 假设总分是100 (16*1 + 17*2 + 5*10)
+            const totalScore = 16 * 1 + 17 * 2 + 5 * 10;
+            document.getElementById('total-score').textContent = totalScore;
+            // 为了演示，这里我们只计算选择题得分
+            let choiceScore = 0;
+            examData.singleChoice.forEach(q => {
+                 const selected = document.querySelector(`#q-${q.id} .selected`);
+                 if(selected && selected.dataset.option === q.answer) choiceScore += 1;
+            });
+            examData.multipleChoice.forEach(q => {
+                const selected = Array.from(document.querySelectorAll(`#q-${q.id} .selected`)).map(o => o.dataset.option);
+                if(JSON.stringify(selected.sort()) === JSON.stringify(q.answer.sort())) choiceScore += 2;
+            });
+            document.getElementById('score').textContent = choiceScore;
+            document.getElementById('total-score').textContent = 16*1 + 17*2;
+
+        }
+
+    </script>
+</body>
+</html>
