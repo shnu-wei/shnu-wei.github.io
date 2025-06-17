@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>333教育综合考试样卷</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', 'Microsoft YaHei', sans-serif;
+        }
+        .question-option {
+            transition: all 0.2s ease-in-out;
+        }
+        .question-option.selected {
+            background-color: #dbeafe; /* blue-100 */
+            border-color: #3b82f6; /* blue-500 */
+        }
+        .question-option.correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #22c55e; /* green-500 */
+        }
+        .question-option.incorrect {
+            background-color: #fee2e2; /* red-100 */
+            border-color: #ef4444; /* red-500 */
+        }
+        .question-option.reveal-correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #22c55e; /* green-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="app" class="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+        <!-- 头部信息 -->
+        <header class="text-center mb-8">
+            <h1 id="main-title" class="text-3xl sm:text-4xl font-bold text-gray-900"></h1>
+        </header>
+
+        <!-- 简介 -->
+        <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+            <p id="introduction" class="text-gray-600 leading-relaxed"></p>
+        </div>
+
+        <!-- 控制按钮 -->
+        <div class="sticky top-0 bg-gray-50/80 backdrop-blur-sm z-10 py-4 mb-8 flex justify-center items-center gap-4">
+            <button id="toggle-answers-btn" class="px-6 py-2 bg-sky-600 text-white font-semibold rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75 transition-transform transform hover:scale-105">
+                显示答案
+            </button>
+             <div id="score-container" class="hidden text-lg font-semibold text-gray-700">
+                单选题得分: <span id="score" class="text-sky-600">0</span> / <span id="total-score">60</span>
+            </div>
+        </div>
+
+        <!-- 题目容器 -->
+        <main class="space-y-12">
+            <!-- Section I: Single Choice -->
+            <section id="single-choice-section">
+                <h2 class="text-2xl font-bold border-b-2 border-sky-500 pb-2 mb-6">一、 单项选择题</h2>
+                <div id="single-choice-container" class="space-y-6"></div>
+            </section>
+            
+            <!-- Section II: Essay Questions -->
+            <section id="essay-section">
+                <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-6">二、 论述题</h2>
+                <div id="essay-container" class="space-y-6"></div>
+            </section>
+            
+            <!-- Section III: Material Analysis -->
+            <section id="analysis-section">
+                <h2 class="text-2xl font-bold border-b-2 border-amber-500 pb-2 mb-6">三、 材料分析题</h2>
+                <div id="analysis-container" class="space-y-6"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // 教育综合考试数据
+        const examData = {
+            title: "333教育综合考试样卷",
+            introduction: "本样卷包含单项选择题、论述题和材料分析题三部分。您可以先完成单选题，然后点击“显示答案”按钮查看所有题目的参考答案和单选题得分。",
+            singleChoice: [
+                { id: 1, question: "学校教育产生的基本社会条件是", options: { A: "语言的形成", B: "文字的出现", C: "生产劳动", D: "人的意识的形成" }, answer: "B" },
+                { id: 2, question: "根据《中国教育现代化2035》，我国在大力推进教育理念、体系、制度、内容、方法现代化的同时，还要求大力推进", options: { A: "教育评价现代化", B: "教育系统现代化", C: "教育结构现代化", D: "教育治理现代化" }, answer: "D" },
+                { id: 3, question: "许多社会活动都能影响人的身心发展。相比之下，学校教育是有目的、有计划、有组织地对受教育者的身心施加影响的活动。其中，最集中而系统地体现学校教育之“有计划”特征的是：", options: { A: "国家教育发展规划", B: "学校教育制度", C: "课程", D: "教案" }, answer: "C" },
+                { id: 4, question: "将儿童当作“小大人”对待，这违背了个体身心发展的", options: { A: "阶段性和顺序性", B: "整体性和系统性", C: "稳定性和可变性", D: "不平衡性和差异性" }, answer: "A" },
+                { id: 5, question: "有一种课程主要围绕人类基本活动来确定不同年级学生学习的主题，如 1-2 年级学习周围的环境， 包括家庭、 学校和所在社区； 3-4 年级学习较广的环境， 由县、 省到国家……9-10 年级学习社会经济，这种课程称之为", options: { A: "综合课程", B: "核心课程", C: "学科活动", D: "分科课程" }, answer: "B" },
+                { id: 6, question: "将两门或多门学科内容整合在一门课程中，打破学科界限，体现这种课程编制方法的课程类型包括", options: { A: "融合课程、广域课程、核心课程", B: "核心课程、相关课程、融合课程", C: "相关课程、融合课程、广域课程", D: "广域课程、核心课程、相关课程" }, answer: "A" },
+                { id: 7, question: "我国义务教育阶段开设的《道德与法治》属于", options: { A: "分科课程", B: "综合课程", C: "核心课程", D: "活动课程" }, answer: "B" },
+                { id: 8, question: "某小学数学教研组开发了“生活中的分段计费”校本课程。教师先在课堂上指导学生了解出租车的计费规则，再让学生分组收集并分析近一年家庭用水、用电、用气的数据，形成《生活中的分段计费》研究报告。这样的课程属于", options: { A: "文献课程", B: "项目式课程", C: "综合课程", D: "大单元课程" }, answer: "B" },
+                { id: 9, question: "2001 年启动的基础教育课程改革，“倡导学生主动参与、乐于探究、勤于动手”，其目的在于", options: { A: "培养学生搜集和处理信息的能力、获取新知识的能力、分析和解决问题的能力以及交流与合作的能力", B: "使学生获得终身发展所必需的知识", C: "提高学生的基础学力", D: "培养学生的创造性和开放性思维" }, answer: "A" },
+                { id: 10, question: "“理论联系实际”是我国长期遵循的一条基本教学原则。这个原则的实质，是要求教师解决好教学过程中", options: { A: "掌握知识与提高能力的关系", B: "教师主导作用与学生主体作用的关系", C: "间接经验与直接经验的关系", D: "智力因素与非智力因素的关系" }, answer: "C" },
+                { id: 11, question: "为了满足全区中小学生家长获得优质学习资源的需求，某区县围绕各年级学生心理发展过程中可能出现的突出问题设计开发了 60 个小视频，每个视频20分钟，分别制作成二维码，向全区家长推送，便于家长利用空闲时间自主学习，并通过各种类型的家长沙龙活动面对面进行经验交流分享。这套教学设计指向的学习方式是", options: { A: "探究学习、问题学习、泛在学习", B: "泛在学习、混合学习、探究学习", C: "问题学习、泛在学习、混合学习", D: "混合学习、问题学习、探究学习" }, answer: "C" },
+                { id: 12, question: "班级授课制之所以仍是当今世界最主要的教学组织形式，根本在于它", options: { A: "公平", B: "师生互动频繁", C: "高效", D: "以教师为中心" }, answer: "C" },
+                { id: 13, question: "根据班杜拉的社会学习理论，促进学生良好道德行为形成和发展，最宜采用的方法是", options: { A: "榜样示范", B: "情境陶冶", C: "实践锻炼", D: "说服教育" }, answer: "A" },
+                { id: 14, question: "任何教学组织形式的提出都有其问题指向，都试图解决教学中存在的某个具体问题。翻转课堂试图解决的主要问题是", options: { A: "合作探究", B: "以学定教", C: "微课运用", D: "逆向设计" }, answer: "B" },
+                { id: 15, question: "教育情境的不可复制性是教育活动的突出特点，反映了教师劳动具有", options: { A: "整合性", B: "示范性", C: "长期性", D: "创造性" }, answer: "D" },
+                { id: 16, question: "孔子关于启发教学的具体主张是", options: { A: "譬如撞钟，扣则鸣，不扣则不鸣", B: "学然后知不足，教然后知困", C: "道而弗，强而弗抑，开而弗达", D: "不愤不启，不悱不发" }, answer: "D" },
+                { id: 17, question: "根据孟子的性善论，仁义礼智“我固有之”，其中恭敬之心是", options: { A: "仁之端", B: "义之端", C: "礼之端", D: "智之端" }, answer: "C" },
+                { id: 18, question: "东汉设立鸿都门学的起因是为了", options: { A: "崇尚文学", B: "倡导艺术", C: "培养专才", D: "培植政派" }, answer: "D" },
+                { id: 19, question: "唐代的地方官学中除经学外，存在较长时间的还有", options: { A: "书学", B: "算学", C: "律学", D: "医学" }, answer: "D" },
+                { id: 20, question: "中国共产党确立的新民主主义教育方针是", options: { A: "民主的、科学的、大众的文化教育", B: "民族的、科学的、大众的文化教育", C: "民主的、民族的、科学的文化教育", D: "民族的、民主的、大众的文化教育" }, answer: "B" },
+                { id: 21, question: "在西方教育史上，致力于阐明“把一切事物教给一切人类的全部艺术”的教育著作是", options: { A: "《理想国》", B: "《大教学论》", C: "《教育学讲授纲要》", D: "《民主主义与教育》" }, answer: "B" },
+                { id: 22, question: "在古代希伯来的学校中，教师被称为", options: { A: "“校父”", B: "“古儒”", C: "“书吏”", D: "“拉比”" }, answer: "D" },
+                { id: 23, question: "文艺复兴与宗教改革时期，具有较为完备的组织管理和高水平师资的学校类型是", options: { A: "人文主义新式学校", B: "新教学校", C: "耶稣会学校", D: "经院主义学校" }, answer: "C" },
+                { id: 24, question: "1918 年，美国“中等教育改组委员会”提出了《中等教育的基本原则》的报告，明确表示中学应该是", options: { A: "面向所有学生并为社会服务的机构", B: "面向所有学生进行筛选的机构", C: "面向所有学生为职业做准备的机构", D: "面向所有学生为升入大学做准备的机构" }, answer: "A" },
+                { id: 25, question: "在欧美现代教育思潮中，强调在教育和教学过程中发挥教师权威的教育思潮是", options: { A: "改造主义教育", B: "要素主义教育", C: "存在主义教育", D: "人本主义教育" }, answer: "B" },
+                { id: 26, question: "维果茨基把文化工具分为物质工具和心理工具两类。下列选项中，属于维果茨基所讲的心理工具的是", options: { A: "算盘", B: "尺子", C: "搜索引擎", D: "数字系统" }, answer: "D" },
+                { id: 27, question: "教师制作PPT 课件时，会把重要的概念用不同的字体或颜色凸显出来。从信息加工学习理论角度看，这种做法能够促进学生的", options: { A: "选择性注意", B: "精细加工", C: "情境认知", D: "创造性思维" }, answer: "A" },
+                { id: 28, question: "根据自我决定理论，教师经常占用学生的自习课时间来安排自己的教学活动，会削弱学生的内在学习动机。因为这种做法不利于满足学生的", options: { A: "生理需求", B: "能力需求", C: "自主需求", D: "归属需求" }, answer: "C" },
+                { id: 29, question: "学生学习完长方形面积的计算方法后，回家计算自己睡觉的床的面积，这种迁移属于", options: { A: "近迁移", B: "远迁移", C: "类比迁移", D: "逆向迁移" }, answer: "A" },
+                { id: 30, question: "为了学习做蛋糕，小红从某美食网上下载了制作蛋糕的规范流程，并按照其中描述的具体步骤一步步尝试着做蛋糕。这在问题解决过程中属于运用", options: { A: "类比思维策略", B: "手段-目的分析法", C: "逆向思维策略", D: "算法式策略" }, answer: "D" }
+            ],
+            essayQuestions: [
+                { id: 31, question: "1922 年，北洋政府颁布“壬戌学制”（又称“新学制”）。历史上，人们评价这个学制 “精华在中学”。试概括分析“壬戌学制”中等教育段的特点。", answer: "（1）提高了中学教育的程度。将中学从4 年改为6 年，延长了中学年限，原有学制中因中学年限过短而造成知识基础薄弱的缺陷得到一定程度的克服。\n（2）增加了中学教育的灵活性。中学分为初级中学和高级中学两级，各为 3 年，不仅增加了学生的选择余地，也增加了地方办学的伸缩余地。\n（3）给学生提供更大的个性发展空间。在中学开始实行分科制和选科制。初中分为必修科目和选修科目。高中分设普通科和职业科，普通科分文理两组；开设公共必修科目、（文理）分科专修科目和选修科目；力求适应不同发展水平和学术-职业取向的学生的需要。\n（4）职业教育受到重视。初中和高中附设职业科，加强了普通教育与职业教育的沟通，增加了职业教育在学制中的比重。\n（5）师范教育受到重视。高中设置师范科，突破了专门的师范教育系统。" },
+                { id: 32, question: "论述19 世纪末至20 世纪前期欧美新教育运动和进步教育运动开展的历史背景、基本特征以及局限性。", answer: "（1）历史背景：19 世纪末至 20 世纪前期欧美新教育运动和进步教育运动的开展，是欧美国家教育理论与教育实践发展适应当时欧美各国社会经济、政治和科学文化发展需要的结果。第一，19 世纪末至20 世纪前期，欧美教育思潮是社会改革运动的重要组成部分；第二，随着义务教育的普及，教育家开始关注教育质量的提高、重视研究儿童的特性；第三，卢梭的教育思想成为当时教育改革新运动的主要思想渊源。\n（2）基本特征：第一，重视儿童在教育过程中的主体地位，认为儿童具有善性和自我发展的能力，不再把儿童视为被动的教育对象；第二，重视儿童研究和教育调查，力图使教育研究科学化，运用比较和测量等新方法，定性研究与定量研究结合，思辨与经验结合；第三，重视儿童的创造性活动、社会合作和劳动在儿童身心发展中的作用。\n（3）局限性：第一，在儿童研究中存在着生物化的倾向；第二，突出个人主义，过高估计儿童自由、个性和创造性的意义；第三，忽视儿童基本知识的传授，导致教育质量下降。" }
+            ],
+            analysisQuestions: [
+                { 
+                    id: 33, 
+                    material: "教育既有培养创造精神的力量，也有压抑创造精神的力量。教育在这个范围内有它复杂的任务。这些任务有：保持一个人的首创精神和创造力量而不放弃把他放在真实生活中的需要；传递文化而不用现成的模式去压抑他；鼓励他发挥他的天才、能力和个人的表达方式，而不助长他的个人主义；密切注意每一个人的独特性，而不忽视创造也是一种集体活动。\n（《学会生存——教育世界的今天和明天》）",
+                    questions: [
+                        "（1）阐述教育的负向功能。",
+                        "（2）分析学校教育与社会生活的关系。",
+                        "（3）阐述教师在教育过程中如何培养学生的创造性，促进个体发展。"
+                    ],
+                    answer: "（1）教育具有正向和负向功能，即积极的促进作用和消极的阻碍作用。负向功能具体指阻碍社会进步和个体发展的消极影响和作用。材料中显示的负向功能是，教育可能会用现成的模式压抑学生，阻碍个体首创精神和创造力量；可能使个体脱离真实的社会生活，形成个人主义。\n（2）学校教育离不开社会生活。学校教育为学生将来进入社会生活，成为一个社会人服务。社会生活对学校教育提出现实要求。学校教育将社会生活简化、纯化和系统化，作为教育学生、促进其发展的有效资源。\n（3）教师应给学生更多的自主学习、自我探索的空间和时间；鼓励、尊重其个人意见或观点，不用所谓的标准答案去束缚他们；鼓励小组合作探究，让个体在群体中接受别人的批判、质疑。"
+                },
+                {
+                    id: 34,
+                    material: "与没有测验相比，如果参加测验提升了学生的学习质量和最终的考试成绩，就发生了测验效应。研究者已经在不同类型内容的学习、不同年龄的学习者身上观察到这种效应。测验效应意味着学习者在被测试时，某些学习发生了。对于其中的原因，研究者认为是在测验过程中，学习者会回忆、复述相关的知识，并把这些知识与其他知识联系起来；也有研究者认为，在学习过程中的测验为学习者提供了一个熟悉的知识提取情境，这种情境与最终的考试情境相似，因而有利于学习的迁移。",
+                    questions: [
+                        "（1）根据上述材料的描述，分析测验效应的发生与哪些心理过程有关？",
+                        "（2）参加测验虽然会促进学习，但是对测验（特别是高利害的考试）结果的利用也可能阻碍学习。2021 年 7 月，中共中央办公厅、国务院办公厅印发的《关于进一步减轻义务教育阶段学生作业负担和校外培训负担的意见》，强调不得有“考试排名”行为。试简析这一要求对保护学生的学习动机有何积极意义？"
+                    ],
+                    answer: "（1）从上述材料的描述中，可以看出测验效应的发生与学习中的四种心理过程有关：一是回忆相关的知识，这有助于学习者发现自己所学知识的薄弱环节，并进行针对性地补救；二是复述过程，这涉及到重复学习，有助于知识的保持；三是建立新旧知识之间的联系，这有助于对所学知识进行精细加工，提升记忆效果；四是情境认知，学习过程中的测验有利于学生熟悉测验情境，进而有助于所学知识在考试情境中的正迁移。\n（2）尽管从信息加工和学习迁移角度看，测验有助于提升学习效果，但这并不意味着测验在任何时候都会对学习产生积极的推动作用。从学习动机角度看，如果测验给学生带来过高的学习焦虑和考试焦虑，或者引导学生确立表现性的学习目标，就会妨碍其学习。 “考试排名”是对测验结果的不当利用。禁止“考试排名”一方面有助于降低学生的考试焦虑，另一方面也有助于学生设置掌握性目标而不是表现性目标，这都有助于保护学生的学习动机。"
+                },
+                {
+                    id: 35,
+                    material: "渔民老张周末从海边钓鱼归来，远远地看见两个年迈的游客在滩涂上拍摄海鸟，不小心陷在泥淖里，不能自拔，身体在慢慢下沉。老张赶到出事地点，却没有马上施救，而是先将游客身边的摄影器材搬走，再返回营救。他试图把游客从泥淖里抱出来，却没有成功。他改从一侧用力拽游客，却见游客稍一挣扎就陷得更深，只好作罢。老张赶紧帮游客卸下背包，减少负重，以减缓下沉速度。\n老张放好游客的背包，再次赶回出事地点。他张开四肢，直挺挺地趴在泥淖上。女游客用力把双手撑在他背上，才把双腿拔了出来。男游客陷得更深，他使劲拔出右腿，单腿跪在老张的臀部上用力，才从泥淖里拔出了另一条腿。女游客从旁用力一拉，将他拖出泥淖。男游客似乎用尽了力气，腿一软，跪在泥地里。老张迅速爬起来，伸出双手，又犹豫了一下，最终还是没用沾满泥水的双手去搀扶那位虚弱的男游客，免得弄脏其上衣。\n两位获救的游客两眼发直。老张见他俩平安无事，便微笑着点头告辞。等他俩醒悟过来，老张已不见人影。获救游客通过当地政府找到老张，再三向他表达谢意，感谢他的救命之恩。老张表示：“我不要什么报答。我看这两个人有麻烦，不过是帮他们一下而已。”",
+                    questions: [
+                        "（1）试从品德结构的角度，分析老张的义举所显示的美德。",
+                        "（2） 在上述分析基础上，设计若干问题组织学生讨论这个故事，引导他们向老张学习。",
+                        "（3）有位初中物理教师利用这个故事进行压强教学，试析其中体现的教学原则。"
+                    ],
+                    answer: "（1）老张的美德。从行为方面看，老张采取了果敢而有效的行动，成功地营救了两位深陷泥淖的老年游客，同时保全了游客的物品和颜面；从认知方面看，老张的义举显示出他对形势做出了明智的判断，他凭借自己的知识和经验，判断出游客身陷困境难以自救，但情况不算紧急还来得及转移游客的物品，判断出趴在泥地上受力面积大承受得起相当的重量，因而敢于卧泥救人；从情感方面看，老张的义举还显示其人道的关怀，在乎陌生人的生命、利益及尊严。老张的义举显示出一种道德情感、道德认知、道德行为和谐结合的美德。\n（2）课堂提问。首先以“老张干什么了？”引导学生学习老张果敢而有效地采取行动；进而以“老张究竟是怎么想的？”引导学生学习老张运用理智对形势做出明智的判断；最后以“老张在乎什么？”引导学生学习老张对陌生人的人道关怀。\n（3）教学原则。物理教师利用这个故事实施压强教学，为这个比较抽象的物理知识提供了一个恰当而生动的具体事例，体现了直观性教学原则；教师不仅在物理课上教授压强知识，而且利用老张卧泥救人的事迹发挥压强知识的社会意义及育人价值，体现了科学性与思想性结合的教学原则；教师启发学生运用有关压强的物理知识去解释和理解老张义举的合理性，则体现了理论联系实际的教学原则。"
+                },
+                {
+                    id: 36,
+                    material: "吴老师认为，学生学会学习很重要。为此，他在上语文阅读课时总是先用 5 分钟时间专门给学生介绍各种阅读方法，譬如如何划重点、如何加深理解、如何复习整理所学知识等。然而一个学期过去了，学生的阅读成绩并没有发生显著的变化。",
+                    questions: [
+                        "（1）为何吴老师的阅读策略教学没有收到明显成效？",
+                        "（2）请结合认知策略学习的相关知识，为吴老师的阅读策略教学提供改进建议。"
+                    ],
+                    answer: "（1）阅读策略的学习属于认知策略的学习。认知策略是一种特殊的程序性知识，其学习要经历知晓策略的运用步骤和适用条件、实际练习策略的运用、经过大量变式练习达到策略运用的熟练化或自动化。吴老师的阅读策略教学之所以没有收到明显成效，可能出于三个原因：第一，学生知道了阅读策略是什么，但没有经过充分练习达到“会用”的水平；第二，学生没有结合具体的阅读情境，掌握关于何时采用何种阅读策略的条件性知识；第三，学生在阅读中并没有使用所学的阅读策略。\n（2） 为了提升阅读策略教学的有效性，建议吴老师从如下三个方面对教学加以改进：第一，结合着学生的实际阅读过程讲授阅读策略的使用方法，让学生实际体验策略的适用条件和操作方法；第二，对阅读材料进行适当的归类，针对特定类型的阅读材料进行特定阅读策略的强化训练，让学生的策略运用达到熟练水平；第三，结合着阅读测验，让学生体会到使用阅读策略给自己带来的实际回报，增强学生策略使用的自我效能感。\n说明：其他的原因分析（如教师对阅读策略的讲解过于抽象、学生不相信这些阅读策略真正有用）和改进建议（如创设积极的学习阅读策略的课堂氛围），也可作为本题的合理答案。"
+                }
+            ]
+        };
+
+        let answersVisible = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 渲染页面内容
+            document.getElementById('main-title').textContent = examData.title;
+            document.getElementById('introduction').textContent = examData.introduction;
+
+            renderSingleChoice();
+            renderEssayQuestions();
+            renderAnalysisQuestions();
+
+            // 绑定事件
+            document.getElementById('toggle-answers-btn').addEventListener('click', toggleAnswers);
+        });
+
+        // 渲染单选题
+        function renderSingleChoice() {
+            const container = document.getElementById('single-choice-container');
+            examData.singleChoice.forEach(q => {
+                const questionWrapper = document.createElement('div');
+                questionWrapper.className = 'bg-white p-6 rounded-lg shadow-sm';
+                questionWrapper.id = `q-${q.id}`;
+
+                const questionText = document.createElement('p');
+                questionText.className = 'font-semibold text-gray-800 mb-4';
+                questionText.textContent = `${q.id}．${q.question}`;
+                questionWrapper.appendChild(questionText);
+
+                const optionsWrapper = document.createElement('div');
+                optionsWrapper.className = 'space-y-3';
+
+                for (const key in q.options) {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'question-option border-2 border-gray-200 p-3 rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-400';
+                    optionDiv.textContent = `${key}．${q.options[key]}`;
+                    optionDiv.dataset.option = key;
+                    optionDiv.addEventListener('click', () => selectOption(optionDiv));
+                    optionsWrapper.appendChild(optionDiv);
+                }
+
+                questionWrapper.appendChild(optionsWrapper);
+                container.appendChild(questionWrapper);
+            });
+        }
+        
+        // 渲染论述题
+        function renderEssayQuestions() {
+            const container = document.getElementById('essay-container');
+            examData.essayQuestions.forEach(q => {
+                const questionWrapper = document.createElement('div');
+                questionWrapper.className = 'bg-white p-6 rounded-lg shadow-sm';
+                questionWrapper.id = `q-${q.id}`;
+                
+                const questionText = document.createElement('p');
+                questionText.className = 'font-semibold text-gray-800 mb-4 leading-relaxed';
+                questionText.textContent = `${q.id}．${q.question}`;
+                questionWrapper.appendChild(questionText);
+                
+                const answerDiv = createAnswerDiv(`answer-${q.id}`, q.answer, 'emerald');
+                questionWrapper.appendChild(answerDiv);
+                container.appendChild(questionWrapper);
+            });
+        }
+        
+        // 渲染材料分析题
+        function renderAnalysisQuestions() {
+            const container = document.getElementById('analysis-container');
+            examData.analysisQuestions.forEach(q => {
+                const questionWrapper = document.createElement('div');
+                questionWrapper.className = 'bg-white p-6 rounded-lg shadow-sm';
+                questionWrapper.id = `q-${q.id}`;
+                
+                const questionNumber = document.createElement('p');
+                questionNumber.className = 'font-semibold text-gray-800 mb-2';
+                questionNumber.textContent = `${q.id}．阅读下列材料，并按要求回答问题。`
+                questionWrapper.appendChild(questionNumber);
+
+                const materialBox = document.createElement('div');
+                materialBox.className = 'bg-gray-100 p-4 rounded-md border-l-4 border-gray-300 mb-4';
+                const materialText = document.createElement('p');
+                materialText.className = 'text-gray-700 leading-relaxed whitespace-pre-wrap';
+                materialText.textContent = q.material;
+                materialBox.appendChild(materialText);
+                questionWrapper.appendChild(materialBox);
+
+                const subQuestionsList = document.createElement('div');
+                subQuestionsList.className = 'space-y-2 mb-4 pl-4';
+                q.questions.forEach(sq => {
+                    const subQText = document.createElement('p');
+                    subQText.className = 'text-gray-700 font-medium';
+                    subQText.textContent = sq;
+                    subQuestionsList.appendChild(subQText);
+                });
+                questionWrapper.appendChild(subQuestionsList);
+
+                const answerDiv = createAnswerDiv(`answer-${q.id}`, q.answer, 'amber');
+                questionWrapper.appendChild(answerDiv);
+                container.appendChild(questionWrapper);
+            });
+        }
+        
+        // 创建答案显示区域的辅助函数
+        function createAnswerDiv(id, answerText, color) {
+            const answerDiv = document.createElement('div');
+            answerDiv.id = id;
+            answerDiv.className = `hidden mt-4 p-4 bg-gray-100 rounded-md border-l-4 border-${color}-400`;
+            const answerTitle = document.createElement('h4');
+            answerTitle.className = 'font-bold text-gray-700 mb-2';
+            answerTitle.textContent = '参考答案：';
+            answerDiv.appendChild(answerTitle);
+            const answerContent = document.createElement('p');
+            answerContent.className = 'text-gray-600 whitespace-pre-wrap leading-relaxed';
+            answerContent.textContent = answerText;
+            answerDiv.appendChild(answerContent);
+            return answerDiv;
+        }
+
+        // 处理选项点击事件
+        function selectOption(optionDiv) {
+            if (answersVisible) return;
+            const parent = optionDiv.parentElement;
+            parent.querySelectorAll('.question-option').forEach(opt => opt.classList.remove('selected'));
+            optionDiv.classList.add('selected');
+        }
+        
+        // 切换答案显示/隐藏
+        function toggleAnswers() {
+            answersVisible = !answersVisible;
+            const btn = document.getElementById('toggle-answers-btn');
+            const scoreContainer = document.getElementById('score-container');
+            
+            btn.textContent = answersVisible ? '隐藏答案' : '显示答案';
+            if(answersVisible) {
+                checkAllAnswers();
+                scoreContainer.classList.remove('hidden');
+            } else {
+                hideAllAnswers();
+                scoreContainer.classList.add('hidden');
+            }
+        }
+        
+        function hideAllAnswers() {
+             // 隐藏选择题答案
+            document.querySelectorAll('.question-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect', 'reveal-correct', 'selected');
+            });
+            // 隐藏主观题答案
+            examData.essayQuestions.forEach(q => document.getElementById(`answer-${q.id}`).classList.add('hidden'));
+            examData.analysisQuestions.forEach(q => document.getElementById(`answer-${q.id}`).classList.add('hidden'));
+            // 重置分数
+            document.getElementById('score').textContent = '0';
+        }
+
+        // 核对所有答案并显示
+        function checkAllAnswers() {
+            let currentScore = 0;
+            
+            // 检查单选题
+            examData.singleChoice.forEach(q => {
+                const questionWrapper = document.getElementById(`q-${q.id}`);
+                const selectedOption = questionWrapper.querySelector('.selected');
+                let isCorrect = false;
+                if (selectedOption && selectedOption.dataset.option === q.answer) {
+                    isCorrect = true;
+                    currentScore += 2; // 每题2分
+                }
+                
+                if (selectedOption) {
+                    selectedOption.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                // 总是高亮正确答案
+                const correctOptionDiv = questionWrapper.querySelector(`[data-option="${q.answer}"]`);
+                if(correctOptionDiv) {
+                     correctOptionDiv.classList.add('reveal-correct');
+                }
+            });
+
+            // 显示主观题答案
+            examData.essayQuestions.forEach(q => document.getElementById(`answer-${q.id}`).classList.remove('hidden'));
+            examData.analysisQuestions.forEach(q => document.getElementById(`answer-${q.id}`).classList.remove('hidden'));
+            
+            // 更新总分
+            document.getElementById('score').textContent = currentScore;
+            document.getElementById('total-score').textContent = examData.singleChoice.length * 2;
+        }
+    </script>
+</body>
+</html>
