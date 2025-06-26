@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幼儿园八大科学实践中的教师提问策略</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc; /* bg-slate-50 */
+            color: #1e293b; /* text-slate-800 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-10 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800">幼儿园八大科学实践中的教师提问策略</h1>
+            <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">
+                在《下一代科学标准》(NGSS)所倡导的探究式学习环境中，教师的角色从知识传授者转变为学习引导者。有效的提问是连接幼儿天生好奇心与系统性科学探究的关键桥梁。本页面将系统性梳理并展示在各项科学实践中，教师可以采用的精准提问策略。
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content: Practices Sections -->
+    <main class="container mx-auto px-6 py-12">
+        <div id="practices-container" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Practice sections will be injected here by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-12 py-6">
+        <div class="container mx-auto px-6 text-center text-slate-500">
+            <p>&copy; 2025 教师提问策略指南。旨在为一线教育工作者提供一份全面、可操作的实践指南。</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data for the 8 Science and Engineering Practices
+        const practicesData = [
+            {
+                id: 1,
+                title: "提出问题与界定问题",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`,
+                color: "bg-sky-500",
+                description: "激发幼儿的好奇心，引导他们基于观察对自然世界和人造世界提出可探究的科学问题，并识别可通过设计来解决的工程问题。",
+                content: [
+                    {
+                        focus: "激活经验与引导预测",
+                        examples: [
+                            "**激活先前知识**：“这个东西让你想起了我们以前见过的什么吗？”",
+                            "**引导预测**：“你猜猜看，如果我们把这个放进水里，会发生什么？”"
+                        ]
+                    },
+                    {
+                        focus: "激发与聚焦问题",
+                        examples: [
+                            "**开放式提问**：“看到这个，你有什么想知道的吗？” “关于这个新玩具，我们能问出哪些问题？”",
+                            "**将宽泛问题具体化**：（幼儿问“为什么植物要长？”）“这是一个很棒的问题！我们来猜猜，是不是和水有关系呢？或者和太阳有关系？我们想先研究哪一个？”"
+                        ]
+                    },
+                    {
+                        focus: "界定工程问题",
+                        examples: [
+                            "**识别需求或挑战**：“我们发现积木塔总是倒，这是一个问题。” “怎样才能让这个玩具小人安全地从桌子这边到那边呢？这就是我们需要解决的难题。”",
+                            "**引导设计规范**：“我们希望这座桥是什么样的？它需要足够坚固，能让小车通过，对吗？”"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "开发和使用模型",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`,
+                color: "bg-teal-500",
+                description: "引导幼儿通过绘画、实体搭建、表演等方式，创造出能表征其想法、解释现象或展示设计方案的简单模型。",
+                content: [
+                    {
+                        focus: "引导模型创建",
+                        examples: [
+                           "**激发建模想法**：“你想把看到的植物的样子画下来吗？” “我们可以用这些积木来搭一个你心里想的桥吗？”",
+                           "**关注表征功能**：“你模型的这个部分代表真实物体的哪个部分？” “你的这幅画想告诉我们关于天气变化的什么信息？”"
+                        ]
+                    },
+                    {
+                        focus: "引导模型讨论与运用",
+                        examples: [
+                           "**用模型解释**：“你能用你的模型给我们讲讲，小船是怎么浮在水上的吗？”",
+                           "**用模型预测**：“根据你的模型，如果我们把这个部分去掉，会发生什么？”",
+                           "**比较模型与现实**：“你的模型和我们看到的真的小车，有什么地方一样，有什么地方不一样？”"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "规划与执行调查",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>`,
+                color: "bg-amber-500",
+                description: "在教师的强力支持下，引导幼儿参与规划简单的调查方案，理解“公平测试”的初步思想，并动手操作收集信息。",
+                content: [
+                    {
+                        focus: "引导“规划”",
+                        examples: [
+                           "**明确调查目的与假设**：“我们想通过这个实验知道什么？” “你觉得哪种纸巾吸水会更多呢？我们来试一试。”",
+                           "**讨论调查方法**：“我们怎样才能找到答案呢？” “我们可以用哪些材料和工具来试一-试？”",
+                           "**简化“公平测试”**：“为了比较哪种斜坡跑得快，我们是不是应该每次都用同一辆小车？”"
+                        ]
+                    },
+                    {
+                        focus: "支持“执行”",
+                        examples: [
+                            "**聚焦观察**：“当水倒上去的时候，你仔细看，发生了什么？”",
+                            "**引导使用工具**：“我们可以用这个放大镜来看得更清楚一点吗？”"
+                        ]
+                    },
+                    {
+                        focus: "关注过程与困难",
+                        examples: [
+                           "**探究行为**：“你正在做什么？” “你是怎么想到要这样做的？”",
+                           "**遇到困难时**：“这里好像行不通，你觉得问题可能出在哪里？”"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "分析与解释数据",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>`,
+                color: "bg-violet-500",
+                description: "引导幼儿整理、表征并解释他们通过观察和调查收集到的信息（对幼儿来说，“数据”主要是定性的观察和简单的计数）。",
+                content: [
+                    {
+                        focus: "引导数据表征",
+                        examples: [
+                           "**启发记录方式**：“我们怎么把发现的东西记下来才不会忘记？”",
+                           "**从具体到符号**：“我们可以把真的叶子摆成两堆来比较，也可以把它们画下来，对吗？”"
+                        ]
+                    },
+                    {
+                        focus: "引导数据分析",
+                        examples: [
+                           "**描述与比较**：“看看我们的记录表，你能告诉大家我们发现了什么吗？” “哪一堆石头数量更多？”",
+                           "**识别模式/关系**：“我们每天记录天气，你发现有什么规律吗？” “是不是因为我们把斜坡垫高了，所以小球就滚得更快了？”"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "运用数学与计算思维",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="16" y1="10" x2="12" y2="10"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="10" x2="8" y2="18"></line></svg>`,
+                color: "bg-rose-500",
+                description: "引导幼儿运用计数、测量、排序、识别模式等数学和计算思维的基础技能，来更好地组织和理解科学探究中的信息。",
+                 content: [
+                    {
+                        focus: "运用数学思维",
+                        examples: [
+                           "**计数与比较**：“我们找到了几片红色的叶子？几片黄色的叶子？哪种更多？”",
+                           "**测量**：“这棵植物有多高？我们用几个积木连起来量一量？”",
+                           "**图表总结**：“从这个图表里，我们能看出什么？”"
+                        ]
+                    },
+                    {
+                        focus: "运用计算思维",
+                        examples: [
+                           "**排序/算法思维**：“植物长大的顺序是什么？我们能把这些图片排一排吗？”",
+                           "**模式识别**：“看这些珠子，红色、蓝色、红色、蓝色……接下来应该是什么颜色？”"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "建构解释与设计解决方案",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><path d="M15.061 3.514a.5.5 0 0 1 .539.848l-3.058 4.646 3.058 4.646a.5.5 0 1 1-.848.539l-3.272-4.98-3.272 4.98a.5.5 0 1 1-.848-.539l3.058-4.646-3.058-4.646a.5.5 0 0 1 .848-.539l3.272 4.98 3.272-4.98z"></path><path d="M12 22V2"></path></svg>`,
+                color: "bg-lime-500",
+                description: "引导幼儿基于证据对现象做出自己的解释，并针对一个已界定的问题，设计、测试、评估和改进解决方案。",
+                content: [
+                    {
+                        focus: "建构解释（科学）",
+                        examples: [
+                            "**鼓励解释**：“你觉得为什么会发生这种事？”",
+                            "**应用新情境**：“我们以前学过轮子可以滚动，这个知识能不能帮我们解决现在这个问题？”"
+                        ]
+                    },
+                    {
+                        focus: "设计解决方案（工程）",
+                        examples: [
+                            "**引导设计**：“我们怎样才能搭一座能让玩具车通过的桥？”",
+                            "**测试与评估**：“我们设计的遮阳棚，真的起作用了吗？我们怎么知道？”",
+                            "**鼓励自我评估与迭代**：“我们搭建的塔倒了，你觉得是哪里没做好？”"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "基于证据的论证",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+                color: "bg-fuchsia-500",
+                description: "引导幼儿为自己的观点（主张）提供支持（证据），并能倾听、尊重他人的不同想法，进行初步的科学讨论。",
+                content: [
+                    {
+                        focus: "引导用证据说话",
+                        examples: [
+                           "**要求提供证据**：“你为什么这么认为？” “你看到了什么、听到了什么让你这么说？”",
+                           "**连接主张与证据**：“因为你看到了……，所以你认为……，是这样吗？”"
+                        ]
+                    },
+                    {
+                        focus: "鼓励表达不同意见",
+                        examples: [
+                           "**营造安全氛围**：“有谁和他的想法不一样吗？可以大胆地说出来。”",
+                           "**引导倾听与比较**：“XX有不同的想法，我们来听听他是怎么想的？”"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "获取、评估和交流信息",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>`,
+                color: "bg-cyan-500",
+                description: "引导幼儿从多种渠道（观察、文本、交谈）获取信息，并运用多样化的方式（语言、绘画、模型等）与他人分享自己的发现和想法。",
+                content: [
+                    {
+                        focus: "获取与评估信息",
+                        examples: [
+                           "**从文本/他人处获取**：“书里是怎么说种子发芽的？”",
+                           "**初步评估**：（读完故事后）“你觉得这个故事里发生的事情是真的，还是想象出来的？”"
+                        ]
+                    },
+                    {
+                        focus: "支持交流信息",
+                        examples: [
+                           "**开放式提问**：“关于这个，你有什么想告诉大家的？”",
+                           "**鼓励记录**：“我们可以把这个重要的发现画下来或记下来吗？”",
+                           "**澄清与追问**：“你能再说一遍吗？我没太听清楚。”",
+                           "**使用科学术语**：（在讨论浮力时）“是的，木块‘浮’起来了，石头‘沉’下去了。”"
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // DOM Element
+        const practicesContainer = document.getElementById('practices-container');
+
+        // Function to clean markdown bold syntax and convert to HTML
+        function formatExample(exampleText) {
+            // Replaces **text** with <strong>text</strong>
+            return exampleText.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-slate-700">$1</strong>');
+        }
+
+        // Function to create and display all practice sections
+        function displayAllPractices() {
+            practicesContainer.innerHTML = ''; // Clear existing content
+            
+            practicesData.forEach(practice => {
+                const section = document.createElement('div');
+                section.className = 'bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col';
+                
+                let contentHtml = '';
+                practice.content.forEach(item => {
+                    contentHtml += `
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-slate-800 mb-3">${item.focus}</h4>
+                            <ul class="list-disc list-inside space-y-2 text-slate-600 pl-2">
+                                ${item.examples.map(ex => `<li>${formatExample(ex)}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                });
+
+                section.innerHTML = `
+                    <!-- Header of the card -->
+                    <div class="p-6 text-white ${practice.color}">
+                        <div class="flex items-center gap-4">
+                            ${practice.icon}
+                            <h3 class="text-2xl font-bold">${practice.title}</h3>
+                        </div>
+                        <p class="mt-3 font-light">${practice.description}</p>
+                    </div>
+                    <!-- Body of the card -->
+                    <div class="p-6">
+                        ${contentHtml}
+                    </div>
+                `;
+                
+                practicesContainer.appendChild(section);
+            });
+        }
+
+        // --- Initial Load ---
+        displayAllPractices();
+
+    </script>
+</body>
+</html>
