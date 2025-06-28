@@ -3,391 +3,771 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI赋能：提升幼儿园教师教学、管理、教研、科研效率</title>
-    <!-- Tailwind CSS for styling -->
+    <title>AI赋能幼儿园教师讲座 (最终版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for a clean, professional look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles */
-        body {
-            font-family: 'Inter', 'Noto Sans SC', sans-serif;
-            scroll-behavior: smooth;
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Hide scrollbars */
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f9fa;
         }
-        /* Style for the scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .section {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            scroll-snap-align: start;
+            position: relative;
+            padding: 2rem 4rem;
+            box-sizing: border-box;
+            transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.7s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+        .container-snap {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 10px;
+        .fade-in {
+            animation: fadeInAnimation 1s ease-in forwards;
+            opacity: 0;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
+        .fade-in.delay-1 { animation-delay: 0.3s; }
+        .fade-in.delay-2 { animation-delay: 0.6s; }
+        .fade-in.delay-3 { animation-delay: 0.9s; }
+        @keyframes fadeInAnimation {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        /* Style for active navigation link */
-        .nav-link.active {
-            background-color: #e0f2fe;
-            color: #0c4a6e;
-            font-weight: 600;
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
         }
-        /* Custom styles for details/summary to have a nice transition */
-        details > summary {
-            list-style: none;
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
         }
-        details > summary::-webkit-details-marker {
+        .dot.active {
+            background-color: #f59e0b; /* Amber 500 */
+            transform: scale(1.5);
+        }
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .comparison-box {
+            border: 2px dashed rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .result-box-content {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(255,255,255,0.6);
+            border-radius: 0.5rem;
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .result-box-content h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .result-box-content ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .prompt-part {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .full-prompt-box {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1000px;
+            height: 70vh;
+            overflow-y: auto;
+            color: #1f2937; /* Enforce dark text color for readability */
+        }
+        .full-prompt-box h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .full-prompt-box p, .full-prompt-box li {
+            text-align: left;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .full-prompt-box ul {
+            list-style-type: circle;
+            padding-left: 20px;
+        }
+        .full-prompt-box strong {
+            font-weight: 700;
+            color: #c2410c; /* Amber 700 */
+        }
+        .full-prompt-box hr {
+             border-color: #e5e7eb; /* Lighter hr color */
+        }
+        .table-auto th, .table-auto td {
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .analysis-box {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            height: 60vh;
+            overflow-y: auto;
+        }
+        /* Mind Map & Tab Styles */
+        .mindmap-container {
+            position: relative;
+            width: 750px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .mindmap-center {
+            width: 180px;
+            height: 110px;
+            background-color: #7c3aed; /* Violet 600 */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            z-index: 10;
+        }
+        .mindmap-node {
+            position: absolute;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 200px;
+            text-align: center;
+        }
+        .mindmap-node i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .mindmap-node p {
+            font-size: 0.85rem;
+            color: #4b5563;
+        }
+        .tab-button {
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #ec4899; /* Pink-500 */
+            color: #ec4899;
+        }
+        .tab-content {
             display: none;
         }
-        details[open] > summary .arrow-down {
-            transform: rotate(180deg);
+        .tab-content.active {
+            display: block;
+            animation: fadeInAnimation 0.5s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body>
 
-    <div class="flex">
-        <!-- Sidebar Navigation (Desktop) -->
-        <aside id="sidebar" class="hidden lg:block fixed top-0 left-0 h-screen w-64 bg-white shadow-md p-6 overflow-y-auto">
-            <h1 class="text-xl font-bold text-sky-800 mb-6">讲座大纲</h1>
-            <nav id="desktop-nav" class="space-y-2">
-                <!-- Navigation links will be injected here by JavaScript -->
-            </nav>
-        </aside>
+    <div class="container-snap">
 
-        <!-- Main Content -->
-        <main class="w-full lg:ml-64 p-4 md:p-8 lg:p-12">
-            <!-- Header for Mobile -->
-            <header class="lg:hidden bg-white shadow-md rounded-lg p-4 mb-6">
-                 <h1 class="text-2xl font-bold text-center text-sky-900 mb-2">AI赋能幼儿教育</h1>
-                 <p class="text-sm text-center text-slate-600">提升教学、管理、教研、科研效率</p>
-            </header>
-            
-            <div id="content-container">
-                <!-- All presentation content will be injected here by JavaScript -->
+        <!-- Navigation dots -->
+        <div id="nav-dots" class="nav-dots"></div>
+        
+        <!-- Slide 1: Title -->
+        <div class="section bg-amber-50 text-center">
+            <h1 class="text-5xl md:text-7xl font-black text-amber-800 tracking-tight fade-in">AI赋能 智慧提效</h1>
+            <h2 class="text-2xl md:text-3xl font-light text-gray-600 mt-4 fade-in delay-1">幼儿园教师教学与管理效率提升讲座</h2>
+            <div class="mt-12 text-xl md:text-2xl text-gray-600 fade-in delay-2">
+                <p class="font-semibold">主讲人：魏威 副教授</p>
+                <p class="mt-2">上海师范大学学前教育学院</p>
             </div>
-        </main>
+        </div>
+
+        <!-- Slide 2: Opener / The "Why" -->
+        <div class="section bg-cyan-50">
+            <h2 class="text-4xl font-bold text-center text-cyan-800 mb-12 fade-in">AI离我们有多近？</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl text-lg">
+                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-xl mb-3 text-cyan-700"><i class="fas fa-flag mr-2"></i>国家与地区文件指引</h3>
+                    <p>从国家《教育数字化意见》到上海市《高质量幼儿园实施意见》，都在大力鼓励数字化转型，为教师减负增效。</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-xl mb-3 text-cyan-700"><i class="fas fa-hand-sparkles mr-2"></i>回归教育本真</h3>
+                    <p>AI能将我们从重复、繁琐的事务中解放出来，将更多宝贵的时间与精力，还给孩子与专业成长。</p>
+                </div>
+            </div>
+             <p class="mt-12 text-2xl text-center text-gray-600 font-light fade-in delay-3">把AI想象成一个... <span class="font-bold text-cyan-600">不知疲倦、知识渊博的AI教学助手</span>。</p>
+        </div>
+
+        <!-- Slide 3: The Core Skill - The Problem -->
+        <div class="section bg-gray-50">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-6 fade-in">要让AI教学助手干好活，关键在... <span class="text-red-500">指令</span></h2>
+            <p class="text-xl text-gray-500 mb-8 fade-in delay-1">一个模糊的指令 vs 一个清晰的指令</p>
+            <div class="comparison-container fade-in delay-2">
+                <div class="comparison-box border-red-300 bg-red-50">
+                    <div>
+                        <h3 class="text-2xl font-bold text-red-600 mb-4 text-center"><i class="fas fa-times-circle mr-2"></i>模糊的指令</h3>
+                        <code class="block bg-white p-4 rounded-lg text-gray-700">"给我一个乌鸦喝水的活动方案"</code>
+                    </div>
+                    <div class="result-box-content text-sm">
+                        <h4 class="text-base text-red-800">得到的结果（平庸、缺乏细节）：</h4>
+                        <p class="font-bold mt-2">一、活动目标：</p>
+                        <ul class="list-decimal">
+                            <li>引导幼儿通过观察、实验，发现石子能使水位上升的科学现象。</li>
+                            <li>培养幼儿的观察力、动手操作能力。</li>
+                            <li>激发幼儿对科学探究活动的兴趣。</li>
+                        </ul>
+                        <p class="font-bold mt-2">二、活动准备：</p>
+                        <ul class="list-disc">
+                            <li>每组一个透明带刻度的窄口玻璃瓶。</li>
+                            <li>若干大小不同的石子、弹珠、泡沫球。</li>
+                            <li>幼儿已听过《乌鸦喝水》的故事。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="comparison-box border-green-300 bg-green-50">
+                     <div>
+                        <h3 class="text-2xl font-bold text-green-600 mb-4 text-center"><i class="fas fa-check-circle mr-2"></i>清晰的指令</h3>
+                        <code class="block bg-white p-4 rounded-lg text-gray-700">"你是一位幼教专家，请根据《指南》为中班设计一个科学活动..."</code>
+                    </div>
+                    <div class="result-box-content text-sm">
+                        <h4 class="text-base text-green-800">得到的结果（专业、详尽、可操作）：</h4>
+                        <p><strong>一、活动名称：</strong>“乌鸦喝水的秘密大探索”</p>
+                        <p><strong>二、活动领域：</strong>主领域:科学; 渗透领域:语言、社会</p>
+                        <p><strong>三、活动来源：</strong>在餐前谈话中,教师发现中班幼儿对“动物如何喝水”的话题兴趣浓厚,有幼儿提到“看过绘本里乌鸦用石子喝水”,并追问“为什么放石头水就变多了”。本次活动灵感源于幼儿对经典故事的疑问...</p>
+                        <p><strong>四、设计意图/思路：</strong>通过“乌鸦喝水”的情境化实验,帮助幼儿直观理解“物体占据空间”的科学概念...回应《3-6岁儿童学习与发展指南》科学领域“亲近自然,喜欢探究”的目标...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: The Core Skill - The "Golden Formula" -->
+        <div class="section bg-yellow-50 text-center">
+            <h2 class="text-4xl font-bold text-yellow-800 mb-12 fade-in">掌握“黄金公式”，点石成金</h2>
+            <div class="flex flex-wrap justify-center items-center gap-4 text-3xl font-bold max-w-5xl">
+                <div class="bg-blue-200 text-blue-800 p-8 rounded-full shadow-lg fade-in delay-1">角色</div>
+                <div class="text-yellow-600 text-5xl fade-in delay-1">+</div>
+                <div class="bg-green-200 text-green-800 p-8 rounded-full shadow-lg fade-in delay-2">任务</div>
+                 <div class="text-yellow-600 text-5xl fade-in delay-2">+</div>
+                <div class="bg-red-200 text-red-800 p-8 rounded-full shadow-lg fade-in delay-3">背景</div>
+                 <div class="text-yellow-600 text-5xl fade-in delay-3">+</div>
+                <div class="bg-purple-200 text-purple-800 p-8 rounded-full shadow-lg fade-in delay-3">格式</div>
+            </div>
+            <div class="mt-12 bg-white p-6 rounded-2xl shadow-lg max-w-6xl fade-in delay-3">
+                 <p class="text-lg text-gray-700">
+                    <span class="prompt-part bg-blue-100 text-blue-700">你是一位儿童绘本故事大王</span>, 
+                    <span class="prompt-part bg-green-100 text-green-700">请写一个关于“分享”的故事</span>。
+                    <span class="prompt-part bg-red-100 text-red-700">故事的主角是一只从不分享的小熊，面向小班幼儿</span>。
+                    <span class="prompt-part bg-purple-100 text-purple-700">故事要包含简单对话，语言重复有节奏感，结尾温馨</span>。
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 5: The "Universal Prompt" -->
+        <div class="section bg-gray-800">
+            <h2 class="text-4xl font-bold text-center mb-6 fade-in text-white">用心撰写：获取高质量成果的关键</h2>
+            <div class="full-prompt-box fade-in delay-1">
+                <h3>角色设定:</h3>
+                <p>你是一位深谙《3-6岁儿童学习与发展指南》精神、拥有10年以上一线教学经验的中国学前教育专家。你的设计理念是“以儿童为本”，强调在游戏中学习，注重幼儿的主动探索和深度学习。</p>
+                <hr class="my-4">
+                <h3>任务要求:</h3>
+                <p>请根据我提供的核心信息,为我撰写一份完整、详细、专业且可操作性强的幼儿园教学活动方案。方案需要逻辑严谨,细节丰富,尤其是在“活动过程”部分,要能体现出优秀的师幼互动策略。</p>
+                <hr class="my-4">
+                <h3>核心信息 (请在这里填写):</h3>
+                <ul>
+                    <li><strong>活动主题:</strong> 【例如:神奇的影子、小水滴的旅行、我们的社区、情绪小怪兽等】</li>
+                    <li><strong>幼儿年龄段:</strong>【请选择并填写:小班(3-4岁) / 中班(4-5岁) / 大班(5-6岁)】</li>
+                    <li><strong>希望侧重的主要领域:</strong>【请选择并填写:健康 / 语言 / 社会 / 科学 / 艺术】</li>
+                </ul>
+                <hr class="my-4">
+                <h3>请严格遵照以下十大模块结构进行撰写:</h3>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><strong>活动名称:</strong> 要求生动有趣,能概括核心内容。</li>
+                    <li><strong>活动领域:</strong> 明确主要领域和渗透的其他领域。</li>
+                    <li><strong>活动来源:</strong> 详细、具体地描述活动的灵感来源。</li>
+                    <li><strong>设计意图/思路:</strong> 阐述本次活动的教育价值。</li>
+                    <li><strong>活动目标:</strong> 必须从认知、技能、情感态度三个维度进行设定。</li>
+                    <li><strong>活动重点与难点:</strong> 明确核心掌握点和可能遇到的障碍。</li>
+                    <li><strong>活动准备:</strong> 分为物质准备和经验准备。</li>
+                    <li><strong>活动过程(核心部分):</strong> 设计成内容详实、步骤清晰的“教学剧本”。</li>
+                    <li><strong>活动延伸:</strong> 提供至少2个具体的、有价值的延伸活动建议。</li>
+                    <li><strong>活动反思:</strong> 预设活动可能成功的地方和需要调整的方面。</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 6: Case Study -->
+        <div class="section bg-sky-50">
+             <h2 class="text-4xl font-bold text-center text-sky-800 mb-8 fade-in">案例剖析：从0到1生成优质教案</h2>
+             <div class="grid md:grid-cols-3 gap-6 max-w-7xl text-center">
+                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-2xl mb-4 text-sky-700">第1步：提出初步想法</h3>
+                    <p class="text-lg"><i class="fas fa-lightbulb text-4xl mb-3 text-yellow-400"></i><br>“我想设计一个关于水果排列规律的中班活动。”</p>
+                </div>
+                 <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-2xl mb-4 text-sky-700">第2步：套用模板撰写</h3>
+                     <p class="text-lg"><i class="fas fa-magic text-4xl mb-3 text-purple-400"></i><br>将想法填入“核心信息”，发送给AI，获得一份包含十大模块的专业方案初稿。</p>
+                </div>
+                 <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-3">
+                    <h3 class="font-bold text-2xl mb-4 text-sky-700">第3步：迭代优化</h3>
+                    <p class="text-lg"><i class="fas fa-sync-alt text-4xl mb-3 text-green-400"></i><br>追问：“请结合《指南》的目标来修改活动目标。” AI将给出更精准、更专业的回答。</p>
+                </div>
+             </div>
+             <p class="mt-8 text-2xl text-center text-gray-600 font-light fade-in delay-3">好的结果，往往来自于<span class="font-bold text-sky-600">“好的提问 + 不断追问”</span>。</p>
+        </div>
+
+        <!-- Slide 7: Creativity Workshop -->
+        <div class="section bg-rose-50">
+            <h2 class="text-4xl font-bold text-center text-rose-800 mb-8 fade-in">AI在行动：教学材料创作工坊</h2>
+            <div class="w-full max-w-5xl bg-white p-8 rounded-2xl shadow-2xl fade-in delay-1">
+                <div class="flex justify-center border-b border-gray-200 mb-6">
+                    <button data-tab="image" class="tab-button active text-lg font-semibold px-6 py-3"><i class="fas fa-image mr-2"></i>文生图</button>
+                    <button data-tab="music" class="tab-button text-lg font-semibold px-6 py-3"><i class="fas fa-music mr-2"></i>文生音乐</button>
+                    <button data-tab="video" class="tab-button text-lg font-semibold px-6 py-3"><i class="fas fa-video mr-2"></i>文生视频</button>
+                </div>
+                <div id="image" class="tab-content active">
+                    <h3 class="text-2xl font-bold text-center text-rose-700 mb-4">定制化教学配图</h3>
+                    <p class="text-center text-gray-600 mb-4">AI可以根据故事内容和风格要求，生成独一无二的绘本插画。</p>
+                    <div class="bg-rose-100 p-4 rounded-lg">
+                        <p class="font-semibold text-gray-700">提示词示例 (两只山羊)：</p>
+                        <code class="block bg-white mt-2 p-3 rounded text-sm text-gray-800">我要给两只山羊过独木桥不肯相让的故事配图，我希望是卡通、搞笑夸张的风格，以引起小朋友的兴趣。</code>
+                    </div>
+                </div>
+                 <div id="music" class="tab-content">
+                    <h3 class="text-2xl font-bold text-center text-rose-700 mb-4">原创主题儿歌</h3>
+                    <p class="text-center text-gray-600 mb-4">将老师创作的儿歌歌词，一键生成带有旋律和伴奏的完整歌曲。</p>
+                    <div class="bg-rose-100 p-4 rounded-lg">
+                        <p class="font-semibold text-gray-700">提示词示例 (春节)：</p>
+                        <code class="block bg-white mt-2 p-3 rounded text-sm text-gray-800">我想创作一首歌曲，用自定义歌词。这首歌是流行音乐风格，传达快乐的情绪，使用女声音色。歌词是：红灯笼，高高挂，噼里啪啦放烟花...</code>
+                    </div>
+                </div>
+                 <div id="video" class="tab-content">
+                    <h3 class="text-2xl font-bold text-center text-rose-700 mb-4">生动故事动画</h3>
+                    <p class="text-center text-gray-600 mb-4">将绘本故事或关键场景，转化为生动的动画短片，增强故事的吸引力。</p>
+                    <div class="bg-rose-100 p-4 rounded-lg">
+                        <p class="font-semibold text-gray-700">提示词示例 (绘本改编)：</p>
+                        <code class="block bg-white mt-2 p-3 rounded text-sm text-gray-800">请根据绘本《猜猜我有多爱你》的关键情节，生成一段30秒的动画短片。镜头聚焦小兔子伸开双臂，对大兔子说“我爱你有这么多”。风格为温暖治愈的2D手绘动画。</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: 【NEW】Linked Series Case Study -->
+        <div class="section bg-teal-50">
+            <h2 class="text-4xl font-bold text-center text-teal-800 mb-8 fade-in">联动系列案例：“不挑食”主题创作</h2>
+            <div class="w-full max-w-7xl grid md:grid-cols-4 gap-6 text-center fade-in delay-1">
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-teal-700">1. 编故事</h3>
+                    <i class="fas fa-book-open text-4xl mb-3 text-teal-500"></i>
+                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“为小班孩子设计一个故事，教育他们不挑食。主角是<span class="font-bold">小兔子跳跳</span>，情节要有趣，句式要重复。”</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-teal-700">2. 绘配图</h3>
+                    <i class="fas fa-palette text-4xl mb-3 text-teal-500"></i>
+                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“为故事《挑食的小兔子》生成一张插图。画面是小兔子对着餐盘里的胡萝卜<span class="font-bold">皱鼻子</span>，风格要可爱、色彩鲜艳。”</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-teal-700">3. 生成儿歌</h3>
+                    <i class="fas fa-microphone-alt text-4xl mb-3 text-teal-500"></i>
+                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“创作一首关于‘不挑食’的朗朗上口的儿歌，歌词要包含<span class="font-bold">胡萝卜、青菜、蘑菇</span>等健康蔬菜元素。”</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-teal-700">4. 生成视频</h3>
+                    <i class="fas fa-film text-4xl mb-3 text-teal-500"></i>
+                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“将儿歌《不挑食的乖宝宝》改编成一个舞蹈教学短视频。需要有简单的<span class="font-bold">动作分解说明</span>，适合小班孩子模仿。”</p>
+                </div>
+            </div>
+             <p class="mt-8 text-2xl text-center text-gray-600 font-light fade-in delay-3">围绕一个核心主题，AI可以进行<span class="font-bold text-teal-600">多模态、系列化</span>的内容创作。</p>
+        </div>
+
+        <!-- Slide 9: AI in Action - Admin Relief -->
+        <div class="section bg-indigo-50">
+            <h2 class="text-4xl font-bold text-center text-indigo-800 mb-8 fade-in">AI在行动：行政效率倍增</h2>
+            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center fade-in delay-1">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-xl mb-3 text-indigo-700">AI处理前：杂乱的文本食谱</h3>
+                    <pre class="bg-gray-100 p-4 rounded-lg text-xs text-gray-600 whitespace-pre-wrap h-64 overflow-auto">星期一 早点 牛奶、花式饼干 午餐 白菜猪肉水饺(白菜、夾心肉、胡萝卜、玉米)、紫薯包 午点 白煮鹌鹑蛋、青菜干贝粥
+星期二 早点 牛奶、饼干 午餐 托小:藜麦饭、响油鳝丝、蒜苔炒肉丝、牛心毛菜土豆汤 中大:藜麦饭、响油鳝筒
+星期三 早点 牛奶、花式饼干 午餐 芹香拌饭、奶黄包、番茄冬瓜牛腩汤
+星期四 早点 牛奶、饼干 午餐 托小:大米饭、蜜汁茶树菇鸡丝、肉糜炖蛋、生菜肋排汤 中大:大米饭、蜜汁茶树菇鸡块
+星期五 早点 牛奶、花式饼干 午餐 托小:紫米饭、红烧肉丁、杂蔬牛肉丸(西兰花、胡萝卜)、青菜豆腐汤</pre>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-xl mb-3 text-indigo-700">AI处理后：一键生成清晰表格</h3>
+                    <table class="w-full table-auto text-sm">
+                        <thead class="bg-indigo-100">
+                            <tr><th>星期</th><th>早点</th><th>午餐</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>星期一</td><td>牛奶、花式饼干</td><td>白菜猪肉水饺、紫薯包</td></tr>
+                            <tr><td>星期二</td><td>牛奶、饼干</td><td>藜麦饭、响油鳝丝/鳝筒</td></tr>
+                            <tr><td>星期三</td><td>牛奶、花式饼干</td><td>芹香拌饭、奶黄包</td></tr>
+                            <tr><td>星期四</td><td>牛奶、饼干</td><td>大米饭、蜜汁茶树菇鸡丝/鸡块</td></tr>
+                            <tr><td>星期五</td><td>牛奶、花式饼干</td><td>紫米饭、红烧肉丁</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="mt-8 text-xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-indigo-600">请将我发给你的食谱文本，转换成包含“星期、早点、午餐”三列的表格。</span>”</p>
+        </div>
+
+        <!-- Slide 10: Deepen Professional Observation -->
+        <div class="section bg-lime-50">
+            <h2 class="text-4xl font-bold text-center text-lime-800 mb-8 fade-in">AI在行动：深化专业观察</h2>
+            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
+                <div class="analysis-box">
+                    <h3 class="font-bold text-xl mb-3 text-lime-700"><i class="fas fa-pen-alt mr-2"></i>教师观察记录</h3>
+                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg">今天，乐乐选择了“打怪兽”游戏。他拿了8个“子弹”上了“装甲车”，右手拿着子弹，用力往前扔,子弹没有投进怪兽嘴里,越过小怪兽直接飞了出去。乐乐鼓起嘴，走到掉落的子弹前,将子弹随手丢在了怪兽嘴里。我走过去说:“乐乐,你这样可没有打中怪兽哦,要离这个怪兽一些距离,然后扔进去才算成功!“乐乐说:“我知道,但是这个好难哦,我刚刚就没有投进去才捡进去的。”我又说:“谁也不能每次都投中,你再瞄准多试几次呢。”</p>
+                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg mt-4">说完,乐乐又回到装甲车,这次他又拿起一个子弹,他把子弹在眼前比划了几下,微微皱起眉头,随后,他又慢慢的蹲了下来,把手伸到最远处,闭上右眼瞄准后,再次投掷,这次他还是没有投中,这个子弹落在了小怪兽的前面。</p>
+                </div>
+                <div class="analysis-box">
+                    <h3 class="font-bold text-xl mb-3 text-lime-700"><i class="fas fa-robot mr-2"></i>AI辅助分析 (依据《指南》)</h3>
+                    <ul class="space-y-3 text-gray-800">
+                        <li><strong>身体运动与协调:</strong> 展现了大肌肉运动能力（用力投掷），并通过调整姿势（蹲下、闭眼瞄准）探索如何提高投掷准确性。</li>
+                        <li><strong>认知发展:</strong> 通过“尝试-失败-调整”来学习投掷技巧，表现出解决问题的能力。能理解游戏规则。</li>
+                        <li><strong>社交与情感发展:</strong> 失败后没有放弃，而是继续尝试，显示了良好的坚持性和自我调节能力。</li>
+                        <li><strong>学习品质:</strong>
+                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li><strong>坚持性：</strong>第一次失败后没有放弃。</li>
+                                <li><strong>自我调节：</strong>被提醒后，能够接受并尝试调整自己的投掷方式。</li>
+                            </ul>
+                        </li>
+                         <li><strong>教育建议:</strong>
+                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li>鼓励并肯定其坚持性。</li>
+                                <li>提供多样化材料，引导探索不同投掷方式（如投沙包、投纸飞机）。</li>
+                                <li>创造合作游戏机会，促进同伴交往。</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 11: Professional Communication -->
+        <div class="section bg-fuchsia-50">
+            <h2 class="text-4xl font-bold text-center text-fuchsia-800 mb-8 fade-in">AI在行动：优化家园沟通</h2>
+            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
+                <div class="analysis-box">
+                    <h3 class="font-bold text-xl mb-3 text-fuchsia-700"><i class="fas fa-comment-dots mr-2"></i>教师原始想法</h3>
+                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg">“呃，那个今天换衣服吧，宝宝基本上就是他一个是你也知道啊，这小小小东西发呆平时发呆就情况很严重很严重，就是快毕业了，有些事情也真的多讲，我也不好意思，他平时就很容易发呆，游离在外的。然后今天换衣服，他基本就不动手的，就坐在那里，还是呆在那边，我们真的是忙不过来，你家里只能帮我再给他练练，好吧，麻烦你了啊。”</p>
+                </div>
+                <div class="analysis-box">
+                    <h3 class="font-bold text-xl mb-3 text-fuchsia-700"><i class="fas fa-magic mr-2"></i>AI优化后话术</h3>
+                     <p class="text-gray-800 bg-fuchsia-100 p-4 rounded-lg">“家长您好！我是[孩子名字]的老师，想和您聊聊孩子在园的情况~</p>
+                     <p class="text-gray-800 bg-fuchsia-100 p-4 rounded-lg mt-2">孩子一直都是特别可爱的小天使，不过最近在生活自理方面，我发现他还有些小进步空间。比如今天午睡后换衣服，他好像有些小迷茫，坐在原地没有动手，一直安静地发呆，可能是还没太找到“小窍门”。</p>
+                     <p class="text-gray-800 bg-fuchsia-100 p-4 rounded-lg mt-2">咱们马上要进入小学，希望能和您一起，在家多鼓励他尝试自己动手，也可以通过有趣的小游戏锻炼他的专注力。有任何好办法，我们也可以随时交流，一起帮孩子成长！辛苦您啦！”</p>
+                </div>
+            </div>
+            <p class="mt-8 text-xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-fuchsia-600">请将以下我想对家长说的话，优化得更有礼貌、亲切，并带有积极鼓励的口吻。</span>”</p>
+        </div>
+
+        <!-- Slide 12: Assisting Research -->
+        <div class="section bg-pink-50">
+            <h2 class="text-4xl font-bold text-center text-pink-800 mb-8 fade-in">AI在行动：助力教科研发展</h2>
+            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
+                <div class="analysis-box">
+                    <h3 class="font-bold text-xl mb-3 text-pink-700"><i class="fas fa-tasks mr-2"></i>教师的课题框架</h3>
+                     <p class="text-base font-semibold mb-2">研究主题：幼儿园户外探索促进幼儿深度学习的实践</p>
+                     <ul class="space-y-3 text-gray-800">
+                        <li><strong>1. 选题依据：</strong>
+                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li>国内外相关研究的学术史梳理及研究动态。</li>
+                                <li>本项目的独到学术价值和应用价值。</li>
+                            </ul>
+                        </li>
+                        <li><strong>2. 研究内容：</strong>
+                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li>研究对象、总体框架、重点难点、主要目标等。</li>
+                            </ul>
+                        </li>
+                        <li><strong>3. 思路方法：</strong>
+                             <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li>研究的基本思路、具体研究方法、研究计划及其可行性等。</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="analysis-box">
+                    <h3 class="font-bold text-xl mb-3 text-pink-700"><i class="fas fa-lightbulb mr-2"></i>AI生成的思路初稿</h3>
+                     <ul class="space-y-3 text-gray-800">
+                        <li><strong>选题依据分析：</strong>
+                             <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li><strong>理论创新：</strong>将“深度学习”理论与“户外探索”实践结合，回应了当前幼教界从关注“学什么”到关注“如何学得更深”的转向。</li>
+                                <li><strong>实践需求：</strong>解决户外活动易流于形式、缺乏深度的问题，探索支持幼儿深度学习的具体策略。</li>
+                            </ul>
+                        </li>
+                         <li><strong>研究内容建议：</strong>
+                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li><strong>框架建议：</strong>构建“环境创设-材料投放-教师支持-观察评估”四位一体的实践模型。</li>
+                                <li><strong>重点：</strong>识别与分析幼儿在户外探索中深度学习的关键时刻（如持续探究、问题解决、创造性表达）。</li>
+                                <li><strong>难点：</strong>如何有效支持和评估开放情境下幼儿的深度学习过程。</li>
+                             </ul>
+                        </li>
+                         <li><strong>思路与方法建议：</strong>
+                             <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                                <li>采用“行动研究法”，教师在实践中反思、调整。结合“学习故事”、“作品集评估法”等质性方法，记录和评估幼儿的深度学习。</li>
+                             </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+             <p class="mt-8 text-xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-pink-600">我想要申请关于“幼儿园户外探索促进幼儿深度学习”的研究，请根据我的框架提供思路。</span>”</p>
+        </div>
+
+        <!-- Slide 13: Innovative Prompts Mind Map -->
+        <div class="section bg-violet-50">
+            <h2 class="text-4xl font-bold text-center text-violet-800 mb-8 fade-in">打开思路：AI创新玩法一览</h2>
+            <div class="mindmap-container fade-in delay-1">
+                <div class="mindmap-center">AI<br>创新提问法</div>
+                <!-- Nodes -->
+                <div id="node1" class="mindmap-node">
+                    <i class="fas fa-sitemap text-red-500"></i>
+                    <p>“从我发你的文件中，提取内容做成<span class="font-bold">思维导图</span>。”</p>
+                </div>
+                <div id="node2" class="mindmap-node">
+                    <i class="fas fa-spell-check text-blue-500"></i>
+                    <p>“我发你的文稿中，有没有<span class="font-bold">错别字或标点错误</span>？”</p>
+                </div>
+                <div id="node3" class="mindmap-node">
+                    <i class="fas fa-child text-yellow-500"></i>
+                    <p>“请用三岁孩子能听懂的语言，向他解释<span class="font-bold">什么是人工智能</span>。”</p>
+                </div>
+                <div id="node4" class="mindmap-node">
+                    <i class="fas fa-microscope text-green-500"></i>
+                    <p>“请基于<span class="font-bold">高瞻课程理念</span>，修改我的这个活动方案。”</p>
+                </div>
+                <div id="node5" class="mindmap-node">
+                     <i class="fas fa-table text-purple-500"></i>
+                    <p>“帮我为这个活动方案，增加一个<span class="font-bold">观察和评价表</span>。”</p>
+                </div>
+                <div id="node6" class="mindmap-node">
+                    <i class="fas fa-microphone-alt text-orange-500"></i>
+                    <p>“这是会议录音转化的文本，请纠错并撰写<span class="font-bold">会议纪要</span>。”</p>
+                </div>
+                <div id="node7" class="mindmap-node">
+                    <i class="fas fa-theater-masks text-teal-500"></i>
+                    <p>“请将这个绘本故事，改编为适合大班的<span class="font-bold">教育戏剧</span>。”</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 14: AI Hallucination -->
+        <div class="section bg-orange-50">
+            <h2 class="text-4xl font-bold text-center text-orange-800 mb-8 fade-in">保持清醒：警惕AI的“幻觉”</h2>
+            <div class="w-full max-w-4xl bg-white p-8 rounded-2xl shadow-2xl text-center fade-in delay-1">
+                 <i class="fas fa-ghost text-6xl text-orange-400 mb-4"></i>
+                 <h3 class="text-2xl font-bold text-orange-700 mb-4">什么是“AI幻觉”？</h3>
+                 <p class="text-lg text-gray-700 mb-6">指AI生成了看似合理、有理有据，但实际上<span class="font-bold">与事实不符或凭空捏造</span>的信息。因为它本质上是基于概率预测词语，并不真正“理解”世界。</p>
+                 <div class="text-left bg-orange-100 p-4 rounded-lg border-l-4 border-orange-500">
+                     <p class="font-semibold">真实案例：</p>
+                     <p class="text-sm text-gray-600 mt-1">某AI模型曾生成一份虚假的科研报告，包含不存在的专家和研究数据，险些误导用户。这提醒我们，对于AI生成的事实性内容，必须进行核查。</p>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Solutions -->
+         <div class="section bg-blue-50">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-12 fade-in">化解幻觉：我们的三大“法宝”</h2>
+             <div class="grid md:grid-cols-3 gap-8 max-w-7xl text-center">
+                <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-2xl mb-4 text-blue-700">联网搜索 (AI搜索)</h3>
+                    <i class="fas fa-globe-asia text-5xl mb-4 text-blue-500"></i>
+                    <p class="text-gray-600">让AI连接互联网，获取最新的、有来源可查证的信息。适用于**核查事实、了解时事**。</p>
+                </div>
+                 <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-2xl mb-4 text-blue-700">深度研究</h3>
+                    <i class="fas fa-book-reader text-5xl mb-4 text-blue-500"></i>
+                     <p class="text-gray-600">AI自动分解复杂问题，阅读大量文献和网页，最终生成一份**结构化、引用规范的深度报告**。</p>
+                </div>
+                 <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-3">
+                    <h3 class="font-bold text-2xl mb-4 text-blue-700">知识库</h3>
+                     <i class="fas fa-database text-5xl mb-4 text-blue-500"></i>
+                    <p class="text-gray-600">上传你自己的文件（如园所资料、指南文件），让AI**只在你提供的资料范围内**回答问题，确保信息精准可控。</p>
+                </div>
+             </div>
+        </div>
+        
+        <!-- Slide 16: Toolbox -->
+        <div class="section bg-slate-50">
+            <h2 class="text-4xl font-bold text-center text-slate-800 mb-12 fade-in">AI工具箱：选择你的高效伙伴</h2>
+            <p class="text-center text-gray-500 mb-8 fade-in delay-1">根据《生成式AI在早期儿童教育中的适用性》研究排名推荐</p>
+            <div class="flex flex-wrap justify-center items-start gap-6 max-w-6xl">
+                <div class="bg-white p-6 rounded-2xl shadow-lg text-center fade-in delay-1 border-t-8 border-green-400">
+                    <h3 class="text-lg font-bold text-slate-700 mb-2">第一梯队 (强烈推荐)</h3>
+                    <div class="space-y-3 mt-4">
+                        <div class="font-semibold text-2xl text-green-600">豆包 (Doubao)</div>
+                        <div class="font-semibold text-2xl text-green-600">讯飞星火 (Spark)</div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg text-center fade-in delay-2 border-t-8 border-yellow-400">
+                    <h3 class="text-lg font-bold text-slate-700 mb-2">第二梯队 (表现优秀)</h3>
+                     <div class="space-y-3 mt-4">
+                        <div class="font-semibold text-xl text-yellow-600">天工AI (Tiangong)</div>
+                        <div class="font-semibold text-xl text-yellow-600">Kimi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 17: The Human in the Loop -->
+        <div class="section bg-green-50">
+            <h2 class="text-4xl font-bold text-center text-green-800 mb-12 fade-in">智慧同行：做AI的主人</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl text-lg">
+                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-xl mb-3 text-green-700"><i class="fas fa-user-check mr-2"></i>你是专家，AI是工具</h3>
+                    <p>AI可能会“吹牛”（产生幻觉），也可能让你“偷懒”（思维惰性）。专业的你，永远是最终的把关人。</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-xl mb-3 text-green-700"><i class="fas fa-rocket mr-2"></i>从一件小事开始</h3>
+                    <p>今天回去，就试着用AI帮你完成一件重复性的小事。比如，起草一份周计划，或者把今天的讲座总结成要点。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Q&A -->
+        <div class="section bg-gray-800 text-white text-center">
+            <h1 class="text-8xl font-black tracking-tight fade-in">Q & A</h1>
+            <h2 class="text-3xl font-light mt-4 fade-in delay-1">感谢聆听</h2>
+            <p class="text-xl mt-12 fade-in delay-2">预祝各位老师工作顺利，智慧提效！</p>
+        </div>
+
     </div>
 
-    <!-- Scroll-to-Top Button -->
-    <button id="scrollToTopBtn" class="hidden fixed bottom-8 right-8 bg-sky-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-sky-700 transition-all duration-300 focus:outline-none z-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-        </svg>
-    </button>
-
     <script>
-        // --- CONTENT DATA ---
-        // Storing all presentation content in a structured JavaScript object.
-        // This makes the HTML cleaner and the content easier to manage.
-        const presentationContent = [
-            {
-                id: 'part1',
-                title: '第一部分：全球AI浪潮下的学前教育：教师的新视野',
-                navTitle: '全球视野',
-                content: [
-                    { type: 'p', text: '人工智能（AI）在学前教育领域的融合，已不再是遥远的未来构想，而是一场席卷全球的变革。这场变革为上海的教育工作者们提供了一个前所未有的机遇，去引领和创新，这与上海建设高质量、面向未来的学前教育体系的宏伟蓝图不谋而合。本报告将深入剖析这一全球趋势，旨在阐明一个核心观点：尽管世界各国的具体策略千差万别，但其共同的成功脉络在于，人工智能的最高价值体现在其增强而非取代教学核心——那份不可或缺的人文关怀与师幼互动。' },
-                    { 
-                        type: 'details',
-                        summary: '1.1 全球共识：以人为本的愿景',
-                        detailsContent: [
-                            { type: 'p_with_strong', strong: 'UNESCO的“以人为本”方针：', text: 'UNESCO明确提出，AI在教育中的应用必须以“以人为本”为核心，其目标是解决现有教育资源获取的不平等问题，防止技术鸿沟的进一步扩大。该组织致力于推动AI技术用于增强人类智慧、保护基本人权，并促进人机协作以实现可持续发展。这为整个行业的AI整合提供了一个坚实的伦理基础。为应对生成式AI带来的挑战，UNESCO还发布了专门的指导方针，建议各国对数据隐私和用户年龄进行规制，这凸显了在幼儿教育领域应用新技术时，必须采取审慎和深思熟虑的决策态度。' },
-                            { type: 'p_with_strong', strong: 'OECD的平衡发展观：', text: 'OECD同样强调，在抓住AI带来的机遇的同时，必须有效管理其潜在风险，例如可能加剧的不平等和数据隐私问题。为此，OECD正在积极构建一个“AI素养框架”，旨在帮助学生和教师为这个由AI驱动的新时代做好充分准备。' },
-                            { type: 'p_with_strong', strong: '教师能力框架的全球信号：', text: '值得注意的是，两大国际组织都为教师制定了AI能力框架。这传递出一个明确的全球信号：教师培训是成功且合乎伦理地整合AI技术的关键所在。这表明，全球的政策制定者都认识到，技术的价值最终需要通过专业的教育者才能得以实现。' },
-                        ]
-                    },
-                    {
-                        type: 'details',
-                        summary: '1.2 国际聚焦：多元化的国家战略与趋同的目标',
-                        detailsContent: [
-                             { type: 'p_with_strong', strong: '美国（政策驱动，聚焦教师）：', text: '美国的策略以自上而下的政策推动为显著特征。白宫发布的行政命令不仅成立了专门的AI教育工作组，还明确要求教育部在教师培训相关的 discretionary grant programs（自主支配的拨款项目）中优先考虑AI技术的应用。政策的重点在于利用AI减轻教师的行政负担、改进培训与评估体系，并装备所有学科的教育者，使他们能够将AI基础知识融入日常教学。' },
-                             { type: 'p_with_strong', strong: '芬兰（伦理为先，融入教学）：', text: '作为全球教育的领航者，芬兰将其AI战略的核心定位于伦理。芬兰国家层面的建议明确规定，教育服务提供者必须制定清晰的AI使用政策，并确保所有AI工具都符合欧盟《人工智能法案》、通用数据保护条例（GDPR）等法律法规，且与国家核心课程目标保持一致。' },
-                             { type: 'p_with_strong', strong: '新加坡（务实高效，驱动生产力）：', text: '新加坡的策略则展现出高度的结构化和务实性，其《学前教育产业数码化计划》（EC IDP）是典型代表。该计划为学前教育机构提供了一个清晰的、分三阶段的数码化发展路线图：从采用电子注册等基础管理系统，到利用数据分析优化运营，再到探索智慧资源管理等前沿能力。' },
-                             { type: 'p_with_strong', strong: '日本（社会感知，审慎融合）：', text: '日本的AI教育探索深受其独特的文化背景和社会需求影响。他们不仅在尝试利用AI技术应对学生缺勤等社会挑战，也注重培养学生对AI社会影响的批判性思考能力。' },
-                        ]
-                    },
-                    {
-                        type: 'details',
-                        summary: '1.3 连接上海愿景：融汇全球趋势与本土目标',
-                        detailsContent: [
-                            { type: 'p_with_strong', strong: '支持高质量发展：', text: '上海市提出的到2025年全面建成“高质量幼儿园”的实施意见中，明确强调了要坚持创新驱动、减轻园所负担、并促进教师队伍的专业发展。AI工具恰好为这几点提供了强有力的支持。' },
-                            { type: 'p_with_strong', strong: '赋能核心任务：', text: '上海的教育蓝图同样关注加强科学育儿指导、提升对有特殊需要幼儿的支持能力，以及构建家园社协同育人的格局。AI在这些领域大有可为。' },
-                            { type: 'p_with_strong', strong: '深化数字校园建设：', text: '上海早已在推动数字校园建设和“园园通”平台的应用，这表明本市已具备坚实的数字化基础。本次讲座所介绍的生成式AI技术，正是这一数字化进程的自然延伸和重要升级。' },
-                        ]
-                    },
-                    { type: 'quote', text: '一个深刻的共识在全球范围内形成：AI的定位是教师的“增强器”，而非“替代品”。' }
-                ]
-            },
-            {
-                id: 'part2',
-                title: '第二部分：教师的AI副驾：革新日常教学与设计',
-                navTitle: '教学设计革新',
-                content: [
-                    { type: 'p', text: '本部分将从“为什么”转向“怎么做”，为教师提供高度实用、可操作的指导，展示如何将AI应用于教学中最富创造性也最耗费心力的环节——教学设计。' },
-                    {
-                        type: 'details',
-                        summary: '2.1 从灵感到活动：AI作为课程设计的创意伙伴',
-                        detailsContent: [
-                            { type: 'p_with_strong', strong: '核心原则：助手，而非枪手：', text: '首先要树立正确的观念，将AI视为提升教学创意的“辅助工具”，而非代替思考和创作的“枪手”。' },
-                            { type: 'p_with_strong', strong: '构思与创意的催化剂：', text: '面对“白纸”的困境，AI能瞬间生成大量创意。教师只需输入活动主题、幼儿年龄和学习目标，便可获得多种活动方案。' },
-                            { type: 'p_with_strong', strong: '提示词工程决定产出质量：', text: '一个优质的提示词应明确说明其学术关联性、年龄适宜性和教育目标。例如：“请扮演一位资深幼儿园教师。为4岁儿童设计一个30分钟的、以游戏为基础的科学活动，主题是‘四季的变迁’...”' },
-                            { type: 'p_with_strong', strong: '轻松实现差异化教学：', text: 'AI在实现个性化和差异化教学方面表现卓越。教师可以先生成一个核心活动方案，然后通过追问进行调整。' },
-                        ]
-                    },
-                    {
-                        type: 'table',
-                        title: '表2.1：生成幼儿园教学活动的有效提示词模板',
-                        headers: ['学习领域', '教学目标', '基础提示词', '高级教学法提示词', '优势分析'],
-                        rows: [
-                            ['语言与读写', '培养幼儿的叙事能力和词汇量。', '“写一个关于小兔子的故事。”', '“请扮演一位儿童文学作家。为一群3-4岁的幼儿创作一个短篇互动故事，主角是一只名叫‘跳跳’的胆小兔子...”', '这种提示词不仅设定了角色和主题，还明确了目标受众、教学重点和教学环节，使生成的故事直接成为一个完整的教学工具。'],
-                            ['科学探究', '帮助幼儿理解“沉”与“浮”的基本概念。', '“设计一个关于沉浮的实验。”', '“请扮演一位经验丰富的科学老师。为5岁儿童设计一个安全、操作性强的科学探究活动，主题为‘什么东西会游泳？’...”', '高级提示词考虑到了安全性、可操作性和教学流程的完整性，形成了一个闭环的探究活动方案。'],
-                            ['社会情感学习', '帮助幼儿学习如何处理与同伴的冲突。', '“给我一个关于分享的活动。”', '“请扮演一位儿童心理学家。为中班（4-5岁）幼儿设计一个情景角色扮演游戏...”', '将抽象的“分享”概念具体化为可操作的角色扮演游戏，使幼儿能在模拟的真实环境中学习和练习社交技能。'],
-                            ['艺术与创造力', '鼓励幼儿用多种材料进行创造性表达。', '“提供一个美术活动创意。”', '“请扮演一位雷焦·艾米利亚教学法专家。为一个以‘光与影’为主题的探索项目，为4--5岁幼儿构思一个开放式的艺术创作活动...”', '融入了特定的教学理念，鼓励的是幼儿的自主探索和表达，而非简单的成品制作。']
-                        ]
-                    },
-                    {
-                        type: 'details',
-                        summary: '2.2 创造富媒体素材：定制图像、音乐与故事',
-                        detailsContent: [
-                             { type: 'p_with_strong', strong: '定制教学插图：', text: '教师可以为课件、学习单或故事创编活动生成独一无二的图片。诸如Microsoft Designer、Ideogram等工具，能够根据文本描述创作出特定风格的图像。' },
-                             { type: 'p_with_strong', strong: 'AI生成原创音乐：', text: '通过向Suno AI等工具提供歌词和音乐风格，AI便能生成一首包含人声演唱的完整歌曲。' },
-                             { type: 'p_with_strong', strong: 'AI辅助创作故事与剧本：', text: 'AI可以成为教师在集体教学时间共同创作故事的伙伴，甚至可以生成木偶戏的简单剧本。' }
-                        ]
-                    },
-                     { type: 'quote', text: '芬兰的Elina AI是一个极佳的案例，它展示了专为特定领域打造的AI工具所蕴含的巨大潜力。最能赋能教师的AI工具，是那些懂得教育、尊重专业、保障安全的“专才”型工具。' }
-                ]
-            },
-            {
-                id: 'part3',
-                title: '第三部分：精简管理要务：AI提升班级与园所管理效率',
-                navTitle: '管理效率提升',
-                content: [
-                    { type: 'p', text: '本部分将焦点从创造性的教学设计转向同样重要但常被视为负担的行政管理工作。AI能将教师宝贵的时间和精力解放出来，更多地投入到与幼儿的直接互动中。' },
-                    { 
-                        type: 'details',
-                        summary: '3.1 驯服“纸老虎”：AI在文档管理与家园沟通中的应用',
-                        detailsContent: [
-                            { type: 'p_with_strong', strong: '高效总结文档：', text: 'AI工具如Gemini或ChatGPT能够迅速提炼政策文件、研究报告和冗长邮件的核心信息。' },
-                            { type: 'p_with_strong', strong: '辅助起草文稿：', text: 'AI可以快速生成家长通知、活动提醒或幼儿成长记录的初稿，教师只需进行个性化修改和润色。' },
-                            { type: 'p_with_strong', strong: '智能整理信息：', text: 'AI能帮助教师结构化地整理信息，如将杂乱的家长会笔记整理成清晰、可执行的记录。' },
-                        ]
-                    },
-                    {
-                        type: 'details',
-                        summary: '3.2 善用集成平台：以Google Workspace中的Gemini为例',
-                        detailsContent: [
-                             { type: 'p_with_strong', strong: '无缝的工作流体验：', text: '集成化的AI意味着教师无需在不同应用程序之间切换，可以在Google Docs、Gmail、Slides中直接调用AI助手。' },
-                             { type: 'p_with_strong', strong: '简化的数据分析：', text: 'AI极大地降低了数据分析的门槛。教师可以在Google Sheets中用自然语言提问，让AI生成图表和洞察。' },
-                             { type: 'p_with_strong', strong: '核心优势：隐私与安全：', text: '企业级AI解决方案（如Gemini for Google Workspace）对数据隐私有承诺，来自教育账户的数据不会被用于训练其AI模型。' }
-                        ]
-                    },
-                    { type: 'quote', text: '新加坡的《学前教育产业数码化计划》展示了自上而下的系统性推动如何能整体提升一个行业的管理效率，值得借鉴。' }
-                ]
-            },
-            {
-                id: 'part4',
-                title: '第四部分：赋能教师研究者：AI在教科研中的应用',
-                navTitle: '教科研赋能',
-                content: [
-                    { type: 'p', text: '本部分将专门探讨如何利用前沿的AI工具，将教师从研究的被动消费者转变为高效、深刻的实践研究者，真正实现“在研究中教学，在教学中研究”。' },
-                    { 
-                        type: 'details',
-                        summary: '4.1 构建个人研究智库：基于自有资源的AI分析',
-                        detailsContent: [
-                            { type: 'p_with_strong', strong: '什么是基于信源的AI？', text: '如Google的NotebookLM和腾讯的IMA知识库，仅在用户提供的特定资料范围内进行分析和回答，保证了信息的相关性、准确性和隐私性。' },
-                            // *** FIX: Corrected syntax error from type:: to type: ***
-                            { type: 'p_with_strong', strong: '与您的资料进行“对话”：', text: '上传教学观察记录、访谈稿后，可以像与研究助理对话一样向AI提问，例如：“请总结这个孩子在社交互动中反复出现的行为模式是什么？”' },
-                            { type: 'p_with_strong', strong: '一键生成研究资料：', text: 'NotebookLM还能自动生成内容摘要、FAQ、关键术语表，甚至将研究笔记转化为音频，方便教师利用碎片化时间进行构思。' }
-                        ]
-                    },
-                    {
-                        type: 'table',
-                        title: '表4.1：教科研任务的AI提示词模板',
-                        headers: ['教科研任务', '您需要准备的信息', '结构化AI提示词模板', '预期AI产出'],
-                        rows: [
-                            ['撰写教学案例', '1. 幼儿的匿名化背景信息。<br>2. 明确的教学或观察目标。<br>3. 详细、注明日期的观察记录等。', '“请扮演一位资深的学前教育研究员...请基于以上内容，将案例报告结构化为以下几个部分：1. 案例背景；2. 案例描述；3. 分析与反思...”', '一份结构清晰、逻辑严谨、语言规范的教学案例初稿。'],
-                            ['申请区级小课题', '1. 拟研究问题的清晰陈述。<br>2. 描述问题来源的班级现状或观察。<br>3. 初步设想的研究目标、内容和方法等。', '“请扮演一位教育科研项目申报专家...请根据我提供的以下要点，为我起草申报书中的‘研究设计’部分...”', '一段结构完整、语言专业的“研究设计”文本草稿，能帮助教师将零散的想法系统化。'],
-                            ['进行文献综述', '1. 明确的研究主题或问题。<br>2. 已找到的3-5篇核心相关文献（可提供标题、摘要或全文）。', '“请扮演一位学术研究助理...请根据以上内容，完成以下任务：1. 识别核心主题；2. 寻找研究空白；3. 生成关键词...”', '一份简明的文献分析报告，包含核心主题的归纳、潜在研究方向的建议以及一组高质量的检索词。']
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'part5',
-                title: '第五部分：以人为本的未来：合乎伦理、负责任且赋权的AI整合',
-                navTitle: '伦理与未来',
-                content: [
-                    { type: 'p', text: '本报告的最后一部分，将从技术层面的“如何做”上升到专业伦理层面的“应该如何做”，探讨教师在使用AI时应承担的专业与伦理责任。' },
-                    {
-                        type: 'details',
-                        summary: '5.1 您是“工程师”，而非“执行者”：捍卫专业自主权',
-                        detailsContent: [
-                             { type: 'p_with_strong', strong: '风险的识别：', text: '过度依赖AI生成的标准化教案，确实存在将教师角色窄化为“执行者”而非“设计者”的风险。' },
-                             { type: 'p_with_strong', strong: '赋权的愿景：', text: '应对之策，是将教师的角色重新定义为“教学设计师”、“提示词工程师”和“伦理把关人”。教师始终处于“驾驶位”。' },
-                             { type: 'p_with_strong', strong: '不可替代的人类价值：', text: 'AI无法与一个哭泣的孩子共情，无法在眼神交流中给予鼓励，无法构建一个充满信任与安全感的班级氛围。AI最大的价值，是为教师创造出更多的时间和精力，去专注于完成这些最高价值的“人类任务”。' },
-                        ]
-                    },
-                    {
-                        type: 'details',
-                        summary: '5.2 驾驭风险：数据隐私与算法偏见的实践指南',
-                        detailsContent: [
-                            { type: 'p_with_strong', strong: '数据隐私：首要原则：', text: '绝对禁止在公开AI工具中输入任何可识别学生身份的信息。应优先选择专为教育领域设计、并提供数据安全保障的企业级工具。' },
-                            { type: 'p_with_strong', strong: '算法偏见：保持批判性思维：', text: '绝不能盲目信任或直接使用AI生成的内容。教师必须扮演“批判性过滤器”的角色，主动审查与修正其中可能存在的偏见或刻板印象。' },
-                        ]
-                    },
-                     {
-                        type: 'details',
-                        summary: '5.3 行动倡议：开启您AI旅程的三级阶梯',
-                        detailsContent: [
-                             { type: 'p_with_strong', strong: '第一级：好奇的探索者（低风险体验）：', text: '从使用公开AI工具处理无涉敏感信息的个人生产力任务开始，建立基本认知。' },
-                             { type: 'p_with_strong', strong: '第二级：高效的实践者（融入工作流）：', text: '有意识地将AI用于处理日常的、非核心的专业任务，以提升工作效率。' },
-                             { type: 'p_with_strong', strong: '第三级：创新的研究者（高级应用）：', text: '掌握并应用基于信源的、更高级的AI工具，进行深度的、个性化的教学与研究工作。' },
-                        ]
-                    },
-                    { type: 'quote', text: '对抗对未知技术恐惧的最佳良方，是赋予使用者掌控感和能动性。当教师学会将自己的教育智慧和人文关怀注入到给AI的每一个指令中时，他们就将这项技术从一个潜在的威胁，转化为了一个放大自身专业价值、实现教育理想的强大盟友。' }
-                ]
+        // --- JavaScript for navigation and animations ---
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.querySelector('.container-snap');
+            const sections = document.querySelectorAll('.section');
+            const navDotsContainer = document.getElementById('nav-dots');
+            
+            // Create navigation dots
+            sections.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dot.setAttribute('data-index', index);
+                dot.addEventListener('click', () => scrollToSection(index));
+                navDotsContainer.appendChild(dot);
+            });
+            const dots = document.querySelectorAll('.dot');
+
+            // Function to scroll to a specific section
+            function scrollToSection(index) {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
             }
-        ];
 
-        // --- DOM ELEMENTS ---
-        const contentContainer = document.getElementById('content-container');
-        const desktopNav = document.getElementById('desktop-nav');
-        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            // Update active dot based on scroll position
+            function updateActiveDot() {
+                let activeIndex = 0;
+                const containerTop = container.scrollTop;
+                const containerHeight = container.clientHeight;
 
-        // --- RENDER FUNCTION ---
-        function renderContent() {
-            presentationContent.forEach(section => {
-                const sectionEl = document.createElement('section');
-                sectionEl.id = section.id;
-                sectionEl.className = 'mb-16 scroll-mt-24';
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    if (containerTop >= sectionTop - containerHeight / 2) {
+                        activeIndex = index;
+                    }
+                });
                 
-                const titleEl = document.createElement('h2');
-                titleEl.className = 'text-3xl font-bold text-sky-900 border-b-4 border-sky-300 pb-4 mb-8';
-                titleEl.textContent = section.title;
-                sectionEl.appendChild(titleEl);
-
-                section.content.forEach(item => {
-                    let itemEl;
-                    switch (item.type) {
-                        case 'p':
-                            itemEl = document.createElement('p');
-                            itemEl.className = 'text-lg text-slate-700 mb-6 leading-relaxed';
-                            itemEl.textContent = item.text;
-                            break;
-                        case 'p_with_strong':
-                            itemEl = document.createElement('p');
-                            itemEl.className = 'text-lg text-slate-700 mb-4 leading-relaxed';
-                            itemEl.innerHTML = `<strong class="font-semibold text-slate-800">${item.strong}</strong> ${item.text}`;
-                            break;
-                        case 'quote':
-                            itemEl = document.createElement('blockquote');
-                            itemEl.className = 'border-l-4 border-sky-500 italic text-slate-600 pl-6 my-8 text-lg';
-                            itemEl.textContent = item.text;
-                            break;
-                        case 'details':
-                             itemEl = document.createElement('details');
-                             itemEl.className = 'bg-white rounded-lg shadow-sm mb-4 border border-slate-200';
-                             const summary = document.createElement('summary');
-                             summary.className = 'p-5 font-semibold text-xl text-sky-800 cursor-pointer flex justify-between items-center';
-                             summary.innerHTML = `<span>${item.summary}</span> <svg class="w-6 h-6 text-sky-600 transition-transform duration-300 arrow-down" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>`;
-                             const detailsDiv = document.createElement('div');
-                             detailsDiv.className = 'p-5 border-t border-slate-200';
-                             item.detailsContent.forEach(detailItem => {
-                                 let detailEl;
-                                 if (detailItem.type === 'p_with_strong') {
-                                    detailEl = document.createElement('p');
-                                    detailEl.className = 'text-lg text-slate-700 mb-4 leading-relaxed';
-                                    detailEl.innerHTML = `<strong class="font-semibold text-slate-800">${detailItem.strong}</strong> ${detailItem.text}`;
-                                    detailsDiv.appendChild(detailEl);
-                                 }
-                             });
-                             itemEl.appendChild(summary);
-                             itemEl.appendChild(detailsDiv);
-                             break;
-                        case 'table':
-                            itemEl = document.createElement('div');
-                            itemEl.className = 'my-8 overflow-x-auto';
-                            const tableTitle = document.createElement('h4');
-                            tableTitle.className = 'text-xl font-semibold mb-4 text-center';
-                            tableTitle.textContent = item.title;
-                            const table = document.createElement('table');
-                            table.className = 'w-full min-w-[800px] bg-white shadow-md rounded-lg border-collapse';
-                            const thead = document.createElement('thead');
-                            thead.innerHTML = `<tr class="bg-slate-200">${item.headers.map(h => `<th class="p-4 text-left font-semibold text-slate-700">${h}</th>`).join('')}</tr>`;
-                            const tbody = document.createElement('tbody');
-                            tbody.innerHTML = item.rows.map(row => `<tr class="border-b border-slate-100">${row.map(cell => `<td class="p-4 text-slate-600 align-top">${cell}</td>`).join('')}</tr>`).join('');
-                            table.appendChild(thead);
-                            table.appendChild(tbody);
-                            itemEl.appendChild(tableTitle);
-                            itemEl.appendChild(table);
-                            break;
-                    }
-                    if (itemEl) {
-                        sectionEl.appendChild(itemEl);
-                    }
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
                 });
-
-                contentContainer.appendChild(sectionEl);
-
-                const navLink = document.createElement('a');
-                navLink.href = `#${section.id}`;
-                navLink.textContent = section.navTitle;
-                navLink.className = 'nav-link block text-slate-600 hover:text-sky-700 hover:bg-sky-50 rounded-md p-3 transition-all duration-200';
-                desktopNav.appendChild(navLink);
-            });
-        }
-
-        // --- INTERACTIVITY ---
-        window.onscroll = function() {
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                scrollToTopBtn.style.display = "block";
-            } else {
-                scrollToTopBtn.style.display = "none";
             }
-        };
+            
+            // Initial setup
+            updateActiveDot();
+            
+            // Listen for scroll events on the container
+            container.addEventListener('scroll', updateActiveDot);
 
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
-        
-        // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // First, render all the content
-            renderContent();
-            
-            // --- FIX: Moved observer logic inside DOMContentLoaded and after rendering ---
-            // Now that content is rendered, select the elements for interactivity
-            const renderedSections = document.querySelectorAll('section');
-            const renderedNavLinks = document.querySelectorAll('#desktop-nav .nav-link');
-            
-            // Logic for highlighting the active nav link on scroll
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        renderedNavLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
-                        });
-                    }
-                });
-            }, { rootMargin: '-30% 0px -70% 0px' });
+            // Add keyboard navigation
+            window.addEventListener('keydown', (e) => {
+                let currentScrollIndex = Math.round(container.scrollTop / window.innerHeight);
 
-            renderedSections.forEach(section => {
-                observer.observe(section);
-            });
-            
-            // Logic for smooth scrolling when a nav link is clicked
-             renderedNavLinks.forEach(link => {
-                link.addEventListener('click', function (e) {
+                if (e.key === 'ArrowDown') {
                     e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
+                    currentScrollIndex = Math.min(sections.length - 1, currentScrollIndex + 1);
+                    scrollToSection(currentScrollIndex);
+                } else if (e.key === 'ArrowUp') {
+                     e.preventDefault();
+                    currentScrollIndex = Math.max(0, currentScrollIndex - 1);
+                    scrollToSection(currentScrollIndex);
+                }
+            });
+
+            // Mind Map Logic
+            const center = document.querySelector('.mindmap-center');
+            if (center) {
+                const nodes = document.querySelectorAll('.mindmap-node');
+                const radius = 240; // Adjusted radius to be more compact
+                const numNodes = nodes.length;
+                const angleStep = (2 * Math.PI) / numNodes;
+
+                nodes.forEach((node, i) => {
+                    // Angle adjustment to distribute nodes more evenly
+                    const angle = i * angleStep - (Math.PI / 2) + (angleStep / 4); 
+                    const x = radius * Math.cos(angle);
+                    const y = radius * Math.sin(angle);
+                    node.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            }
+            
+            // Tab Logic for Creativity Workshop
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    tabContents.forEach(content => {
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
                     });
                 });
             });
