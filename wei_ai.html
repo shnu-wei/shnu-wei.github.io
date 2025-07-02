@@ -1,9 +1,9 @@
-】<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI赋能幼儿园教师讲座 (最终版)</title>
+    <title>AI赋能幼儿园教师讲座 (19页完整大屏版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -72,7 +72,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px; /* Increased width */
         }
         .comparison-box {
             border: 2px dashed rgba(0,0,0,0.1);
@@ -89,10 +89,12 @@
             flex-grow: 1;
             overflow-y: auto;
             text-align: left;
+            font-size: 1rem; /* Increased font size */
         }
         .result-box-content h4 {
             font-weight: 700;
             margin-bottom: 0.5rem;
+            font-size: 1.125rem; /* Increased font size */
         }
         .result-box-content ul {
             list-style-position: inside;
@@ -109,20 +111,20 @@
             border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 1000px;
-            height: 70vh;
+            max-width: 1100px;
+            height: 75vh;
             overflow-y: auto;
-            color: #1f2937; /* Enforce dark text color for readability */
+            color: #1f2937;
         }
         .full-prompt-box h3 {
-            font-size: 1.25rem;
+            font-size: 1.5rem; /* Increased font size */
             font-weight: 700;
             margin-bottom: 1rem;
         }
         .full-prompt-box p, .full-prompt-box li {
             text-align: left;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 1rem; /* Increased font size */
+            line-height: 1.7;
         }
         .full-prompt-box ul {
             list-style-type: circle;
@@ -133,33 +135,35 @@
             color: #c2410c; /* Amber 700 */
         }
         .full-prompt-box hr {
-             border-color: #e5e7eb; /* Lighter hr color */
+             border-color: #e5e7eb;
         }
         .table-auto th, .table-auto td {
             border: 1px solid #e5e7eb;
-            padding: 8px 12px;
+            padding: 10px 14px;
             text-align: left;
+            font-size: 1rem; /* Increased font size */
         }
         .analysis-box {
             background-color: white;
-            padding: 1.5rem;
+            padding: 2rem; /* Increased padding */
             border-radius: 1rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            height: 60vh;
+            height: 65vh; /* Increased height */
             overflow-y: auto;
+            font-size: 1.125rem; /* Increased base font size */
         }
         /* Mind Map & Tab Styles */
         .mindmap-container {
             position: relative;
-            width: 750px;
-            height: 500px;
+            width: 900px;
+            height: 600px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .mindmap-center {
-            width: 180px;
-            height: 110px;
+            width: 220px;
+            height: 130px;
             background-color: #7c3aed; /* Violet 600 */
             color: white;
             border-radius: 50%;
@@ -167,25 +171,25 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 2rem; /* Increased font size */
             font-weight: 900;
             z-index: 10;
         }
         .mindmap-node {
             position: absolute;
             background-color: white;
-            padding: 1rem;
+            padding: 1.25rem;
             border-radius: 0.75rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 200px;
+            width: 240px;
             text-align: center;
         }
         .mindmap-node i {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
         }
         .mindmap-node p {
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: #4b5563;
         }
         .tab-button {
@@ -214,42 +218,42 @@
         
         <!-- Slide 1: Title -->
         <div class="section bg-amber-50 text-center">
-            <h1 class="text-5xl md:text-7xl font-black text-amber-800 tracking-tight fade-in">AI赋能 智慧提效</h1>
-            <h2 class="text-2xl md:text-3xl font-light text-gray-600 mt-4 fade-in delay-1">幼儿园教师教学与管理效率提升讲座</h2>
-            <div class="mt-12 text-xl md:text-2xl text-gray-600 fade-in delay-2">
+            <h1 class="text-6xl md:text-8xl font-black text-amber-800 tracking-tight fade-in">AI赋能 智慧提效</h1>
+            <h2 class="text-3xl md:text-4xl font-light text-gray-600 mt-6 fade-in delay-1">幼儿园教师教学与管理效率提升讲座</h2>
+            <div class="mt-16 text-2xl md:text-3xl text-gray-700 fade-in delay-2">
                 <p class="font-semibold">主讲人：魏威 副教授</p>
-                <p class="mt-2">上海师范大学学前教育学院</p>
+                <p class="mt-3">上海师范大学学前教育学院</p>
             </div>
         </div>
 
         <!-- Slide 2: Opener / The "Why" -->
         <div class="section bg-cyan-50">
-            <h2 class="text-4xl font-bold text-center text-cyan-800 mb-12 fade-in">AI离我们有多近？</h2>
-            <div class="grid md:grid-cols-2 gap-8 max-w-5xl text-lg">
-                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-1">
-                    <h3 class="font-bold text-xl mb-3 text-cyan-700"><i class="fas fa-flag mr-2"></i>国家与地区文件指引</h3>
+            <h2 class="text-5xl font-bold text-center text-cyan-800 mb-16 fade-in">AI离我们有多近？</h2>
+            <div class="grid md:grid-cols-2 gap-10 max-w-6xl text-xl">
+                <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-2xl mb-4 text-cyan-700"><i class="fas fa-flag mr-2"></i>国家与地区文件指引</h3>
                     <p>从国家《教育数字化意见》到上海市《高质量幼儿园实施意见》，都在大力鼓励数字化转型，为教师减负增效。</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-2">
-                    <h3 class="font-bold text-xl mb-3 text-cyan-700"><i class="fas fa-hand-sparkles mr-2"></i>回归教育本真</h3>
+                <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-2xl mb-4 text-cyan-700"><i class="fas fa-hand-sparkles mr-2"></i>回归教育本真</h3>
                     <p>AI能将我们从重复、繁琐的事务中解放出来，将更多宝贵的时间与精力，还给孩子与专业成长。</p>
                 </div>
             </div>
-             <p class="mt-12 text-2xl text-center text-gray-600 font-light fade-in delay-3">把AI想象成一个... <span class="font-bold text-cyan-600">不知疲倦、知识渊博的AI教学助手</span>。</p>
+             <p class="mt-16 text-3xl text-center text-gray-600 font-light fade-in delay-3">把AI想象成一个... <span class="font-bold text-cyan-600">不知疲倦、知识渊博的AI教学助手</span>。</p>
         </div>
 
         <!-- Slide 3: The Core Skill - The Problem -->
         <div class="section bg-gray-50">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-6 fade-in">要让AI教学助手干好活，关键在... <span class="text-red-500">指令</span></h2>
-            <p class="text-xl text-gray-500 mb-8 fade-in delay-1">一个模糊的指令 vs 一个清晰的指令</p>
+            <h2 class="text-5xl font-bold text-center text-gray-800 mb-8 fade-in">要让AI教学助手干好活，关键在... <span class="text-red-500">指令</span></h2>
+            <p class="text-2xl text-gray-500 mb-10 fade-in delay-1">一个模糊的指令 vs 一个清晰的指令</p>
             <div class="comparison-container fade-in delay-2">
                 <div class="comparison-box border-red-300 bg-red-50">
                     <div>
-                        <h3 class="text-2xl font-bold text-red-600 mb-4 text-center"><i class="fas fa-times-circle mr-2"></i>模糊的指令</h3>
-                        <code class="block bg-white p-4 rounded-lg text-gray-700">"给我一个乌鸦喝水的活动方案"</code>
+                        <h3 class="text-3xl font-bold text-red-600 mb-4 text-center"><i class="fas fa-times-circle mr-2"></i>模糊的指令</h3>
+                        <code class="block bg-white p-4 rounded-lg text-gray-700 text-lg">"给我一个乌鸦喝水的活动方案"</code>
                     </div>
-                    <div class="result-box-content text-sm">
-                        <h4 class="text-base text-red-800">得到的结果（平庸、缺乏细节）：</h4>
+                    <div class="result-box-content">
+                        <h4 class="text-lg text-red-800">得到的结果（平庸、缺乏细节）：</h4>
                         <p class="font-bold mt-2">一、活动目标：</p>
                         <ul class="list-decimal">
                             <li>引导幼儿通过观察、实验，发现石子能使水位上升的科学现象。</li>
@@ -266,11 +270,11 @@
                 </div>
                 <div class="comparison-box border-green-300 bg-green-50">
                      <div>
-                        <h3 class="text-2xl font-bold text-green-600 mb-4 text-center"><i class="fas fa-check-circle mr-2"></i>清晰的指令</h3>
-                        <code class="block bg-white p-4 rounded-lg text-gray-700">"你是一位幼教专家，请根据《指南》为中班设计一个科学活动..."</code>
+                        <h3 class="text-3xl font-bold text-green-600 mb-4 text-center"><i class="fas fa-check-circle mr-2"></i>清晰的指令</h3>
+                        <code class="block bg-white p-4 rounded-lg text-gray-700 text-lg">"你是一位幼教专家，请根据《指南》为中班设计一个科学活动..."</code>
                     </div>
-                    <div class="result-box-content text-sm">
-                        <h4 class="text-base text-green-800">得到的结果（专业、详尽、可操作）：</h4>
+                    <div class="result-box-content">
+                        <h4 class="text-lg text-green-800">得到的结果（专业、详尽、可操作）：</h4>
                         <p><strong>一、活动名称：</strong>“乌鸦喝水的秘密大探索”</p>
                         <p><strong>二、活动领域：</strong>主领域:科学; 渗透领域:语言、社会</p>
                         <p><strong>三、活动来源：</strong>在餐前谈话中,教师发现中班幼儿对“动物如何喝水”的话题兴趣浓厚,有幼儿提到“看过绘本里乌鸦用石子喝水”,并追问“为什么放石头水就变多了”。本次活动灵感源于幼儿对经典故事的疑问...</p>
@@ -282,18 +286,18 @@
 
         <!-- Slide 4: The Core Skill - The "Golden Formula" -->
         <div class="section bg-yellow-50 text-center">
-            <h2 class="text-4xl font-bold text-yellow-800 mb-12 fade-in">掌握“黄金公式”，点石成金</h2>
-            <div class="flex flex-wrap justify-center items-center gap-4 text-3xl font-bold max-w-5xl">
-                <div class="bg-blue-200 text-blue-800 p-8 rounded-full shadow-lg fade-in delay-1">角色</div>
-                <div class="text-yellow-600 text-5xl fade-in delay-1">+</div>
-                <div class="bg-green-200 text-green-800 p-8 rounded-full shadow-lg fade-in delay-2">任务</div>
-                 <div class="text-yellow-600 text-5xl fade-in delay-2">+</div>
-                <div class="bg-red-200 text-red-800 p-8 rounded-full shadow-lg fade-in delay-3">背景</div>
-                 <div class="text-yellow-600 text-5xl fade-in delay-3">+</div>
-                <div class="bg-purple-200 text-purple-800 p-8 rounded-full shadow-lg fade-in delay-3">格式</div>
+            <h2 class="text-5xl font-bold text-yellow-800 mb-16 fade-in">掌握“黄金公式”，点石成金</h2>
+            <div class="flex flex-wrap justify-center items-center gap-6 text-4xl font-bold max-w-6xl">
+                <div class="bg-blue-200 text-blue-800 p-10 rounded-full shadow-lg fade-in delay-1">角色</div>
+                <div class="text-yellow-600 text-6xl fade-in delay-1">+</div>
+                <div class="bg-green-200 text-green-800 p-10 rounded-full shadow-lg fade-in delay-2">任务</div>
+                 <div class="text-yellow-600 text-6xl fade-in delay-2">+</div>
+                <div class="bg-red-200 text-red-800 p-10 rounded-full shadow-lg fade-in delay-3">背景</div>
+                 <div class="text-yellow-600 text-6xl fade-in delay-3">+</div>
+                <div class="bg-purple-200 text-purple-800 p-10 rounded-full shadow-lg fade-in delay-3">格式</div>
             </div>
-            <div class="mt-12 bg-white p-6 rounded-2xl shadow-lg max-w-6xl fade-in delay-3">
-                 <p class="text-lg text-gray-700">
+            <div class="mt-16 bg-white p-8 rounded-2xl shadow-lg max-w-7xl fade-in delay-3">
+                 <p class="text-2xl text-gray-700">
                     <span class="prompt-part bg-blue-100 text-blue-700">你是一位儿童绘本故事大王</span>, 
                     <span class="prompt-part bg-green-100 text-green-700">请写一个关于“分享”的故事</span>。
                     <span class="prompt-part bg-red-100 text-red-700">故事的主角是一只从不分享的小熊，面向小班幼儿</span>。
@@ -304,7 +308,7 @@
 
         <!-- Slide 5: The "Universal Prompt" -->
         <div class="section bg-gray-800">
-            <h2 class="text-4xl font-bold text-center mb-6 fade-in text-white">用心撰写：获取高质量成果的关键</h2>
+            <h2 class="text-5xl font-bold text-center mb-8 fade-in text-white">用心撰写：获取高质量成果的关键</h2>
             <div class="full-prompt-box fade-in delay-1">
                 <h3>角色设定:</h3>
                 <p>你是一位深谙《3-6岁儿童学习与发展指南》精神、拥有10年以上一线教学经验的中国学前教育专家。你的设计理念是“以儿童为本”，强调在游戏中学习，注重幼儿的主动探索和深度学习。</p>
@@ -321,7 +325,7 @@
                 <hr class="my-4">
                 <h3>请严格遵照以下十大模块结构进行撰写:</h3>
                 <ol class="list-decimal list-inside space-y-2">
-                    <li><strong>活动名称:</strong> 要求生动有趣,能概括核心内容。</li>
+                    <li><strong>活动名称:</strong> 要求生动有趣，能概括核心内容。</li>
                     <li><strong>活动领域:</strong> 明确主要领域和渗透的其他领域。</li>
                     <li><strong>活动来源:</strong> 详细、具体地描述活动的灵感来源。</li>
                     <li><strong>设计意图/思路:</strong> 阐述本次活动的教育价值。</li>
@@ -337,105 +341,184 @@
 
         <!-- Slide 6: Case Study -->
         <div class="section bg-sky-50">
-             <h2 class="text-4xl font-bold text-center text-sky-800 mb-8 fade-in">案例剖析：从0到1生成优质教案</h2>
-             <div class="grid md:grid-cols-3 gap-6 max-w-7xl text-center">
-                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-1">
-                    <h3 class="font-bold text-2xl mb-4 text-sky-700">第1步：提出初步想法</h3>
-                    <p class="text-lg"><i class="fas fa-lightbulb text-4xl mb-3 text-yellow-400"></i><br>“我想设计一个关于水果排列规律的中班活动。”</p>
+             <h2 class="text-5xl font-bold text-center text-sky-800 mb-10 fade-in">案例剖析：从0到1生成优质教案</h2>
+             <div class="grid md:grid-cols-3 gap-8 max-w-7xl text-center">
+                <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-3xl mb-4 text-sky-700">第1步：提出初步想法</h3>
+                    <p class="text-xl"><i class="fas fa-lightbulb text-5xl mb-4 text-yellow-400"></i><br>“我想设计一个关于水果排列规律的中班活动。”</p>
                 </div>
-                 <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-2">
-                    <h3 class="font-bold text-2xl mb-4 text-sky-700">第2步：套用模板撰写</h3>
-                     <p class="text-lg"><i class="fas fa-magic text-4xl mb-3 text-purple-400"></i><br>将想法填入“核心信息”，发送给AI，获得一份包含十大模块的专业方案初稿。</p>
+                 <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-3xl mb-4 text-sky-700">第2步：套用模板撰写</h3>
+                     <p class="text-xl"><i class="fas fa-magic text-5xl mb-4 text-purple-400"></i><br>将想法填入“核心信息”，发送给AI，获得一份包含十大模块的专业方案初稿。</p>
                 </div>
-                 <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-3">
-                    <h3 class="font-bold text-2xl mb-4 text-sky-700">第3步：迭代优化</h3>
-                    <p class="text-lg"><i class="fas fa-sync-alt text-4xl mb-3 text-green-400"></i><br>追问：“请结合《指南》的目标来修改活动目标。” AI将给出更精准、更专业的回答。</p>
+                 <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-3">
+                    <h3 class="font-bold text-3xl mb-4 text-sky-700">第3步：迭代优化</h3>
+                    <p class="text-xl"><i class="fas fa-sync-alt text-5xl mb-4 text-green-400"></i><br>追问：“请结合《指南》的目标来修改活动目标。” AI将给出更精准、更专业的回答。</p>
                 </div>
              </div>
-             <p class="mt-8 text-2xl text-center text-gray-600 font-light fade-in delay-3">好的结果，往往来自于<span class="font-bold text-sky-600">“好的提问 + 不断追问”</span>。</p>
+             <p class="mt-12 text-3xl text-center text-gray-600 font-light fade-in delay-3">好的结果，往往来自于<span class="font-bold text-sky-600">“好的提问 + 不断追问”</span>。</p>
         </div>
 
-        <!-- Slide 7: Creativity Workshop -->
+        <!-- Slide 7: Project-Based Learning -->
+        <div class="section bg-green-50">
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-green-800 mb-10 fade-in">AI赋能项目活动：从萌芽到绽放</h2>
+            <div class="w-full max-w-7xl grid md:grid-cols-3 gap-8 text-center fade-in delay-1">
+                <!-- 启动阶段 -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl lg:text-3xl mb-4 text-green-700">1. 启动阶段</h3>
+                    <i class="fas fa-seedling text-5xl mb-4 text-green-500"></i>
+                    <p class="font-semibold text-lg text-gray-700">痛点：</p>
+                    <p class="text-base text-gray-600 mb-4">如何围绕孩子的兴趣点生成丰富的探究网络？</p>
+                    <div class="text-sm bg-gray-50 p-3 rounded-lg mt-4 text-left">
+                        <p class="font-bold">AI玩法示例:</p>
+                        <code class="block mt-1">“孩子们最近发现了蜗牛，对它们很感兴趣。请为这个‘蜗牛的秘密’主题，生成一份适合中班幼儿探究的<span class="font-bold">项目活动网络图</span>。”</code>
+                    </div>
+                </div>
+                <!-- 探究阶段 -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                     <h3 class="font-bold text-2xl lg:text-3xl mb-4 text-green-700">2. 探究阶段</h3>
+                     <i class="fas fa-search text-5xl mb-4 text-green-500"></i>
+                     <p class="font-semibold text-lg text-gray-700">痛点：</p>
+                     <p class="text-base text-gray-600 mb-4">如何快速查找资料、设计访谈提纲？</p>
+                     <div class="text-sm bg-gray-50 p-3 rounded-lg mt-4 text-left">
+                        <p class="font-bold">AI玩法示例:</p>
+                        <code class="block mt-1">“为‘蜗牛的秘密’项目，查找5个关于蜗牛的有趣知识点，用5岁孩子能懂的语言描述。”</code>
+                        <hr class="my-2">
+                        <code class="block mt-1">“我们计划带孩子访谈园丁伯伯，请为我们设计一份包含5个问题的<span class="font-bold">访谈提纲</span>。”</code>
+                    </div>
+                </div>
+                <!-- 展示阶段 -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                     <h3 class="font-bold text-2xl lg:text-3xl mb-4 text-green-700">3. 展示阶段</h3>
+                    <i class="fas fa-trophy text-5xl mb-4 text-green-500"></i>
+                    <p class="font-semibold text-lg text-gray-700">痛点：</p>
+                    <p class="text-base text-gray-600 mb-4">如何整理成果、撰写展板介绍？</p>
+                    <div class="text-sm bg-gray-50 p-3 rounded-lg mt-4 text-left">
+                        <p class="font-bold">AI玩法示例:</p>
+                        <code class="block mt-1">“我们的‘蜗牛的秘密’项目要结束了，请帮我们写一段<span class="font-bold">项目故事</span>，总结孩子们发现、饲养、为蜗牛设计房子的全过程。”</code>
+                        <hr class="my-2">
+                        <code class="block mt-1">“请为我们的项目展板，设计一段吸引人的<span class="font-bold">开场白介绍</span>。”</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Creativity Workshop -->
         <div class="section bg-rose-50">
-            <h2 class="text-4xl font-bold text-center text-rose-800 mb-8 fade-in">AI在行动：教学材料创作工坊</h2>
-            <div class="w-full max-w-5xl bg-white p-8 rounded-2xl shadow-2xl fade-in delay-1">
-                <div class="flex justify-center border-b border-gray-200 mb-6">
-                    <button data-tab="image" class="tab-button active text-lg font-semibold px-6 py-3"><i class="fas fa-image mr-2"></i>文生图</button>
-                    <button data-tab="music" class="tab-button text-lg font-semibold px-6 py-3"><i class="fas fa-music mr-2"></i>文生音乐</button>
-                    <button data-tab="video" class="tab-button text-lg font-semibold px-6 py-3"><i class="fas fa-video mr-2"></i>文生视频</button>
+            <h2 class="text-5xl font-bold text-center text-rose-800 mb-10 fade-in">AI在行动：教学材料创作工坊</h2>
+            <div class="w-full max-w-6xl bg-white p-10 rounded-2xl shadow-2xl fade-in delay-1">
+                <div class="flex justify-center border-b border-gray-200 mb-8">
+                    <button data-tab="image" class="tab-button active text-2xl font-semibold px-8 py-4"><i class="fas fa-image mr-2"></i>文生图</button>
+                    <button data-tab="music" class="tab-button text-2xl font-semibold px-8 py-4"><i class="fas fa-music mr-2"></i>文生音乐</button>
+                    <button data-tab="video" class="tab-button text-2xl font-semibold px-8 py-4"><i class="fas fa-video mr-2"></i>文生视频</button>
                 </div>
                 <div id="image" class="tab-content active">
-                    <h3 class="text-2xl font-bold text-center text-rose-700 mb-4">定制化教学配图</h3>
-                    <p class="text-center text-gray-600 mb-4">AI可以根据故事内容和风格要求，生成独一无二的绘本插画。</p>
-                    <div class="bg-rose-100 p-4 rounded-lg">
-                        <p class="font-semibold text-gray-700">提示词示例 (两只山羊)：</p>
-                        <code class="block bg-white mt-2 p-3 rounded text-sm text-gray-800">我要给两只山羊过独木桥不肯相让的故事配图，我希望是卡通、搞笑夸张的风格，以引起小朋友的兴趣。</code>
+                    <h3 class="text-3xl font-bold text-center text-rose-700 mb-4">定制化教学配图</h3>
+                    <p class="text-center text-xl text-gray-600 mb-6">AI可以根据故事内容和风格要求，生成独一无二的绘本插画。</p>
+                    <div class="bg-rose-100 p-6 rounded-lg">
+                        <p class="font-semibold text-gray-700 text-lg">提示词示例 (两只山羊)：</p>
+                        <code class="block bg-white mt-2 p-4 rounded text-base text-gray-800">我要给两只山羊过独木桥不肯相让的故事配图，我希望是卡通、搞笑夸张的风格，以引起小朋友的兴趣。</code>
                     </div>
                 </div>
                  <div id="music" class="tab-content">
-                    <h3 class="text-2xl font-bold text-center text-rose-700 mb-4">原创主题儿歌</h3>
-                    <p class="text-center text-gray-600 mb-4">将老师创作的儿歌歌词，一键生成带有旋律和伴奏的完整歌曲。</p>
-                    <div class="bg-rose-100 p-4 rounded-lg">
-                        <p class="font-semibold text-gray-700">提示词示例 (春节)：</p>
-                        <code class="block bg-white mt-2 p-3 rounded text-sm text-gray-800">我想创作一首歌曲，用自定义歌词。这首歌是流行音乐风格，传达快乐的情绪，使用女声音色。歌词是：红灯笼，高高挂，噼里啪啦放烟花...</code>
+                    <h3 class="text-3xl font-bold text-center text-rose-700 mb-4">原创主题儿歌</h3>
+                    <p class="text-center text-xl text-gray-600 mb-6">将老师创作的儿歌歌词，一键生成带有旋律和伴奏的完整歌曲。</p>
+                    <div class="bg-rose-100 p-6 rounded-lg">
+                        <p class="font-semibold text-gray-700 text-lg">提示词示例 (春节)：</p>
+                        <code class="block bg-white mt-2 p-4 rounded text-base text-gray-800">我想创作一首歌曲，用自定义歌词。这首歌是流行音乐风格，传达快乐的情绪，使用女声音色。歌词是：红灯笼，高高挂，噼里啪啦放烟花...</code>
                     </div>
                 </div>
                  <div id="video" class="tab-content">
-                    <h3 class="text-2xl font-bold text-center text-rose-700 mb-4">生动故事动画</h3>
-                    <p class="text-center text-gray-600 mb-4">将绘本故事或关键场景，转化为生动的动画短片，增强故事的吸引力。</p>
-                    <div class="bg-rose-100 p-4 rounded-lg">
-                        <p class="font-semibold text-gray-700">提示词示例 (绘本改编)：</p>
-                        <code class="block bg-white mt-2 p-3 rounded text-sm text-gray-800">请根据绘本《猜猜我有多爱你》的关键情节，生成一段30秒的动画短片。镜头聚焦小兔子伸开双臂，对大兔子说“我爱你有这么多”。风格为温暖治愈的2D手绘动画。</code>
+                    <h3 class="text-3xl font-bold text-center text-rose-700 mb-4">生动故事动画</h3>
+                    <p class="text-center text-xl text-gray-600 mb-6">将绘本故事或关键场景，转化为生动的动画短片，增强故事的吸引力。</p>
+                    <div class="bg-rose-100 p-6 rounded-lg">
+                        <p class="font-semibold text-gray-700 text-lg">提示词示例 (绘本改编)：</p>
+                        <code class="block bg-white mt-2 p-4 rounded text-base text-gray-800">请根据绘本《猜猜我有多爱你》的关键情节，生成一段30秒的动画短片。镜头聚焦小兔子伸开双臂，对大兔子说“我爱你有这么多”。风格为温暖治愈的2D手绘动画。</code>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 8: 【NEW】Linked Series Case Study -->
+        <!-- Slide 9: Linked Series Case Study -->
         <div class="section bg-teal-50">
-            <h2 class="text-4xl font-bold text-center text-teal-800 mb-8 fade-in">联动系列案例：“不挑食”主题创作</h2>
-            <div class="w-full max-w-7xl grid md:grid-cols-4 gap-6 text-center fade-in delay-1">
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="font-bold text-2xl mb-4 text-teal-700">1. 编故事</h3>
-                    <i class="fas fa-book-open text-4xl mb-3 text-teal-500"></i>
-                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“为小班孩子设计一个故事，教育他们不挑食。主角是<span class="font-bold">小兔子跳跳</span>，情节要有趣，句式要重复。”</p>
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-teal-800 mb-10 fade-in">联动系列案例：“不挑食”主题创作</h2>
+            <div class="w-full max-w-7xl grid md:grid-cols-4 gap-8 text-center fade-in delay-1">
+                <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl lg:text-3xl mb-4 text-teal-700">1. 编故事</h3>
+                    <i class="fas fa-book-open text-5xl mb-4 text-teal-500"></i>
+                    <p class="text-base bg-gray-50 p-4 rounded-lg">“为小班孩子设计一个故事，教育他们不挑食。主角是<span class="font-bold">小兔子跳跳</span>，情节要有趣，句式要重复。”</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="font-bold text-2xl mb-4 text-teal-700">2. 绘配图</h3>
-                    <i class="fas fa-palette text-4xl mb-3 text-teal-500"></i>
-                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“为故事《挑食的小兔子》生成一张插图。画面是小兔子对着餐盘里的胡萝卜<span class="font-bold">皱鼻子</span>，风格要可爱、色彩鲜艳。”</p>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl lg:text-3xl mb-4 text-teal-700">2. 绘配图</h3>
+                    <i class="fas fa-palette text-5xl mb-4 text-teal-500"></i>
+                    <p class="text-base bg-gray-50 p-4 rounded-lg">“为故事《挑食的小兔子》生成一张插图。画面是小兔子对着餐盘里的胡萝卜<span class="font-bold">皱鼻子</span>，风格要可爱、色彩鲜艳。”</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="font-bold text-2xl mb-4 text-teal-700">3. 生成儿歌</h3>
-                    <i class="fas fa-microphone-alt text-4xl mb-3 text-teal-500"></i>
-                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“创作一首关于‘不挑食’的朗朗上口的儿歌，歌词要包含<span class="font-bold">胡萝卜、青菜、蘑菇</span>等健康蔬菜元素。”</p>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl lg:text-3xl mb-4 text-teal-700">3. 生成儿歌</h3>
+                    <i class="fas fa-microphone-alt text-5xl mb-4 text-teal-500"></i>
+                    <p class="text-base bg-gray-50 p-4 rounded-lg">“创作一首关于‘不挑食’的朗朗上口的儿歌，歌词要包含<span class="font-bold">胡萝卜、青菜、蘑菇</span>等健康蔬菜元素。”</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="font-bold text-2xl mb-4 text-teal-700">4. 生成视频</h3>
-                    <i class="fas fa-film text-4xl mb-3 text-teal-500"></i>
-                    <p class="text-sm bg-gray-50 p-3 rounded-lg">“将儿歌《不挑食的乖宝宝》改编成一个舞蹈教学短视频。需要有简单的<span class="font-bold">动作分解说明</span>，适合小班孩子模仿。”</p>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-lg">
+                    <h3 class="font-bold text-2xl lg:text-3xl mb-4 text-teal-700">4. 生成视频</h3>
+                    <i class="fas fa-film text-5xl mb-4 text-teal-500"></i>
+                    <p class="text-base bg-gray-50 p-4 rounded-lg">“将儿歌《不挑食的乖宝宝》改编成一个舞蹈教学短视频。需要有简单的<span class="font-bold">动作分解说明</span>，适合小班孩子模仿。”</p>
                 </div>
             </div>
-             <p class="mt-8 text-2xl text-center text-gray-600 font-light fade-in delay-3">围绕一个核心主题，AI可以进行<span class="font-bold text-teal-600">多模态、系列化</span>的内容创作。</p>
+             <p class="mt-12 text-2xl lg:text-3xl text-center text-gray-600 font-light fade-in delay-3">围绕一个核心主题，AI可以进行<span class="font-bold text-teal-600">多模态、系列化</span>的内容创作。</p>
         </div>
 
-        <!-- Slide 9: AI in Action - Admin Relief -->
-        <div class="section bg-indigo-50">
-            <h2 class="text-4xl font-bold text-center text-indigo-800 mb-8 fade-in">AI在行动：行政效率倍增</h2>
-            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center fade-in delay-1">
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <h3 class="font-bold text-xl mb-3 text-indigo-700">AI处理前：杂乱的文本食谱</h3>
-                    <pre class="bg-gray-100 p-4 rounded-lg text-xs text-gray-600 whitespace-pre-wrap h-64 overflow-auto">星期一 早点 牛奶、花式饼干 午餐 白菜猪肉水饺(白菜、夾心肉、胡萝卜、玉米)、紫薯包 午点 白煮鹌鹑蛋、青菜干贝粥
+        <!-- Slide 10: AI in Action - Admin Relief -->
+           
+        <div class="section bg-lime-50">
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-lime-800 mb-10 fade-in">AI在行动：深化专业观察</h2>
+            <div class="w-full max-w-7xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
+                <div class="analysis-box">
+                    <h3 class="font-bold text-2xl mb-4 text-lime-700"><i class="fas fa-pen-alt mr-2"></i>教师观察记录</h3>
+                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg">今天，乐乐选择了“打怪兽”游戏。他拿了8个“子弹”上了“装甲车”，右手拿着子弹，用力往前扔,子弹没有投进怪兽嘴里,越过小怪兽直接飞了出去。乐乐鼓起嘴，走到掉落的子弹前,将子弹随手丢在了怪兽嘴里。我走过去说:“乐乐,你这样可没有打中怪兽哦,要离这个怪兽一些距离,然后扔进去才算成功!“乐乐说:“我知道,但是这个好难哦,我刚刚就没有投进去才捡进去的。”我又说:“谁也不能每次都投中,你再瞄准多试几次呢。”</p>
+                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg mt-4">说完,乐乐又回到装甲车,这次他又拿起一个子弹,他把子弹在眼前比划了几下,微微皱起眉头,随后,他又慢慢的蹲了下来,把手伸到最远处,闭上右眼瞄准后,再次投掷,这次他还是没有投中,这个子弹落在了小怪兽的前面。</p>
+                </div>
+                <div class="analysis-box">
+                    <h3 class="font-bold text-2xl mb-4 text-lime-700"><i class="fas fa-robot mr-2"></i>AI辅助分析 (依据《指南》)</h3>
+                    <ul class="space-y-4">
+                        <li><strong>身体运动与协调:</strong> 展现了大肌肉运动能力（用力投掷），并通过调整姿势（蹲下、闭眼瞄准）探索如何提高投掷准确性。</li>
+                        <li><strong>认知发展:</strong> 通过“尝试-失败-调整”来学习投掷技巧，表现出解决问题的能力。能理解游戏规则。</li>
+                        <li><strong>社交与情感发展:</strong> 失败后没有放弃，而是继续尝试，显示了良好的坚持性和自我调节能力。</li>
+                        <li><strong>学习品质:</strong>
+                            <ul class="list-disc pl-6 mt-2 space-y-2 text-lg text-gray-700">
+                                <li><strong>坚持性：</strong>第一次失败后没有放弃。</li>
+                                <li><strong>自我调节：</strong>被提醒后，能够接受并尝试调整自己的投掷方式。</li>
+                            </ul>
+                        </li>
+                         <li><strong>教育建议:</strong>
+                            <ul class="list-disc pl-6 mt-2 space-y-2 text-lg text-gray-700">
+                                <li>鼓励并肯定其坚持性。</li>
+                                <li>提供多样化材料，引导探索不同投掷方式。</li>
+                                <li>创造合作游戏机会，促进同伴交往。</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Deepen Professional Observation -->
+        
+         <div class="section bg-indigo-50">
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-indigo-800 mb-10 fade-in">AI在行动：行政效率倍增</h2>
+            <div class="w-full max-w-7xl grid md:grid-cols-2 gap-8 items-center fade-in delay-1">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-indigo-700">AI处理前：杂乱的文本食谱</h3>
+                    <pre class="bg-gray-100 p-4 rounded-lg text-sm text-gray-600 whitespace-pre-wrap h-72 overflow-auto">星期一 早点 牛奶、花式饼干 午餐 白菜猪肉水饺(白菜、夾心肉、胡萝卜、玉米)、紫薯包 午点 白煮鹌鹑蛋、青菜干贝粥
 星期二 早点 牛奶、饼干 午餐 托小:藜麦饭、响油鳝丝、蒜苔炒肉丝、牛心毛菜土豆汤 中大:藜麦饭、响油鳝筒
 星期三 早点 牛奶、花式饼干 午餐 芹香拌饭、奶黄包、番茄冬瓜牛腩汤
 星期四 早点 牛奶、饼干 午餐 托小:大米饭、蜜汁茶树菇鸡丝、肉糜炖蛋、生菜肋排汤 中大:大米饭、蜜汁茶树菇鸡块
 星期五 早点 牛奶、花式饼干 午餐 托小:紫米饭、红烧肉丁、杂蔬牛肉丸(西兰花、胡萝卜)、青菜豆腐汤</pre>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <h3 class="font-bold text-xl mb-3 text-indigo-700">AI处理后：一键生成清晰表格</h3>
-                    <table class="w-full table-auto text-sm">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-indigo-700">AI处理后：一键生成清晰表格</h3>
+                    <table class="w-full table-auto">
                         <thead class="bg-indigo-100">
-                            <tr><th>星期</th><th>早点</th><th>午餐</th></tr>
+                            <tr><th class="text-lg">星期</th><th class="text-lg">早点</th><th class="text-lg">午餐</th></tr>
                         </thead>
                         <tbody>
                             <tr><td>星期一</td><td>牛奶、花式饼干</td><td>白菜猪肉水饺、紫薯包</td></tr>
@@ -447,116 +530,82 @@
                     </table>
                 </div>
             </div>
-            <p class="mt-8 text-xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-indigo-600">请将我发给你的食谱文本，转换成包含“星期、早点、午餐”三列的表格。</span>”</p>
-        </div>
-
-        <!-- Slide 10: Deepen Professional Observation -->
-        <div class="section bg-lime-50">
-            <h2 class="text-4xl font-bold text-center text-lime-800 mb-8 fade-in">AI在行动：深化专业观察</h2>
-            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
-                <div class="analysis-box">
-                    <h3 class="font-bold text-xl mb-3 text-lime-700"><i class="fas fa-pen-alt mr-2"></i>教师观察记录</h3>
-                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg">今天，乐乐选择了“打怪兽”游戏。他拿了8个“子弹”上了“装甲车”，右手拿着子弹，用力往前扔,子弹没有投进怪兽嘴里,越过小怪兽直接飞了出去。乐乐鼓起嘴，走到掉落的子弹前,将子弹随手丢在了怪兽嘴里。我走过去说:“乐乐,你这样可没有打中怪兽哦,要离这个怪兽一些距离,然后扔进去才算成功!“乐乐说:“我知道,但是这个好难哦,我刚刚就没有投进去才捡进去的。”我又说:“谁也不能每次都投中,你再瞄准多试几次呢。”</p>
-                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg mt-4">说完,乐乐又回到装甲车,这次他又拿起一个子弹,他把子弹在眼前比划了几下,微微皱起眉头,随后,他又慢慢的蹲了下来,把手伸到最远处,闭上右眼瞄准后,再次投掷,这次他还是没有投中,这个子弹落在了小怪兽的前面。</p>
-                </div>
-                <div class="analysis-box">
-                    <h3 class="font-bold text-xl mb-3 text-lime-700"><i class="fas fa-robot mr-2"></i>AI辅助分析 (依据《指南》)</h3>
-                    <ul class="space-y-3 text-gray-800">
-                        <li><strong>身体运动与协调:</strong> 展现了大肌肉运动能力（用力投掷），并通过调整姿势（蹲下、闭眼瞄准）探索如何提高投掷准确性。</li>
-                        <li><strong>认知发展:</strong> 通过“尝试-失败-调整”来学习投掷技巧，表现出解决问题的能力。能理解游戏规则。</li>
-                        <li><strong>社交与情感发展:</strong> 失败后没有放弃，而是继续尝试，显示了良好的坚持性和自我调节能力。</li>
-                        <li><strong>学习品质:</strong>
-                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
-                                <li><strong>坚持性：</strong>第一次失败后没有放弃。</li>
-                                <li><strong>自我调节：</strong>被提醒后，能够接受并尝试调整自己的投掷方式。</li>
-                            </ul>
-                        </li>
-                         <li><strong>教育建议:</strong>
-                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
-                                <li>鼓励并肯定其坚持性。</li>
-                                <li>提供多样化材料，引导探索不同投掷方式（如投沙包、投纸飞机）。</li>
-                                <li>创造合作游戏机会，促进同伴交往。</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <p class="mt-10 text-2xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-indigo-600">请将我发给你的食谱文本，转换成包含“星期、早点、午餐”三列的表格。</span>”</p>
         </div>
         
-        <!-- Slide 11: Professional Communication -->
+        <!-- Slide 12: Professional Communication -->
         <div class="section bg-fuchsia-50">
-            <h2 class="text-4xl font-bold text-center text-fuchsia-800 mb-8 fade-in">AI在行动：优化家园沟通</h2>
-            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-fuchsia-800 mb-10 fade-in">AI在行动：优化家园沟通</h2>
+            <div class="w-full max-w-7xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
                 <div class="analysis-box">
-                    <h3 class="font-bold text-xl mb-3 text-fuchsia-700"><i class="fas fa-comment-dots mr-2"></i>教师原始想法</h3>
+                    <h3 class="font-bold text-2xl mb-4 text-fuchsia-700"><i class="fas fa-comment-dots mr-2"></i>教师原始想法</h3>
                     <p class="text-gray-700 bg-gray-50 p-4 rounded-lg">“呃，那个今天换衣服吧，宝宝基本上就是他一个是你也知道啊，这小小小东西发呆平时发呆就情况很严重很严重，就是快毕业了，有些事情也真的多讲，我也不好意思，他平时就很容易发呆，游离在外的。然后今天换衣服，他基本就不动手的，就坐在那里，还是呆在那边，我们真的是忙不过来，你家里只能帮我再给他练练，好吧，麻烦你了啊。”</p>
                 </div>
                 <div class="analysis-box">
-                    <h3 class="font-bold text-xl mb-3 text-fuchsia-700"><i class="fas fa-magic mr-2"></i>AI优化后话术</h3>
+                    <h3 class="font-bold text-2xl mb-4 text-fuchsia-700"><i class="fas fa-magic mr-2"></i>AI优化后话术</h3>
                      <p class="text-gray-800 bg-fuchsia-100 p-4 rounded-lg">“家长您好！我是[孩子名字]的老师，想和您聊聊孩子在园的情况~</p>
                      <p class="text-gray-800 bg-fuchsia-100 p-4 rounded-lg mt-2">孩子一直都是特别可爱的小天使，不过最近在生活自理方面，我发现他还有些小进步空间。比如今天午睡后换衣服，他好像有些小迷茫，坐在原地没有动手，一直安静地发呆，可能是还没太找到“小窍门”。</p>
                      <p class="text-gray-800 bg-fuchsia-100 p-4 rounded-lg mt-2">咱们马上要进入小学，希望能和您一起，在家多鼓励他尝试自己动手，也可以通过有趣的小游戏锻炼他的专注力。有任何好办法，我们也可以随时交流，一起帮孩子成长！辛苦您啦！”</p>
                 </div>
             </div>
-            <p class="mt-8 text-xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-fuchsia-600">请将以下我想对家长说的话，优化得更有礼貌、亲切，并带有积极鼓励的口吻。</span>”</p>
+            <p class="mt-10 text-2xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-fuchsia-600">请将以下我想对家长说的话，优化得更有礼貌、亲切，并带有积极鼓励的口吻。</span>”</p>
         </div>
 
-        <!-- Slide 12: Assisting Research -->
+        <!-- Slide 13: Assisting Research -->
         <div class="section bg-pink-50">
-            <h2 class="text-4xl font-bold text-center text-pink-800 mb-8 fade-in">AI在行动：助力教科研发展</h2>
-            <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-pink-800 mb-10 fade-in">AI在行动：助力教科研发展</h2>
+            <div class="w-full max-w-7xl grid md:grid-cols-2 gap-8 items-start fade-in delay-1">
                 <div class="analysis-box">
-                    <h3 class="font-bold text-xl mb-3 text-pink-700"><i class="fas fa-tasks mr-2"></i>教师的课题框架</h3>
-                     <p class="text-base font-semibold mb-2">研究主题：幼儿园户外探索促进幼儿深度学习的实践</p>
-                     <ul class="space-y-3 text-gray-800">
+                    <h3 class="font-bold text-2xl mb-4 text-pink-700"><i class="fas fa-tasks mr-2"></i>教师的课题框架</h3>
+                     <p class="text-xl font-semibold mb-3">研究主题：幼儿园户外探索促进幼儿深度学习的实践</p>
+                     <ul class="space-y-3 text-lg text-gray-800">
                         <li><strong>1. 选题依据：</strong>
-                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                            <ul class="list-disc pl-6 mt-2 space-y-2 text-base">
                                 <li>国内外相关研究的学术史梳理及研究动态。</li>
                                 <li>本项目的独到学术价值和应用价值。</li>
                             </ul>
                         </li>
                         <li><strong>2. 研究内容：</strong>
-                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                            <ul class="list-disc pl-6 mt-2 space-y-2 text-base">
                                 <li>研究对象、总体框架、重点难点、主要目标等。</li>
                             </ul>
                         </li>
                         <li><strong>3. 思路方法：</strong>
-                             <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                             <ul class="list-disc pl-6 mt-2 space-y-2 text-base">
                                 <li>研究的基本思路、具体研究方法、研究计划及其可行性等。</li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="analysis-box">
-                    <h3 class="font-bold text-xl mb-3 text-pink-700"><i class="fas fa-lightbulb mr-2"></i>AI生成的思路初稿</h3>
-                     <ul class="space-y-3 text-gray-800">
+                    <h3 class="font-bold text-2xl mb-4 text-pink-700"><i class="fas fa-lightbulb mr-2"></i>AI生成的思路初稿</h3>
+                     <ul class="space-y-3 text-lg text-gray-800">
                         <li><strong>选题依据分析：</strong>
-                             <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                             <ul class="list-disc pl-6 mt-2 space-y-2 text-base">
                                 <li><strong>理论创新：</strong>将“深度学习”理论与“户外探索”实践结合，回应了当前幼教界从关注“学什么”到关注“如何学得更深”的转向。</li>
                                 <li><strong>实践需求：</strong>解决户外活动易流于形式、缺乏深度的问题，探索支持幼儿深度学习的具体策略。</li>
                             </ul>
                         </li>
                          <li><strong>研究内容建议：</strong>
-                            <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                            <ul class="list-disc pl-6 mt-2 space-y-2 text-base">
                                 <li><strong>框架建议：</strong>构建“环境创设-材料投放-教师支持-观察评估”四位一体的实践模型。</li>
                                 <li><strong>重点：</strong>识别与分析幼儿在户外探索中深度学习的关键时刻（如持续探究、问题解决、创造性表达）。</li>
-                                <li><strong>难点：</strong>如何有效支持和评估开放情境下幼儿的深度学习过程。</li>
                              </ul>
                         </li>
                          <li><strong>思路与方法建议：</strong>
-                             <ul class="list-disc pl-5 mt-1 text-sm text-gray-600">
+                             <ul class="list-disc pl-6 mt-2 space-y-2 text-base">
                                 <li>采用“行动研究法”，教师在实践中反思、调整。结合“学习故事”、“作品集评估法”等质性方法，记录和评估幼儿的深度学习。</li>
                              </ul>
                         </li>
                     </ul>
                 </div>
             </div>
-             <p class="mt-8 text-xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-pink-600">我想要申请关于“幼儿园户外探索促进幼儿深度学习”的研究，请根据我的框架提供思路。</span>”</p>
+             <p class="mt-10 text-2xl text-gray-600 text-center fade-in delay-2">提示词：“<span class="font-semibold text-pink-600">我想要申请关于“幼儿园户外探索促进幼儿深度学习”的研究，请根据我的框架提供思路。</span>”</p>
         </div>
 
-        <!-- Slide 13: Innovative Prompts Mind Map -->
+        <!-- Slide 14: Innovative Prompts Mind Map -->
         <div class="section bg-violet-50">
-            <h2 class="text-4xl font-bold text-center text-violet-800 mb-8 fade-in">打开思路：AI创新玩法一览</h2>
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-violet-800 mb-10 fade-in">打开思路：AI创新玩法一览</h2>
             <div class="mindmap-container fade-in delay-1">
                 <div class="mindmap-center">AI<br>创新提问法</div>
                 <!-- Nodes -->
@@ -591,84 +640,84 @@
             </div>
         </div>
         
-        <!-- Slide 14: AI Hallucination -->
+        <!-- Slide 15: AI Hallucination -->
         <div class="section bg-orange-50">
-            <h2 class="text-4xl font-bold text-center text-orange-800 mb-8 fade-in">保持清醒：警惕AI的“幻觉”</h2>
-            <div class="w-full max-w-4xl bg-white p-8 rounded-2xl shadow-2xl text-center fade-in delay-1">
-                 <i class="fas fa-ghost text-6xl text-orange-400 mb-4"></i>
-                 <h3 class="text-2xl font-bold text-orange-700 mb-4">什么是“AI幻觉”？</h3>
-                 <p class="text-lg text-gray-700 mb-6">指AI生成了看似合理、有理有据，但实际上<span class="font-bold">与事实不符或凭空捏造</span>的信息。因为它本质上是基于概率预测词语，并不真正“理解”世界。</p>
-                 <div class="text-left bg-orange-100 p-4 rounded-lg border-l-4 border-orange-500">
-                     <p class="font-semibold">真实案例：</p>
-                     <p class="text-sm text-gray-600 mt-1">某AI模型曾生成一份虚假的科研报告，包含不存在的专家和研究数据，险些误导用户。这提醒我们，对于AI生成的事实性内容，必须进行核查。</p>
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-orange-800 mb-10 fade-in">保持清醒：警惕AI的“幻觉”</h2>
+            <div class="w-full max-w-5xl bg-white p-10 rounded-2xl shadow-2xl text-center fade-in delay-1">
+                 <i class="fas fa-ghost text-7xl text-orange-400 mb-6"></i>
+                 <h3 class="text-3xl font-bold text-orange-700 mb-4">什么是“AI幻觉”？</h3>
+                 <p class="text-2xl text-gray-700 mb-8">指AI生成了看似合理、有理有据，但实际上<span class="font-bold">与事实不符或凭空捏造</span>的信息。因为它本质上是基于概率预测词语，并不真正“理解”世界。</p>
+                 <div class="text-left bg-orange-100 p-6 rounded-lg border-l-4 border-orange-500">
+                     <p class="font-semibold text-xl">真实案例：</p>
+                     <p class="text-lg text-gray-600 mt-2">某AI模型曾生成一份虚假的科研报告，包含不存在的专家和研究数据，险些误导用户。这提醒我们，对于AI生成的事实性内容，必须进行核查。</p>
                  </div>
             </div>
         </div>
 
-        <!-- Slide 15: Solutions -->
+        <!-- Slide 16: Solutions -->
          <div class="section bg-blue-50">
-            <h2 class="text-4xl font-bold text-center text-blue-800 mb-12 fade-in">化解幻觉：我们的三大“法宝”</h2>
-             <div class="grid md:grid-cols-3 gap-8 max-w-7xl text-center">
-                <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-1">
-                    <h3 class="font-bold text-2xl mb-4 text-blue-700">联网搜索 (AI搜索)</h3>
-                    <i class="fas fa-globe-asia text-5xl mb-4 text-blue-500"></i>
-                    <p class="text-gray-600">让AI连接互联网，获取最新的、有来源可查证的信息。适用于**核查事实、了解时事**。</p>
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-blue-800 mb-12 fade-in">化解幻觉：我们的三大“法宝”</h2>
+             <div class="grid md:grid-cols-3 gap-10 max-w-7xl text-center">
+                <div class="bg-white p-10 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-3xl mb-4 text-blue-700">联网搜索</h3>
+                    <i class="fas fa-globe-asia text-6xl mb-6 text-blue-500"></i>
+                    <p class="text-xl text-gray-600">让AI连接互联网，获取最新的、有来源可查证的信息。适用于核查事实、了解时事。</p>
                 </div>
-                 <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-2">
-                    <h3 class="font-bold text-2xl mb-4 text-blue-700">深度研究</h3>
-                    <i class="fas fa-book-reader text-5xl mb-4 text-blue-500"></i>
-                     <p class="text-gray-600">AI自动分解复杂问题，阅读大量文献和网页，最终生成一份**结构化、引用规范的深度报告**。</p>
+                 <div class="bg-white p-10 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-3xl mb-4 text-blue-700">深度研究</h3>
+                    <i class="fas fa-book-reader text-6xl mb-6 text-blue-500"></i>
+                     <p class="text-xl text-gray-600">AI自动分解复杂问题，阅读大量文献和网页，最终生成一份结构化、引用规范的深度报告。</p>
                 </div>
-                 <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-3">
-                    <h3 class="font-bold text-2xl mb-4 text-blue-700">知识库</h3>
-                     <i class="fas fa-database text-5xl mb-4 text-blue-500"></i>
-                    <p class="text-gray-600">上传你自己的文件（如园所资料、指南文件），让AI**只在你提供的资料范围内**回答问题，确保信息精准可控。</p>
+                 <div class="bg-white p-10 rounded-2xl shadow-lg fade-in delay-3">
+                    <h3 class="font-bold text-3xl mb-4 text-blue-700">知识库</h3>
+                     <i class="fas fa-database text-6xl mb-6 text-blue-500"></i>
+                    <p class="text-xl text-gray-600">上传你自己的文件（如园所资料、指南文件），让AI只在你提供的资料范围内回答问题，确保信息精准可控。</p>
                 </div>
              </div>
         </div>
         
-        <!-- Slide 16: Toolbox -->
+        <!-- Slide 17: Toolbox -->
         <div class="section bg-slate-50">
-            <h2 class="text-4xl font-bold text-center text-slate-800 mb-12 fade-in">AI工具箱：选择你的高效伙伴</h2>
-            <p class="text-center text-gray-500 mb-8 fade-in delay-1">根据《生成式AI在早期儿童教育中的适用性》研究排名推荐</p>
-            <div class="flex flex-wrap justify-center items-start gap-6 max-w-6xl">
-                <div class="bg-white p-6 rounded-2xl shadow-lg text-center fade-in delay-1 border-t-8 border-green-400">
-                    <h3 class="text-lg font-bold text-slate-700 mb-2">第一梯队 (强烈推荐)</h3>
-                    <div class="space-y-3 mt-4">
-                        <div class="font-semibold text-2xl text-green-600">豆包 (Doubao)</div>
-                        <div class="font-semibold text-2xl text-green-600">讯飞星火 (Spark)</div>
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-slate-800 mb-12 fade-in">AI工具箱：选择你的高效伙伴</h2>
+            <p class="text-center text-xl text-gray-500 mb-10 fade-in delay-1">根据《生成式AI在早期儿童教育中的适用性》研究排名推荐</p>
+            <div class="flex flex-wrap justify-center items-start gap-8 max-w-6xl">
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center fade-in delay-1 border-t-8 border-green-400 w-80">
+                    <h3 class="text-2xl font-bold text-slate-700 mb-3">第一梯队 (强烈推荐)</h3>
+                    <div class="space-y-4 mt-6">
+                        <div class="font-semibold text-3xl text-green-600">豆包 (Doubao)</div>
+                        <div class="font-semibold text-3xl text-green-600">讯飞星火 (Spark)</div>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg text-center fade-in delay-2 border-t-8 border-yellow-400">
-                    <h3 class="text-lg font-bold text-slate-700 mb-2">第二梯队 (表现优秀)</h3>
-                     <div class="space-y-3 mt-4">
-                        <div class="font-semibold text-xl text-yellow-600">天工AI (Tiangong)</div>
-                        <div class="font-semibold text-xl text-yellow-600">Kimi</div>
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center fade-in delay-2 border-t-8 border-yellow-400 w-80">
+                    <h3 class="text-2xl font-bold text-slate-700 mb-3">第二梯队 (表现优秀)</h3>
+                     <div class="space-y-4 mt-6">
+                        <div class="font-semibold text-2xl text-yellow-600">天工AI (Tiangong)</div>
+                        <div class="font-semibold text-2xl text-yellow-600">Kimi</div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Slide 17: The Human in the Loop -->
+        <!-- Slide 18: The Human in the Loop -->
         <div class="section bg-green-50">
-            <h2 class="text-4xl font-bold text-center text-green-800 mb-12 fade-in">智慧同行：做AI的主人</h2>
-            <div class="grid md:grid-cols-2 gap-8 max-w-5xl text-lg">
-                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-1">
-                    <h3 class="font-bold text-xl mb-3 text-green-700"><i class="fas fa-user-check mr-2"></i>你是专家，AI是工具</h3>
+            <h2 class="text-4xl lg:text-5xl font-bold text-center text-green-800 mb-12 fade-in">智慧同行：做AI的主人</h2>
+            <div class="grid md:grid-cols-2 gap-10 max-w-6xl text-2xl">
+                <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-1">
+                    <h3 class="font-bold text-3xl mb-4 text-green-700"><i class="fas fa-user-check mr-2"></i>你是专家，AI是工具</h3>
                     <p>AI可能会“吹牛”（产生幻觉），也可能让你“偷懒”（思维惰性）。专业的你，永远是最终的把关人。</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg fade-in delay-2">
-                    <h3 class="font-bold text-xl mb-3 text-green-700"><i class="fas fa-rocket mr-2"></i>从一件小事开始</h3>
+                <div class="bg-white p-8 rounded-2xl shadow-lg fade-in delay-2">
+                    <h3 class="font-bold text-3xl mb-4 text-green-700"><i class="fas fa-rocket mr-2"></i>从一件小事开始</h3>
                     <p>今天回去，就试着用AI帮你完成一件重复性的小事。比如，起草一份周计划，或者把今天的讲座总结成要点。</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 18: Q&A -->
+        <!-- Slide 19: Q&A -->
         <div class="section bg-gray-800 text-white text-center">
-            <h1 class="text-8xl font-black tracking-tight fade-in">Q & A</h1>
-            <h2 class="text-3xl font-light mt-4 fade-in delay-1">感谢聆听</h2>
-            <p class="text-xl mt-12 fade-in delay-2">预祝各位老师工作顺利，智慧提效！</p>
+            <h1 class="text-8xl lg:text-9xl font-black tracking-tight fade-in">Q & A</h1>
+            <h2 class="text-4xl font-light mt-6 fade-in delay-1">谢谢大家！</h2>
+            <p class="text-2xl mt-16 fade-in delay-2">祝各位老师工作顺利，智慧提效！</p>
         </div>
 
     </div>
@@ -738,7 +787,7 @@
             const center = document.querySelector('.mindmap-center');
             if (center) {
                 const nodes = document.querySelectorAll('.mindmap-node');
-                const radius = 240; // Adjusted radius to be more compact
+                const radius = 260; // Adjusted radius to be more compact
                 const numNodes = nodes.length;
                 const angleStep = (2 * Math.PI) / numNodes;
 
