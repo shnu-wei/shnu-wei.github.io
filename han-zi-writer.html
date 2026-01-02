@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>汉字序列特训系统 (AI高精版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <style>
+        body {
+            touch-action: none; 
+            overscroll-behavior: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        #canvas-wrapper {
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            margin: 0 auto;
+            position: relative;
+            cursor: crosshair;
+            transition: transform 0.1s;
+            overflow: hidden;
+        }
+
+        .mizige {
+            background-image: 
+                linear-gradient(0deg, transparent 49.5%, #e2e8f0 49.5%, #e2e8f0 50.5%, transparent 50.5%),
+                linear-gradient(90deg, transparent 49.5%, #e2e8f0 49.5%, #e2e8f0 50.5%, transparent 50.5%),
+                linear-gradient(45deg, transparent 49.5%, #e2e8f0 49.5%, #e2e8f0 50.5%, transparent 50.5%),
+                linear-gradient(-45deg, transparent 49.5%, #e2e8f0 49.5%, #e2e8f0 50.5%, transparent 50.5%);
+            background-size: 100% 100%;
+            border: 2px solid #94a3b8;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+        }
+
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .progress-bar { transition: width 0.3s ease; }
+
+        /* 选中汉字标签的样式 */
+        .char-chip.selected {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+        
+        /* 加载动画 */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="h-screen flex flex-col items-center text-slate-700 overflow-hidden">
+
+    <!-- 1. 顶部：课程导入与进度区 -->
+    <header class="w-full bg-white shadow-sm z-10 p-4">
+        <div class="max-w-md mx-auto">
+            <!-- 输入区域 -->
+            <div class="flex gap-2 mb-3">
+                <input type="text" id="lesson-input" value="天高任鸟飞" placeholder="输入成语或句子"
+                       class="flex-1 border-2 border-slate-200 rounded-lg px-3 py-2 text-lg focus:border-blue-500 focus:outline-none transition-colors">
+                
+                <!-- 相机识别按钮 -->
+                <button onclick="openOCRModal()" 
+                        class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-2 rounded-lg border border-indigo-200 transition-colors flex items-center gap-1"
+                        title="AI 拍照识别">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+                    <span class="text-sm font-bold">AI识字</span>
+                </button>
+
+                <button onclick="loadLesson()" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors whitespace-nowrap">
+                    加载
+                </button>
+            </div>
+
+            <!-- 进度导航栏 -->
+            <div class="flex items-center justify-between bg-slate-100 rounded-lg p-2">
+                <button onclick="prevChar()" id="btn-prev" disabled class="p-2 rounded-md hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed text-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                
+                <div class="text-center">
+                    <div id="progress-text" class="text-lg font-bold text-slate-700 font-mono">1 / 5</div>
+                    <div class="text-xs text-slate-400" id="current-char-display">当前字：天</div>
+                </div>
+
+                <button onclick="nextChar()" id="btn-next" class="p-2 rounded-md hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed text-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+            <!-- 进度条 -->
+            <div class="w-full bg-slate-200 h-1 mt-0 rounded-full overflow-hidden">
+                <div id="progress-indicator" class="progress-bar bg-blue-500 h-full" style="width: 20%"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 中部：书写核心区 -->
+    <main class="flex-1 w-full flex flex-col items-center justify-center gap-4 relative">
+        <div id="status-msg" class="text-slate-500 font-medium h-6 text-sm transition-all duration-300">
+            准备就绪
+        </div>
+
+        <div id="canvas-wrapper" class="relative">
+            <div id="character-target-div" class="mizige"></div>
+            <div id="completion-overlay" class="absolute inset-0 z-20 hidden items-center justify-center bg-white/80 backdrop-blur-sm">
+                <div class="text-emerald-600 font-bold text-2xl animate-bounce">✨ 完成!</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 w-full max-w-xs px-6 mt-2">
+            <button onclick="animateChar()" 
+                    class="flex items-center justify-center gap-2 bg-white border-2 border-slate-200 text-slate-600 py-3 rounded-xl font-medium active:bg-slate-50">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                演示
+            </button>
+            <button onclick="startQuiz()" id="btn-quiz"
+                    class="flex items-center justify-center gap-2 bg-emerald-500 text-white py-3 rounded-xl shadow-lg shadow-emerald-200 font-bold active:scale-95 transition-transform">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
+                测验
+            </button>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 mt-4 px-4">
+            <label class="flex items-center gap-2 text-sm text-slate-600 bg-white px-3 py-1.5 rounded-full shadow-sm border border-slate-100">
+                <input type="checkbox" id="auto-next" checked class="accent-blue-500 w-4 h-4">
+                <span>自动下一个</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm text-slate-600 bg-white px-3 py-1.5 rounded-full shadow-sm border border-slate-100">
+                <input type="checkbox" id="show-outline" checked onchange="toggleOutline()" class="accent-blue-500 w-4 h-4">
+                <span>显示轮廓</span>
+            </label>
+        </div>
+    </main>
+
+    <!-- AI OCR 弹窗 Modal -->
+    <div id="ocr-modal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+            <div class="p-4 border-b flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2">
+                    <span>📷 AI 智能识字</span>
+                    <span class="text-xs font-normal text-white bg-indigo-500 px-2 py-0.5 rounded-full">Gemini</span>
+                </h3>
+                <button onclick="closeOCRModal()" class="text-slate-400 hover:text-slate-600">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto">
+                
+                <!-- API Key 配置区 -->
+                <div class="mb-4 p-3 bg-indigo-50 rounded-lg border border-indigo-100">
+                    <label class="block text-xs font-bold text-indigo-700 mb-1">Google Gemini API Key (必填)</label>
+                    <input type="password" id="api-key-input" placeholder="粘贴您的 API Key" 
+                           class="w-full px-2 py-1 text-sm border border-indigo-200 rounded focus:outline-none focus:border-indigo-500"
+                           onchange="saveApiKey()">
+                    <div class="flex justify-between mt-1">
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-xs text-blue-500 underline">获取免费 Key</a>
+                        <span id="key-status" class="text-xs text-slate-400">未保存</span>
+                    </div>
+                </div>
+
+                <!-- 文件选择区 -->
+                <div class="mb-4">
+                    <label class="block w-full h-32 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition bg-slate-50 relative overflow-hidden group">
+                        <input type="file" id="ocr-file-input" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        <div id="upload-placeholder" class="flex flex-col items-center">
+                            <svg class="w-10 h-10 text-slate-400 mb-2 group-hover:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span class="text-sm text-slate-500 font-medium">点击拍摄或选择图片</span>
+                        </div>
+                        <img id="ocr-preview" class="absolute inset-0 w-full h-full object-cover hidden opacity-50" />
+                    </label>
+                </div>
+
+                <!-- 状态与进度 -->
+                <div id="ocr-status-container" class="flex flex-col items-center justify-center py-4 hidden">
+                    <div class="loader mb-2"></div>
+                    <div id="ocr-status" class="text-sm text-center text-blue-600 font-medium">正在请求 AI 分析...</div>
+                </div>
+
+                <!-- 识别结果选择区 -->
+                <div id="ocr-result-area" class="hidden">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="text-sm text-slate-500">识别结果 (点击选择):</p>
+                        <button onclick="selectAllChips()" class="text-xs text-blue-500 font-medium hover:underline">全选</button>
+                    </div>
+                    <div id="char-chips-container" class="flex flex-wrap gap-2 justify-center bg-slate-50 p-3 rounded-lg border border-slate-100 min-h-[60px]">
+                        <!-- Chips will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t bg-slate-50 flex gap-3">
+                <button onclick="closeOCRModal()" class="flex-1 py-2.5 text-slate-600 font-medium hover:bg-slate-200 rounded-lg">取消</button>
+                <button id="btn-add-selected" onclick="addSelectedChars()" disabled class="flex-1 py-2.5 bg-indigo-600 text-white font-bold rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-700 transition-colors">
+                    加入练习
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 核心状态管理 ---
+        const AppState = {
+            writer: null,
+            charList: [],
+            currentIndex: 0,
+            isQuizzing: false,
+            selectedOCRChars: new Set(),
+            apiKey: ''
+        };
+
+        // --- 初始化 ---
+        function getCanvasSize() {
+            const h = window.innerHeight;
+            const w = window.innerWidth;
+            const availableSize = Math.min(w - 40, h - 300); 
+            return Math.max(260, Math.min(availableSize, 350));
+        }
+
+        window.onload = function() {
+            loadLesson();
+            loadApiKey(); // 加载保存的 Key
+            window.addEventListener('resize', debounce(() => {
+                initWriter(AppState.charList[AppState.currentIndex]);
+            }, 300));
+        };
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // --- API Key 管理 ---
+        function loadApiKey() {
+            const key = localStorage.getItem('gemini_api_key');
+            if (key) {
+                AppState.apiKey = key;
+                document.getElementById('api-key-input').value = key;
+                updateKeyStatus(true);
+            }
+        }
+
+        function saveApiKey() {
+            const val = document.getElementById('api-key-input').value.trim();
+            if (val) {
+                localStorage.setItem('gemini_api_key', val);
+                AppState.apiKey = val;
+                updateKeyStatus(true);
+            } else {
+                updateKeyStatus(false);
+            }
+        }
+
+        function updateKeyStatus(saved) {
+            const el = document.getElementById('key-status');
+            if (saved) {
+                el.innerText = '✅ 已保存';
+                el.className = 'text-xs text-emerald-500 font-bold';
+            } else {
+                el.innerText = '未保存';
+                el.className = 'text-xs text-slate-400';
+            }
+        }
+
+        // --- 课程加载逻辑 ---
+        function loadLesson(overrideText = null) {
+            let inputText = overrideText;
+            if (inputText === null) {
+                inputText = document.getElementById('lesson-input').value;
+            } else {
+                document.getElementById('lesson-input').value = inputText;
+            }
+
+            const chars = inputText.match(/[\u4e00-\u9fa5]/g);
+            
+            if (!chars || chars.length === 0) {
+                if (overrideText) showStatus('⚠️ AI 未识别到有效汉字', 'error');
+                else showStatus('⚠️ 未检测到有效汉字', 'error');
+                return;
+            }
+
+            AppState.charList = chars;
+            AppState.currentIndex = 0;
+            
+            updateUI();
+            initWriter(AppState.charList[0]);
+            showStatus(`加载成功：共 ${chars.length} 个字`, 'normal');
+        }
+
+        // --- OCR 模态框逻辑 ---
+        function openOCRModal() {
+            document.getElementById('ocr-modal').classList.remove('hidden');
+            resetOCRUI();
+        }
+
+        function closeOCRModal() {
+            document.getElementById('ocr-modal').classList.add('hidden');
+        }
+
+        function resetOCRUI() {
+            document.getElementById('ocr-file-input').value = '';
+            document.getElementById('ocr-preview').classList.add('hidden');
+            document.getElementById('ocr-preview').src = '';
+            document.getElementById('ocr-result-area').classList.add('hidden');
+            document.getElementById('ocr-status-container').classList.add('hidden');
+            document.getElementById('btn-add-selected').disabled = true;
+            document.getElementById('char-chips-container').innerHTML = '';
+            document.getElementById('upload-placeholder').classList.remove('hidden');
+            AppState.selectedOCRChars.clear();
+        }
+
+        // --- 核心：Gemini API 调用逻辑 ---
+        async function handleImageUpload(input) {
+            if (!AppState.apiKey) {
+                alert("请先输入 Google Gemini API Key 才能使用 AI 识别功能。");
+                input.value = '';
+                return;
+            }
+
+            const file = input.files[0];
+            if (!file) return;
+
+            // UI 更新
+            const img = document.getElementById('ocr-preview');
+            img.src = URL.createObjectURL(file);
+            img.classList.remove('hidden');
+            document.getElementById('upload-placeholder').classList.add('hidden');
+
+            const statusContainer = document.getElementById('ocr-status-container');
+            const statusText = document.getElementById('ocr-status');
+            statusContainer.classList.remove('hidden');
+            statusText.innerText = "正在压缩图片...";
+
+            try {
+                // 1. 压缩并转换为 Base64 (Gemini 限制 Payload 大小)
+                const base64Data = await compressImage(file);
+                
+                // 2. 发送请求
+                statusText.innerText = "正在请求 AI 分析 (Gemini 2.5)...";
+                
+                const resultText = await callGeminiAPI(base64Data);
+                
+                // 3. 处理结果
+                statusContainer.classList.add('hidden');
+                renderOCRResults(resultText);
+
+            } catch (err) {
+                console.error(err);
+                statusText.innerText = "识别失败: " + (err.message || "网络错误");
+                statusText.className = "text-sm text-center text-red-600 font-bold";
+                // 停止加载动画
+                document.querySelector('.loader').style.display = 'none';
+            }
+        }
+
+        // 图片压缩工具 (Canvas)
+        function compressImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        // 限制最大边长为 1024px，保证速度
+                        const MAX_SIZE = 1024;
+                        if (width > height) {
+                            if (width > MAX_SIZE) {
+                                height *= MAX_SIZE / width;
+                                width = MAX_SIZE;
+                            }
+                        } else {
+                            if (height > MAX_SIZE) {
+                                width *= MAX_SIZE / height;
+                                height = MAX_SIZE;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // 输出为 JPEG base64, 质量 0.7
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                        // 去掉 data:image/jpeg;base64, 前缀
+                        resolve(dataUrl.split(',')[1]);
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // 调用 Gemini REST API
+        async function callGeminiAPI(base64Image) {
+            // 使用在预览环境中更稳定的 gemini-2.5-flash-preview-09-2025 模型
+            const model = "gemini-2.5-flash-preview-09-2025";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${AppState.apiKey}`;
+            
+            // 修正了 Payload 结构，使用 inlineData (CamelCase) 并添加 role: "user"
+            const payload = {
+                contents: [{
+                    role: "user",
+                    parts: [
+                        { text: "请识别这张图片中所有的汉字（包括手写体和印刷体）。请忽略标点符号、拼音和英文字母。直接返回所有识别到的汉字，作为一个连续的字符串。不要包含任何解释性文字。" },
+                        { inlineData: { mimeType: "image/jpeg", data: base64Image } }
+                    ]
+                }]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    credentials: 'omit' // 防止 CORS 问题
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    console.error("Gemini API Error:", errData);
+                    throw new Error(errData.error?.message || `API 请求失败 (${response.status})`);
+                }
+
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+            } catch (error) {
+                // 捕获 Failed to fetch 错误，提供更友好的提示
+                if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                    throw new Error("网络请求失败。请检查网络连接、API Key 是否有效，或检查是否开启了拦截跨域请求的插件。");
+                }
+                throw error;
+            }
+        }
+
+        // 渲染识别出的汉字 Chip
+        function renderOCRResults(text) {
+            const container = document.getElementById('char-chips-container');
+            container.innerHTML = '';
+            document.getElementById('ocr-result-area').classList.remove('hidden');
+            
+            // 提取唯一汉字
+            const chars = text.match(/[\u4e00-\u9fa5]/g);
+            if (!chars) {
+                container.innerHTML = '<span class="text-slate-400 text-sm">未识别到有效汉字，请重试</span>';
+                return;
+            }
+
+            // 自动去重
+            const uniqueChars = [...new Set(chars)];
+
+            uniqueChars.forEach(char => {
+                const chip = document.createElement('button');
+                chip.innerText = char;
+                chip.className = 'char-chip w-10 h-10 rounded-lg border border-slate-200 bg-white text-lg font-bold text-slate-700 shadow-sm hover:border-indigo-300 transition-all active:scale-95';
+                
+                // 默认全选
+                toggleCharSelection(chip, char);
+
+                chip.onclick = () => toggleCharSelection(chip, char);
+                container.appendChild(chip);
+            });
+
+            checkAddButton();
+        }
+
+        function toggleCharSelection(el, char) {
+            if (AppState.selectedOCRChars.has(char)) {
+                AppState.selectedOCRChars.delete(char);
+                el.classList.remove('selected', 'ring-2', 'ring-indigo-500');
+                el.style.backgroundColor = 'white';
+                el.style.color = '#334155';
+            } else {
+                AppState.selectedOCRChars.add(char);
+                el.classList.add('selected', 'ring-2', 'ring-indigo-500');
+                el.style.backgroundColor = '#4f46e5'; // indigo-600
+                el.style.color = 'white';
+            }
+            checkAddButton();
+        }
+        
+        function selectAllChips() {
+             // 逻辑：如果当前没有全选，则全选；如果已经全选，则不动作或反选（这里简单起见，重新触发全选）
+             // 实际上只需遍历 DOM 触发点击逻辑
+             const chips = document.querySelectorAll('.char-chip');
+             chips.forEach(chip => {
+                 const char = chip.innerText;
+                 if (!AppState.selectedOCRChars.has(char)) {
+                     // 模拟点击选中
+                     toggleCharSelection(chip, char);
+                 }
+             });
+        }
+
+        function checkAddButton() {
+            const btn = document.getElementById('btn-add-selected');
+            if (AppState.selectedOCRChars.size > 0) {
+                btn.disabled = false;
+                btn.innerText = `加入练习 (${AppState.selectedOCRChars.size})`;
+            } else {
+                btn.disabled = true;
+                btn.innerText = '加入练习';
+            }
+        }
+
+        function addSelectedChars() {
+            const newChars = Array.from(AppState.selectedOCRChars).join('');
+            loadLesson(newChars);
+            closeOCRModal();
+        }
+
+        // --- 汉字书写逻辑 (不变) ---
+        function initWriter(char) {
+            const size = getCanvasSize();
+            const wrapper = document.getElementById('canvas-wrapper');
+            wrapper.style.width = size + 'px';
+            wrapper.style.height = size + 'px';
+
+            const target = document.getElementById('character-target-div');
+            target.innerHTML = ''; 
+
+            const overlay = document.getElementById('completion-overlay');
+            if (overlay) {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+            }
+
+            AppState.writer = HanziWriter.create('character-target-div', char, {
+                width: size,
+                height: size,
+                padding: 5,
+                showOutline: document.getElementById('show-outline').checked,
+                strokeAnimationSpeed: 1,
+                delayBetweenStrokes: 200,
+                strokeColor: '#334155',
+                radicalColor: '#2563eb',
+                outlineColor: '#cbd5e1', 
+                drawingWidth: 25,
+                showHintAfterMisses: 3,
+                
+                onLoadCharDataError: (err) => {
+                    showStatus(`⚠️ 暂无 "${char}" 的笔顺数据`, 'error');
+                },
+            });
+        }
+
+        function updateUI() {
+            const total = AppState.charList.length;
+            const current = AppState.currentIndex + 1;
+            const char = AppState.charList[AppState.currentIndex];
+
+            document.getElementById('progress-text').innerText = `${current} / ${total}`;
+            document.getElementById('current-char-display').innerText = `当前字：${char}`;
+            
+            document.getElementById('btn-prev').disabled = AppState.currentIndex === 0;
+            document.getElementById('btn-next').disabled = AppState.currentIndex === total - 1;
+
+            const percent = (current / total) * 100;
+            document.getElementById('progress-indicator').style.width = `${percent}%`;
+        }
+
+        function nextChar() {
+            if (AppState.currentIndex < AppState.charList.length - 1) {
+                AppState.currentIndex++;
+                updateUI();
+                initWriter(AppState.charList[AppState.currentIndex]);
+                showStatus('已切换到下一个字', 'normal');
+            }
+        }
+
+        function prevChar() {
+            if (AppState.currentIndex > 0) {
+                AppState.currentIndex--;
+                updateUI();
+                initWriter(AppState.charList[AppState.currentIndex]);
+            }
+        }
+
+        function animateChar() {
+            if (AppState.writer) {
+                AppState.isQuizzing = false;
+                AppState.writer.cancelQuiz();
+                AppState.writer.animateCharacter();
+                showStatus('观看笔顺演示', 'normal');
+            }
+        }
+
+        function startQuiz() {
+            if (!AppState.writer) return;
+            AppState.isQuizzing = true;
+            showStatus('测验开始！请书写...', 'active');
+            
+            AppState.writer.quiz({
+                onMistake: function(strokeData) {
+                    showStatus('❌ 笔画错误', 'error');
+                    const el = document.getElementById('canvas-wrapper');
+                    el.classList.remove('shake');
+                    void el.offsetWidth;
+                    el.classList.add('shake');
+                },
+                onCorrectStroke: function(data) {
+                    showStatus(`✅ 剩余 ${data.strokesRemaining} 笔`, 'success');
+                },
+                onComplete: function(summary) {
+                    showStatus('🎉 完成！', 'complete');
+                    const overlay = document.getElementById('completion-overlay');
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('flex');
+
+                    const autoNext = document.getElementById('auto-next').checked;
+                    setTimeout(() => {
+                        overlay.classList.add('hidden');
+                        overlay.classList.remove('flex');
+                        if (autoNext) {
+                            if (AppState.currentIndex < AppState.charList.length - 1) {
+                                nextChar();
+                                setTimeout(() => startQuiz(), 800); 
+                            } else {
+                                showStatus('🏆 恭喜！本课所有汉字已完成', 'complete');
+                            }
+                        }
+                    }, 1200);
+                }
+            });
+        }
+
+        function toggleOutline() {
+            if (AppState.writer) {
+                const checked = document.getElementById('show-outline').checked;
+                checked ? AppState.writer.showOutline() : AppState.writer.hideOutline();
+            }
+        }
+
+        function showStatus(text, type) {
+            const el = document.getElementById('status-msg');
+            el.innerText = text;
+            el.className = 'text-sm font-medium h-6 transition-colors duration-200 ';
+            const colors = {
+                'error': 'text-red-500 font-bold',
+                'success': 'text-emerald-600',
+                'active': 'text-blue-600 font-bold',
+                'complete': 'text-purple-600 font-bold text-base',
+                'normal': 'text-slate-500'
+            };
+            el.className += colors[type] || colors['normal'];
+        }
+    </script>
+</body>
+</html>
