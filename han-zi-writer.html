@@ -479,13 +479,14 @@
                 chip.innerText = char;
                 chip.className = 'char-chip w-10 h-10 rounded-lg border border-slate-200 bg-white text-lg font-bold text-slate-700 shadow-sm hover:border-indigo-300 transition-all active:scale-95';
                 
-                // 默认全选
-                toggleCharSelection(chip, char);
+                // 修改：去掉了默认全选的逻辑
+                // toggleCharSelection(chip, char); 
 
                 chip.onclick = () => toggleCharSelection(chip, char);
                 container.appendChild(chip);
             });
 
+            // 更新按钮状态（此时应该是禁用状态，因为一个都没选）
             checkAddButton();
         }
 
