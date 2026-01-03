@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>汉字序列特训系统 (AI高精版)</title>
+    <title>汉字序列特训系统 (音效增强版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <style>
@@ -11,13 +11,14 @@
             touch-action: none; 
             overscroll-behavior: none;
             font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f0f4f8;
+            user-select: none;
         }
         
         #canvas-wrapper {
             background-color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
             margin: 0 auto;
             position: relative;
             cursor: crosshair;
@@ -32,33 +33,72 @@
                 linear-gradient(45deg, transparent 49.5%, #e2e8f0 49.5%, #e2e8f0 50.5%, transparent 50.5%),
                 linear-gradient(-45deg, transparent 49.5%, #e2e8f0 49.5%, #e2e8f0 50.5%, transparent 50.5%);
             background-size: 100% 100%;
-            border: 2px solid #94a3b8;
+            border: 3px solid #cbd5e1;
             width: 100%;
             height: 100%;
-            border-radius: 16px;
+            border-radius: 20px;
         }
 
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
         }
 
-        .progress-bar { transition: width 0.3s ease; }
+        .progress-bar { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        /* 选中汉字标签的样式 */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: pop 0.6s ease-out forwards;
+        }
+        @keyframes pop {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        .combo-text {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            font-weight: 900;
+            font-style: italic;
+            color: #f59e0b;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            pointer-events: none;
+            z-index: 30;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+        }
+        .combo-active {
+            transform: translateX(-50%) scale(1.5);
+            opacity: 1;
+            animation: pulse-combo 0.3s ease-in-out;
+        }
+        @keyframes pulse-combo {
+            0% { transform: translateX(-50%) scale(1.2); }
+            50% { transform: translateX(-50%) scale(1.8); }
+            100% { transform: translateX(-50%) scale(1.5); }
+        }
+
+        .star-pop { animation: star-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0); }
+        @keyframes star-pop {
+            to { opacity: 1; transform: scale(1); }
+        }
+
         .char-chip.selected {
-            background-color: #2563eb;
+            background-color: #4f46e5;
             color: white;
-            border-color: #2563eb;
+            border-color: #4f46e5;
         }
         
-        /* 加载动画 */
         .loader {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
+            border-top: 3px solid #6366f1;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -67,180 +107,259 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="h-screen flex flex-col items-center text-slate-700 overflow-hidden">
+<body class="h-screen flex flex-col items-center text-slate-700 overflow-hidden bg-slate-50">
 
-    <!-- 1. 顶部：课程导入与进度区 -->
-    <header class="w-full bg-white shadow-sm z-10 p-4">
-        <div class="max-w-md mx-auto">
-            <!-- 输入区域 -->
-            <div class="flex gap-2 mb-3">
-                <input type="text" id="lesson-input" value="天高任鸟飞" placeholder="输入成语或句子"
-                       class="flex-1 border-2 border-slate-200 rounded-lg px-3 py-2 text-lg focus:border-blue-500 focus:outline-none transition-colors">
-                
-                <!-- 相机识别按钮 -->
-                <button onclick="openOCRModal()" 
-                        class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-2 rounded-lg border border-indigo-200 transition-colors flex items-center gap-1"
-                        title="AI 拍照识别">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
-                    <span class="text-sm font-bold">AI识字</span>
-                </button>
-
-                <button onclick="loadLesson()" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors whitespace-nowrap">
-                    加载
-                </button>
-            </div>
-
-            <!-- 进度导航栏 -->
-            <div class="flex items-center justify-between bg-slate-100 rounded-lg p-2">
-                <button onclick="prevChar()" id="btn-prev" disabled class="p-2 rounded-md hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed text-slate-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </button>
-                
-                <div class="text-center">
-                    <div id="progress-text" class="text-lg font-bold text-slate-700 font-mono">1 / 5</div>
-                    <div class="text-xs text-slate-400" id="current-char-display">当前字：天</div>
+    <!-- 1. 顶部：分数与进度 -->
+    <header class="w-full bg-white shadow-sm z-10 px-4 py-2">
+        <div class="max-w-md mx-auto flex flex-col gap-2">
+            <!-- 游戏化 HUD -->
+            <div class="flex justify-between items-end border-b pb-2">
+                <div class="flex flex-col">
+                    <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Score</span>
+                    <span id="score-display" class="text-3xl font-black text-indigo-600 leading-none">0</span>
                 </div>
-
-                <button onclick="nextChar()" id="btn-next" class="p-2 rounded-md hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed text-slate-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
+                
+                <div class="flex gap-4 items-center">
+                    <button onclick="toggleSound()" id="btn-sound" class="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors">
+                        <!-- 默认显示开启音量图标 -->
+                        <svg id="icon-sound-on" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        <svg id="icon-sound-off" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v6a3 3 0 0 0 5.12 2.12M15 9.34V4l-6.8 4.48H6a2 2 0 0 0-2 2v2.4"></path></svg>
+                    </button>
+                    <div class="flex flex-col items-end">
+                        <div id="progress-text" class="text-lg font-bold text-slate-700 font-mono">
+                            <span class="text-indigo-600 text-2xl">1</span><span class="text-sm opacity-50">/5</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <!-- 进度条 -->
-            <div class="w-full bg-slate-200 h-1 mt-0 rounded-full overflow-hidden">
-                <div id="progress-indicator" class="progress-bar bg-blue-500 h-full" style="width: 20%"></div>
+            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div id="progress-indicator" class="progress-bar bg-gradient-to-r from-indigo-500 to-purple-500 h-full shadow-[0_0_10px_rgba(99,102,241,0.5)]" style="width: 0%"></div>
             </div>
         </div>
     </header>
 
-    <!-- 2. 中部：书写核心区 -->
+    <!-- 2. 中部：游戏核心区 -->
     <main class="flex-1 w-full flex flex-col items-center justify-center gap-4 relative">
-        <div id="status-msg" class="text-slate-500 font-medium h-6 text-sm transition-all duration-300">
-            准备就绪
+        
+        <!-- 工具栏 -->
+        <div class="flex gap-2 w-full max-w-xs justify-center relative z-20">
+             <button onclick="openOCRModal()" class="bg-white p-2 rounded-xl shadow-sm border border-slate-200 text-slate-500 hover:text-indigo-600 active:scale-95 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+            </button>
+            <input type="text" id="lesson-input" value="天高任鸟飞" 
+                   class="w-32 text-center bg-transparent font-bold text-lg border-b-2 border-slate-200 focus:border-indigo-500 outline-none transition-colors"
+                   onchange="loadLesson()">
+            <button onclick="loadLesson()" class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-sm font-bold shadow-md hover:bg-indigo-700 active:scale-95 transition">
+                重置
+            </button>
         </div>
 
+        <!-- 字格容器 -->
         <div id="canvas-wrapper" class="relative">
             <div id="character-target-div" class="mizige"></div>
-            <div id="completion-overlay" class="absolute inset-0 z-20 hidden items-center justify-center bg-white/80 backdrop-blur-sm">
-                <div class="text-emerald-600 font-bold text-2xl animate-bounce">✨ 完成!</div>
+            <div id="combo-display" class="combo-text text-4xl">Combo x2!</div>
+            <!-- 完成时的评价覆盖层 -->
+            <div id="completion-overlay" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
+                <div class="flex gap-2 mb-4" id="star-container"></div>
+                <div id="completion-msg" class="text-indigo-600 font-black text-2xl mb-2">完美!</div>
+                <div class="text-sm text-slate-400 font-medium">+50 额外奖励</div>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 w-full max-w-xs px-6 mt-2">
+        <div id="status-msg" class="text-slate-400 font-medium h-6 text-sm transition-all duration-300">
+            准备开始挑战...
+        </div>
+
+        <!-- 游戏控制器 -->
+        <div class="grid grid-cols-2 gap-4 w-full max-w-xs px-6">
             <button onclick="animateChar()" 
-                    class="flex items-center justify-center gap-2 bg-white border-2 border-slate-200 text-slate-600 py-3 rounded-xl font-medium active:bg-slate-50">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    class="flex items-center justify-center gap-2 bg-white border-2 border-slate-200 text-slate-600 py-3 rounded-2xl font-bold shadow-sm active:bg-slate-50 hover:border-indigo-200 transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 演示
             </button>
             <button onclick="startQuiz()" id="btn-quiz"
-                    class="flex items-center justify-center gap-2 bg-emerald-500 text-white py-3 rounded-xl shadow-lg shadow-emerald-200 font-bold active:scale-95 transition-transform">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
-                测验
+                    class="flex items-center justify-center gap-2 bg-gradient-to-b from-emerald-400 to-emerald-600 text-white py-3 rounded-2xl shadow-lg shadow-emerald-200 font-black text-lg active:scale-95 transition-transform border-b-4 border-emerald-700 active:border-b-0 active:translate-y-1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
+                挑战
             </button>
         </div>
-
-        <div class="flex flex-wrap justify-center gap-4 mt-4 px-4">
-            <label class="flex items-center gap-2 text-sm text-slate-600 bg-white px-3 py-1.5 rounded-full shadow-sm border border-slate-100">
-                <input type="checkbox" id="auto-next" checked class="accent-blue-500 w-4 h-4">
-                <span>自动下一个</span>
+        
+        <!-- 底部开关 -->
+         <div class="flex justify-center gap-6 mt-2 opacity-60 hover:opacity-100 transition-opacity">
+            <label class="flex items-center gap-2 text-xs text-slate-500 cursor-pointer">
+                <input type="checkbox" id="auto-next" checked class="accent-indigo-500"> 自动下一关
             </label>
-            <label class="flex items-center gap-2 text-sm text-slate-600 bg-white px-3 py-1.5 rounded-full shadow-sm border border-slate-100">
-                <input type="checkbox" id="show-outline" checked onchange="toggleOutline()" class="accent-blue-500 w-4 h-4">
-                <span>显示轮廓</span>
+            <label class="flex items-center gap-2 text-xs text-slate-500 cursor-pointer">
+                <input type="checkbox" id="show-outline" checked onchange="toggleOutline()" class="accent-indigo-500"> 显示轮廓
             </label>
         </div>
     </main>
 
-    <!-- AI OCR 弹窗 Modal -->
-    <div id="ocr-modal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
-            <div class="p-4 border-b flex justify-between items-center bg-slate-50">
+    <!-- AI OCR Modal -->
+    <div id="ocr-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+            <div class="p-4 border-b flex justify-between items-center bg-indigo-50/50">
                 <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2">
                     <span>📷 AI 智能识字</span>
-                    <span class="text-xs font-normal text-white bg-indigo-500 px-2 py-0.5 rounded-full">Gemini</span>
+                    <span class="text-[10px] font-bold text-white bg-indigo-500 px-2 py-0.5 rounded-full uppercase tracking-wide">Gemini</span>
                 </h3>
-                <button onclick="closeOCRModal()" class="text-slate-400 hover:text-slate-600">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button onclick="closeOCRModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 text-slate-400 transition">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
-            
-            <div class="p-4 flex-1 overflow-y-auto">
-                
-                <!-- API Key 配置区 -->
-                <div class="mb-4 p-3 bg-indigo-50 rounded-lg border border-indigo-100">
+            <div class="p-5 flex-1 overflow-y-auto">
+                 <div class="mb-4 p-3 bg-indigo-50 rounded-xl border border-indigo-100">
                     <label class="block text-xs font-bold text-indigo-700 mb-1">Google Gemini API Key (必填)</label>
-                    <input type="password" id="api-key-input" placeholder="粘贴您的 API Key" 
-                           class="w-full px-2 py-1 text-sm border border-indigo-200 rounded focus:outline-none focus:border-indigo-500"
+                    <input type="password" id="api-key-input" placeholder="在此粘贴 Key" 
+                           class="w-full px-3 py-2 text-sm bg-white border border-indigo-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                            onchange="saveApiKey()">
-                    <div class="flex justify-between mt-1">
-                        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-xs text-blue-500 underline">获取免费 Key</a>
+                    <div class="flex justify-between mt-2">
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-xs text-indigo-500 font-bold hover:underline">👉 获取免费 Key</a>
                         <span id="key-status" class="text-xs text-slate-400">未保存</span>
                     </div>
                 </div>
-
-                <!-- 文件选择区 -->
                 <div class="mb-4">
-                    <label class="block w-full h-32 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition bg-slate-50 relative overflow-hidden group">
+                    <label class="block w-full h-40 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 hover:border-indigo-400 transition-all bg-slate-50 relative overflow-hidden group">
                         <input type="file" id="ocr-file-input" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
-                        <div id="upload-placeholder" class="flex flex-col items-center">
-                            <svg class="w-10 h-10 text-slate-400 mb-2 group-hover:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            <span class="text-sm text-slate-500 font-medium">点击拍摄或选择图片</span>
+                        <div id="upload-placeholder" class="flex flex-col items-center transition-transform group-hover:scale-110">
+                            <div class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-500 font-bold">点击拍摄/上传</span>
                         </div>
-                        <img id="ocr-preview" class="absolute inset-0 w-full h-full object-cover hidden opacity-50" />
+                        <img id="ocr-preview" class="absolute inset-0 w-full h-full object-cover hidden opacity-60" />
                     </label>
                 </div>
-
-                <!-- 状态与进度 -->
                 <div id="ocr-status-container" class="flex flex-col items-center justify-center py-4 hidden">
                     <div class="loader mb-2"></div>
-                    <div id="ocr-status" class="text-sm text-center text-blue-600 font-medium">正在请求 AI 分析...</div>
+                    <div id="ocr-status" class="text-sm text-center text-indigo-600 font-bold">正在分析图片...</div>
                 </div>
-
-                <!-- 识别结果选择区 -->
                 <div id="ocr-result-area" class="hidden">
                     <div class="flex justify-between items-center mb-2">
-                        <p class="text-sm text-slate-500">识别结果 (点击选择):</p>
-                        <button onclick="selectAllChips()" class="text-xs text-blue-500 font-medium hover:underline">全选</button>
+                        <p class="text-xs font-bold text-slate-400 uppercase">识别结果</p>
+                        <button onclick="selectAllChips()" class="text-xs text-indigo-600 font-bold hover:underline">全选</button>
                     </div>
-                    <div id="char-chips-container" class="flex flex-wrap gap-2 justify-center bg-slate-50 p-3 rounded-lg border border-slate-100 min-h-[60px]">
-                        <!-- Chips will be injected here -->
-                    </div>
+                    <div id="char-chips-container" class="flex flex-wrap gap-2 justify-center bg-slate-50 p-4 rounded-xl border border-slate-200 min-h-[80px]"></div>
                 </div>
             </div>
-
             <div class="p-4 border-t bg-slate-50 flex gap-3">
-                <button onclick="closeOCRModal()" class="flex-1 py-2.5 text-slate-600 font-medium hover:bg-slate-200 rounded-lg">取消</button>
-                <button id="btn-add-selected" onclick="addSelectedChars()" disabled class="flex-1 py-2.5 bg-indigo-600 text-white font-bold rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-700 transition-colors">
-                    加入练习
+                <button onclick="closeOCRModal()" class="flex-1 py-3 text-slate-500 font-bold hover:bg-slate-200 rounded-xl transition">取消</button>
+                <button id="btn-add-selected" onclick="addSelectedChars()" disabled class="flex-1 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-700 active:scale-95 transition-all">
+                    加入挑战
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 核心状态管理 ---
-        const AppState = {
+        // --- 音效引擎 (Web Audio API) ---
+        const SoundEngine = {
+            ctx: null,
+            isMuted: false,
+
+            init: function() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) {
+                        this.ctx = new AudioContext();
+                    }
+                }
+            },
+
+            // 播放合成音效
+            playTone: function(freq, type, duration, volume = 0.1, slideTo = null) {
+                if (this.isMuted || !this.ctx) return;
+                
+                // 恢复上下文（浏览器需要用户交互后才能播放）
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                osc.type = type; // sine, square, sawtooth, triangle
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                if (slideTo) {
+                    osc.frequency.exponentialRampToValueAtTime(slideTo, this.ctx.currentTime + duration);
+                }
+
+                gain.gain.setValueAtTime(volume, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            },
+
+            playCorrect: function(combo = 0) {
+                // 连击越高，音调越高
+                const baseFreq = 500 + (Math.min(combo, 10) * 50);
+                // 使用正弦波，类似“叮”声
+                this.playTone(baseFreq, 'sine', 0.3, 0.15); 
+                // 叠加一个高频泛音
+                setTimeout(() => this.playTone(baseFreq * 1.5, 'triangle', 0.2, 0.05), 50);
+            },
+
+            playMistake: function() {
+                // 低频锯齿波，类似“Buzz”
+                this.playTone(150, 'sawtooth', 0.3, 0.1, 100);
+            },
+
+            playComplete: function() {
+                // C大调三和弦 C-E-G-C (快速琶音)
+                const now = this.ctx ? this.ctx.currentTime : 0;
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, i) => {
+                    setTimeout(() => this.playTone(freq, 'sine', 0.6, 0.1), i * 80);
+                });
+            }
+        };
+
+        // --- 游戏状态管理 ---
+        const GameState = {
             writer: null,
             charList: [],
             currentIndex: 0,
+            score: 0,
+            combo: 0,
+            mistakesInCurrentChar: 0,
             isQuizzing: false,
+            lastPointerX: 0,
+            lastPointerY: 0,
             selectedOCRChars: new Set(),
             apiKey: ''
         };
+
+        // --- 全局交互监听 ---
+        document.addEventListener('pointermove', (e) => {
+            GameState.lastPointerX = e.clientX;
+            GameState.lastPointerY = e.clientY;
+        });
+        document.addEventListener('pointerdown', (e) => {
+            GameState.lastPointerX = e.clientX;
+            GameState.lastPointerY = e.clientY;
+            // 第一次交互时初始化音频引擎
+            SoundEngine.init();
+        });
 
         // --- 初始化 ---
         function getCanvasSize() {
             const h = window.innerHeight;
             const w = window.innerWidth;
-            const availableSize = Math.min(w - 40, h - 300); 
-            return Math.max(260, Math.min(availableSize, 350));
+            const availableSize = Math.min(w - 40, h - 350); 
+            return Math.max(280, Math.min(availableSize, 380));
         }
 
         window.onload = function() {
             loadLesson();
-            loadApiKey(); // 加载保存的 Key
+            loadApiKey();
             window.addEventListener('resize', debounce(() => {
-                initWriter(AppState.charList[AppState.currentIndex]);
+                initWriter(GameState.charList[GameState.currentIndex]);
             }, 300));
         };
 
@@ -252,39 +371,102 @@
             };
         }
 
-        // --- API Key 管理 ---
-        function loadApiKey() {
-            const key = localStorage.getItem('gemini_api_key');
-            if (key) {
-                AppState.apiKey = key;
-                document.getElementById('api-key-input').value = key;
-                updateKeyStatus(true);
+        // --- 游戏逻辑：分数与连击 ---
+        function updateScore(points) {
+            const startScore = GameState.score;
+            const endScore = startScore + points;
+            GameState.score = endScore;
+            
+            const duration = 500;
+            const startTime = performance.now();
+            const el = document.getElementById('score-display');
+            
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 4);
+                
+                const currentVal = Math.floor(startScore + (points * ease));
+                el.innerText = currentVal.toLocaleString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    el.innerText = endScore.toLocaleString();
+                }
             }
+            requestAnimationFrame(animate);
         }
 
-        function saveApiKey() {
-            const val = document.getElementById('api-key-input').value.trim();
-            if (val) {
-                localStorage.setItem('gemini_api_key', val);
-                AppState.apiKey = val;
-                updateKeyStatus(true);
+        function updateCombo(reset = false) {
+            const el = document.getElementById('combo-display');
+            if (reset) {
+                GameState.combo = 0;
+                el.classList.remove('combo-active');
             } else {
-                updateKeyStatus(false);
+                GameState.combo++;
+                if (GameState.combo > 1) {
+                    el.innerText = `Combo x${GameState.combo}!`;
+                    el.classList.remove('combo-active');
+                    void el.offsetWidth; 
+                    el.classList.add('combo-active');
+                }
             }
         }
 
-        function updateKeyStatus(saved) {
-            const el = document.getElementById('key-status');
-            if (saved) {
-                el.innerText = '✅ 已保存';
-                el.className = 'text-xs text-emerald-500 font-bold';
+        function toggleSound() {
+            SoundEngine.isMuted = !SoundEngine.isMuted;
+            const onIcon = document.getElementById('icon-sound-on');
+            const offIcon = document.getElementById('icon-sound-off');
+            if (SoundEngine.isMuted) {
+                onIcon.classList.add('hidden');
+                offIcon.classList.remove('hidden');
             } else {
-                el.innerText = '未保存';
-                el.className = 'text-xs text-slate-400';
+                onIcon.classList.remove('hidden');
+                offIcon.classList.add('hidden');
+                // 播放一个试听音效
+                SoundEngine.playTone(440, 'sine', 0.2, 0.1);
             }
         }
 
-        // --- 课程加载逻辑 ---
+        // --- 视觉特效 ---
+        function spawnParticles() {
+            const wrapper = document.getElementById('canvas-wrapper');
+            const rect = wrapper.getBoundingClientRect();
+            
+            const x = GameState.lastPointerX - rect.left;
+            const y = GameState.lastPointerY - rect.top;
+
+            if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+
+            const colors = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
+            
+            for (let i = 0; i < 12; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 6 + 4;
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 60 + 20;
+                
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.backgroundColor = color;
+                p.style.left = `${x}px`;
+                p.style.top = `${y}px`;
+                p.style.setProperty('--tx', `${tx}px`);
+                p.style.setProperty('--ty', `${ty}px`);
+                
+                wrapper.appendChild(p);
+                setTimeout(() => p.remove(), 600);
+            }
+        }
+
+        // --- 课程加载 ---
         function loadLesson(overrideText = null) {
             let inputText = overrideText;
             if (inputText === null) {
@@ -294,31 +476,242 @@
             }
 
             const chars = inputText.match(/[\u4e00-\u9fa5]/g);
-            
             if (!chars || chars.length === 0) {
-                if (overrideText) showStatus('⚠️ AI 未识别到有效汉字', 'error');
-                else showStatus('⚠️ 未检测到有效汉字', 'error');
+                showStatus('⚠️ 请输入有效的汉字', 'error');
                 return;
             }
 
-            AppState.charList = chars;
-            AppState.currentIndex = 0;
+            GameState.charList = chars;
+            GameState.currentIndex = 0;
+            GameState.score = 0;
+            updateScore(0);
+            updateCombo(true);
             
             updateUI();
-            initWriter(AppState.charList[0]);
-            showStatus(`加载成功：共 ${chars.length} 个字`, 'normal');
+            initWriter(GameState.charList[0]);
+            showStatus(`准备挑战：共 ${chars.length} 关`, 'normal');
         }
 
-        // --- OCR 模态框逻辑 ---
+        // --- 汉字引擎 ---
+        function initWriter(char) {
+            const size = getCanvasSize();
+            const wrapper = document.getElementById('canvas-wrapper');
+            wrapper.style.width = size + 'px';
+            wrapper.style.height = size + 'px';
+
+            document.getElementById('character-target-div').innerHTML = ''; 
+            document.getElementById('completion-overlay').classList.add('hidden');
+            document.getElementById('completion-overlay').classList.remove('flex');
+
+            GameState.mistakesInCurrentChar = 0;
+            updateCombo(true);
+
+            GameState.writer = HanziWriter.create('character-target-div', char, {
+                width: size,
+                height: size,
+                padding: 10,
+                showOutline: document.getElementById('show-outline').checked,
+                strokeAnimationSpeed: 1,
+                delayBetweenStrokes: 200,
+                strokeColor: '#334155',
+                radicalColor: '#4f46e5',
+                outlineColor: '#cbd5e1', 
+                drawingWidth: 30,
+                showHintAfterMisses: 3,
+                
+                onLoadCharDataError: (err) => {
+                    showStatus(`⚠️ 无法加载 "${char}"`, 'error');
+                },
+                onLoadCharDataSuccess: () => {
+                     // 可以在这里预热音频引擎
+                     SoundEngine.init();
+                }
+            });
+        }
+
+        function updateUI() {
+            const total = GameState.charList.length;
+            const current = GameState.currentIndex + 1;
+            
+            document.getElementById('progress-text').innerHTML = `<span class="text-indigo-600 text-2xl">${current}</span><span class="text-sm opacity-50">/${total}</span>`;
+            
+            const percent = ((GameState.currentIndex) / total) * 100;
+            document.getElementById('progress-indicator').style.width = `${percent}%`;
+        }
+
+        function nextChar() {
+            if (GameState.currentIndex < GameState.charList.length - 1) {
+                GameState.currentIndex++;
+                updateUI();
+                initWriter(GameState.charList[GameState.currentIndex]);
+                 setTimeout(() => startQuiz(), 600);
+            } else {
+                 showStatus('🏆 所有关卡挑战完成！', 'complete');
+                 document.getElementById('progress-indicator').style.width = '100%';
+                 SoundEngine.playComplete(); // 再次播放庆祝
+            }
+        }
+
+        function animateChar() {
+            if (GameState.writer) {
+                GameState.isQuizzing = false;
+                GameState.writer.cancelQuiz();
+                GameState.writer.animateCharacter();
+                showStatus('正在观察笔顺...', 'normal');
+            }
+        }
+
+        // --- 核心游戏循环 ---
+        function startQuiz() {
+            if (!GameState.writer) return;
+            
+            GameState.isQuizzing = true;
+            GameState.mistakesInCurrentChar = 0;
+            updateCombo(true);
+            
+            showStatus('🔥 挑战开始！', 'active');
+            
+            GameState.writer.quiz({
+                onMistake: function(strokeData) {
+                    GameState.mistakesInCurrentChar++;
+                    updateCombo(true);
+                    showStatus('❌ 失误！连击中断', 'error');
+                    
+                    // 播放错误音效
+                    SoundEngine.playMistake();
+
+                    const el = document.getElementById('canvas-wrapper');
+                    el.classList.remove('shake');
+                    void el.offsetWidth;
+                    el.classList.add('shake');
+                },
+                onCorrectStroke: function(data) {
+                    spawnParticles();
+                    updateCombo();
+                    
+                    // 播放正确音效
+                    SoundEngine.playCorrect(GameState.combo);
+
+                    const comboBonus = Math.min(GameState.combo, 10) * 5;
+                    updateScore(10 + comboBonus);
+                    
+                    showStatus(`✅ 完美！Combo x${GameState.combo}`, 'success');
+                },
+                onComplete: function(summary) {
+                    // 播放完成音效
+                    SoundEngine.playComplete();
+                    handleLevelComplete(summary);
+                }
+            });
+        }
+
+        function handleLevelComplete(summary) {
+            const mistakes = GameState.mistakesInCurrentChar;
+            let stars = 0;
+            let msg = "";
+            let color = "";
+
+            if (mistakes === 0) {
+                stars = 3;
+                msg = "完美无瑕!";
+                color = "text-yellow-500";
+                updateScore(50);
+            } else if (mistakes <= 2) {
+                stars = 2;
+                msg = "非常不错!";
+                color = "text-indigo-500";
+                updateScore(20);
+            } else {
+                stars = 1;
+                msg = "继续加油!";
+                color = "text-slate-500";
+                updateScore(5);
+            }
+
+            const overlay = document.getElementById('completion-overlay');
+            const starContainer = document.getElementById('star-container');
+            const msgEl = document.getElementById('completion-msg');
+            
+            starContainer.innerHTML = '';
+            msgEl.innerText = msg;
+            msgEl.className = `font-black text-3xl mb-2 ${color}`;
+            
+            for(let i=0; i<3; i++) {
+                const svg = document.createElement('div');
+                svg.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="${i < stars ? '#f59e0b' : '#e2e8f0'}" stroke="${i < stars ? '#b45309' : '#cbd5e1'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+                const el = svg.firstChild;
+                el.style.animationDelay = `${i * 150}ms`;
+                el.classList.add('star-pop');
+                starContainer.appendChild(el);
+            }
+
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+
+            const autoNext = document.getElementById('auto-next').checked;
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+                if (autoNext) {
+                    nextChar();
+                }
+            }, 2000);
+        }
+
+        // --- 辅助功能 ---
+        function toggleOutline() {
+            if (GameState.writer) {
+                const checked = document.getElementById('show-outline').checked;
+                checked ? GameState.writer.showOutline() : GameState.writer.hideOutline();
+            }
+        }
+
+        function showStatus(text, type) {
+            const el = document.getElementById('status-msg');
+            el.innerText = text;
+            const baseClass = 'text-sm font-bold h-6 transition-all duration-200 ';
+            const colors = {
+                'error': 'text-red-500 animate-pulse',
+                'success': 'text-emerald-500',
+                'active': 'text-indigo-500',
+                'complete': 'text-purple-600 text-base',
+                'normal': 'text-slate-400'
+            };
+            el.className = baseClass + (colors[type] || colors['normal']);
+        }
+
+        // --- OCR & API Key ---
+        function loadApiKey() {
+            const key = localStorage.getItem('gemini_api_key');
+            if (key) {
+                GameState.apiKey = key;
+                document.getElementById('api-key-input').value = key;
+                updateKeyStatus(true);
+            }
+        }
+        function saveApiKey() {
+            const val = document.getElementById('api-key-input').value.trim();
+            if (val) {
+                localStorage.setItem('gemini_api_key', val);
+                GameState.apiKey = val;
+                updateKeyStatus(true);
+            } else {
+                updateKeyStatus(false);
+            }
+        }
+        function updateKeyStatus(saved) {
+            const el = document.getElementById('key-status');
+            el.innerText = saved ? '✅ 已就绪' : '未保存';
+            el.className = saved ? 'text-xs text-emerald-500 font-bold' : 'text-xs text-slate-400';
+        }
         function openOCRModal() {
             document.getElementById('ocr-modal').classList.remove('hidden');
             resetOCRUI();
         }
-
         function closeOCRModal() {
             document.getElementById('ocr-modal').classList.add('hidden');
         }
-
         function resetOCRUI() {
             document.getElementById('ocr-file-input').value = '';
             document.getElementById('ocr-preview').classList.add('hidden');
@@ -328,21 +721,18 @@
             document.getElementById('btn-add-selected').disabled = true;
             document.getElementById('char-chips-container').innerHTML = '';
             document.getElementById('upload-placeholder').classList.remove('hidden');
-            AppState.selectedOCRChars.clear();
+            GameState.selectedOCRChars.clear();
         }
 
-        // --- 核心：Gemini API 调用逻辑 ---
         async function handleImageUpload(input) {
-            if (!AppState.apiKey) {
-                alert("请先输入 Google Gemini API Key 才能使用 AI 识别功能。");
+            if (!GameState.apiKey) {
+                alert("请先输入 Google Gemini API Key 才能解锁 AI 识字功能。");
                 input.value = '';
                 return;
             }
-
             const file = input.files[0];
             if (!file) return;
 
-            // UI 更新
             const img = document.getElementById('ocr-preview');
             img.src = URL.createObjectURL(file);
             img.classList.remove('hidden');
@@ -351,31 +741,22 @@
             const statusContainer = document.getElementById('ocr-status-container');
             const statusText = document.getElementById('ocr-status');
             statusContainer.classList.remove('hidden');
-            statusText.innerText = "正在压缩图片...";
+            statusText.innerText = "正在压缩图像...";
 
             try {
-                // 1. 压缩并转换为 Base64 (Gemini 限制 Payload 大小)
                 const base64Data = await compressImage(file);
-                
-                // 2. 发送请求
-                statusText.innerText = "正在请求 AI 分析 (Gemini 2.5)...";
-                
+                statusText.innerText = "AI 正在识别中...";
                 const resultText = await callGeminiAPI(base64Data);
-                
-                // 3. 处理结果
                 statusContainer.classList.add('hidden');
                 renderOCRResults(resultText);
-
             } catch (err) {
                 console.error(err);
-                statusText.innerText = "识别失败: " + (err.message || "网络错误");
-                statusText.className = "text-sm text-center text-red-600 font-bold";
-                // 停止加载动画
+                statusText.innerText = "识别中断: " + (err.message || "网络错误");
+                statusText.className = "text-sm text-center text-red-500 font-bold";
                 document.querySelector('.loader').style.display = 'none';
             }
         }
 
-        // 图片压缩工具 (Canvas)
         function compressImage(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -385,29 +766,17 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        
-                        // 限制最大边长为 1024px，保证速度
                         const MAX_SIZE = 1024;
                         if (width > height) {
-                            if (width > MAX_SIZE) {
-                                height *= MAX_SIZE / width;
-                                width = MAX_SIZE;
-                            }
+                            if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
                         } else {
-                            if (height > MAX_SIZE) {
-                                width *= MAX_SIZE / height;
-                                height = MAX_SIZE;
-                            }
+                            if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
                         }
-
                         canvas.width = width;
                         canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // 输出为 JPEG base64, 质量 0.7
                         const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                        // 去掉 data:image/jpeg;base64, 前缀
                         resolve(dataUrl.split(',')[1]);
                     };
                     img.src = event.target.result;
@@ -416,13 +785,9 @@
             });
         }
 
-        // 调用 Gemini REST API
         async function callGeminiAPI(base64Image) {
-            // 使用在预览环境中更稳定的 gemini-2.5-flash-preview-09-2025 模型
             const model = "gemini-2.5-flash-preview-09-2025";
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${AppState.apiKey}`;
-            
-            // 修正了 Payload 结构，使用 inlineData (CamelCase) 并添加 role: "user"
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GameState.apiKey}`;
             const payload = {
                 contents: [{
                     role: "user",
@@ -432,243 +797,85 @@
                     ]
                 }]
             };
-
             try {
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
-                    credentials: 'omit' // 防止 CORS 问题
+                    credentials: 'omit'
                 });
-
                 if (!response.ok) {
                     const errData = await response.json().catch(() => ({}));
-                    console.error("Gemini API Error:", errData);
-                    throw new Error(errData.error?.message || `API 请求失败 (${response.status})`);
+                    throw new Error(errData.error?.message || `API Error (${response.status})`);
                 }
-
                 const data = await response.json();
                 return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
             } catch (error) {
-                // 捕获 Failed to fetch 错误，提供更友好的提示
                 if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
-                    throw new Error("网络请求失败。请检查网络连接、API Key 是否有效，或检查是否开启了拦截跨域请求的插件。");
+                    throw new Error("网络错误，请检查 API Key 或网络连接。");
                 }
                 throw error;
             }
         }
 
-        // 渲染识别出的汉字 Chip
         function renderOCRResults(text) {
             const container = document.getElementById('char-chips-container');
             container.innerHTML = '';
             document.getElementById('ocr-result-area').classList.remove('hidden');
-            
-            // 提取唯一汉字
             const chars = text.match(/[\u4e00-\u9fa5]/g);
             if (!chars) {
-                container.innerHTML = '<span class="text-slate-400 text-sm">未识别到有效汉字，请重试</span>';
+                container.innerHTML = '<span class="text-slate-400 text-sm font-bold">未发现汉字</span>';
                 return;
             }
-
-            // 自动去重
             const uniqueChars = [...new Set(chars)];
-
             uniqueChars.forEach(char => {
                 const chip = document.createElement('button');
                 chip.innerText = char;
-                chip.className = 'char-chip w-10 h-10 rounded-lg border border-slate-200 bg-white text-lg font-bold text-slate-700 shadow-sm hover:border-indigo-300 transition-all active:scale-95';
-                
-                // 修改：去掉了默认全选的逻辑
-                // toggleCharSelection(chip, char); 
-
+                chip.className = 'char-chip w-10 h-10 rounded-lg border-2 border-slate-200 bg-white text-lg font-black text-slate-700 shadow-sm hover:border-indigo-400 hover:text-indigo-600 transition-all active:scale-90';
                 chip.onclick = () => toggleCharSelection(chip, char);
                 container.appendChild(chip);
             });
-
-            // 更新按钮状态（此时应该是禁用状态，因为一个都没选）
             checkAddButton();
         }
 
         function toggleCharSelection(el, char) {
-            if (AppState.selectedOCRChars.has(char)) {
-                AppState.selectedOCRChars.delete(char);
-                el.classList.remove('selected', 'ring-2', 'ring-indigo-500');
-                el.style.backgroundColor = 'white';
-                el.style.color = '#334155';
+            if (GameState.selectedOCRChars.has(char)) {
+                GameState.selectedOCRChars.delete(char);
+                el.classList.remove('selected', 'bg-indigo-600', 'text-white', 'border-indigo-600');
+                el.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
             } else {
-                AppState.selectedOCRChars.add(char);
-                el.classList.add('selected', 'ring-2', 'ring-indigo-500');
-                el.style.backgroundColor = '#4f46e5'; // indigo-600
-                el.style.color = 'white';
+                GameState.selectedOCRChars.add(char);
+                el.classList.add('selected', 'bg-indigo-600', 'text-white', 'border-indigo-600');
+                el.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
             }
             checkAddButton();
         }
-        
+
         function selectAllChips() {
-             // 逻辑：如果当前没有全选，则全选；如果已经全选，则不动作或反选（这里简单起见，重新触发全选）
-             // 实际上只需遍历 DOM 触发点击逻辑
-             const chips = document.querySelectorAll('.char-chip');
-             chips.forEach(chip => {
-                 const char = chip.innerText;
-                 if (!AppState.selectedOCRChars.has(char)) {
-                     // 模拟点击选中
-                     toggleCharSelection(chip, char);
-                 }
-             });
-        }
-
-        function checkAddButton() {
-            const btn = document.getElementById('btn-add-selected');
-            if (AppState.selectedOCRChars.size > 0) {
-                btn.disabled = false;
-                btn.innerText = `加入练习 (${AppState.selectedOCRChars.size})`;
-            } else {
-                btn.disabled = true;
-                btn.innerText = '加入练习';
-            }
-        }
-
-        function addSelectedChars() {
-            const newChars = Array.from(AppState.selectedOCRChars).join('');
-            loadLesson(newChars);
-            closeOCRModal();
-        }
-
-        // --- 汉字书写逻辑 (不变) ---
-        function initWriter(char) {
-            const size = getCanvasSize();
-            const wrapper = document.getElementById('canvas-wrapper');
-            wrapper.style.width = size + 'px';
-            wrapper.style.height = size + 'px';
-
-            const target = document.getElementById('character-target-div');
-            target.innerHTML = ''; 
-
-            const overlay = document.getElementById('completion-overlay');
-            if (overlay) {
-                overlay.classList.add('hidden');
-                overlay.classList.remove('flex');
-            }
-
-            AppState.writer = HanziWriter.create('character-target-div', char, {
-                width: size,
-                height: size,
-                padding: 5,
-                showOutline: document.getElementById('show-outline').checked,
-                strokeAnimationSpeed: 1,
-                delayBetweenStrokes: 200,
-                strokeColor: '#334155',
-                radicalColor: '#2563eb',
-                outlineColor: '#cbd5e1', 
-                drawingWidth: 25,
-                showHintAfterMisses: 3,
-                
-                onLoadCharDataError: (err) => {
-                    showStatus(`⚠️ 暂无 "${char}" 的笔顺数据`, 'error');
-                },
-            });
-        }
-
-        function updateUI() {
-            const total = AppState.charList.length;
-            const current = AppState.currentIndex + 1;
-            const char = AppState.charList[AppState.currentIndex];
-
-            document.getElementById('progress-text').innerText = `${current} / ${total}`;
-            document.getElementById('current-char-display').innerText = `当前字：${char}`;
-            
-            document.getElementById('btn-prev').disabled = AppState.currentIndex === 0;
-            document.getElementById('btn-next').disabled = AppState.currentIndex === total - 1;
-
-            const percent = (current / total) * 100;
-            document.getElementById('progress-indicator').style.width = `${percent}%`;
-        }
-
-        function nextChar() {
-            if (AppState.currentIndex < AppState.charList.length - 1) {
-                AppState.currentIndex++;
-                updateUI();
-                initWriter(AppState.charList[AppState.currentIndex]);
-                showStatus('已切换到下一个字', 'normal');
-            }
-        }
-
-        function prevChar() {
-            if (AppState.currentIndex > 0) {
-                AppState.currentIndex--;
-                updateUI();
-                initWriter(AppState.charList[AppState.currentIndex]);
-            }
-        }
-
-        function animateChar() {
-            if (AppState.writer) {
-                AppState.isQuizzing = false;
-                AppState.writer.cancelQuiz();
-                AppState.writer.animateCharacter();
-                showStatus('观看笔顺演示', 'normal');
-            }
-        }
-
-        function startQuiz() {
-            if (!AppState.writer) return;
-            AppState.isQuizzing = true;
-            showStatus('测验开始！请书写...', 'active');
-            
-            AppState.writer.quiz({
-                onMistake: function(strokeData) {
-                    showStatus('❌ 笔画错误', 'error');
-                    const el = document.getElementById('canvas-wrapper');
-                    el.classList.remove('shake');
-                    void el.offsetWidth;
-                    el.classList.add('shake');
-                },
-                onCorrectStroke: function(data) {
-                    showStatus(`✅ 剩余 ${data.strokesRemaining} 笔`, 'success');
-                },
-                onComplete: function(summary) {
-                    showStatus('🎉 完成！', 'complete');
-                    const overlay = document.getElementById('completion-overlay');
-                    overlay.classList.remove('hidden');
-                    overlay.classList.add('flex');
-
-                    const autoNext = document.getElementById('auto-next').checked;
-                    setTimeout(() => {
-                        overlay.classList.add('hidden');
-                        overlay.classList.remove('flex');
-                        if (autoNext) {
-                            if (AppState.currentIndex < AppState.charList.length - 1) {
-                                nextChar();
-                                setTimeout(() => startQuiz(), 800); 
-                            } else {
-                                showStatus('🏆 恭喜！本课所有汉字已完成', 'complete');
-                            }
-                        }
-                    }, 1200);
+            const chips = document.querySelectorAll('.char-chip');
+            chips.forEach(chip => {
+                const char = chip.innerText;
+                if (!GameState.selectedOCRChars.has(char)) {
+                    toggleCharSelection(chip, char);
                 }
             });
         }
 
-        function toggleOutline() {
-            if (AppState.writer) {
-                const checked = document.getElementById('show-outline').checked;
-                checked ? AppState.writer.showOutline() : AppState.writer.hideOutline();
+        function checkAddButton() {
+            const btn = document.getElementById('btn-add-selected');
+            if (GameState.selectedOCRChars.size > 0) {
+                btn.disabled = false;
+                btn.innerText = `加入挑战 (${GameState.selectedOCRChars.size})`;
+            } else {
+                btn.disabled = true;
+                btn.innerText = '加入挑战';
             }
         }
 
-        function showStatus(text, type) {
-            const el = document.getElementById('status-msg');
-            el.innerText = text;
-            el.className = 'text-sm font-medium h-6 transition-colors duration-200 ';
-            const colors = {
-                'error': 'text-red-500 font-bold',
-                'success': 'text-emerald-600',
-                'active': 'text-blue-600 font-bold',
-                'complete': 'text-purple-600 font-bold text-base',
-                'normal': 'text-slate-500'
-            };
-            el.className += colors[type] || colors['normal'];
+        function addSelectedChars() {
+            const newChars = Array.from(GameState.selectedOCRChars).join('');
+            loadLesson(newChars);
+            closeOCRModal();
         }
     </script>
 </body>
