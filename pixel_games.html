@@ -166,7 +166,7 @@
                 </h2>
                 <p class="text-lg text-gray-500 mb-6 text-center">
                     你可以上传一张自己的照片，看看它变成像素画是什么样子的！<br>
-                    <span class="text-orange-500 font-bold">点击下方按钮上传，然后拖动滑块。</span>
+                    <span class="text-orange-500 font-bold">一开始是清晰的，往左拖动让它“变方”！</span>
                 </p>
 
                 <!-- 上传控件 -->
@@ -184,9 +184,10 @@
                         <span>方块大 (像素风)</span>
                         <span>方块小 (高清)</span>
                     </div>
-                    <input type="range" id="imagePixelSlider" min="1" max="100" value="50" step="1" class="w-full">
+                    <!-- 默认值设为 100，一开始就是高清 -->
+                    <input type="range" id="imagePixelSlider" min="1" max="100" value="100" step="1" class="w-full">
                     <div class="text-center mt-2 text-xl text-yellow-700">
-                        照片样子：<span id="imgResText" class="font-bold text-2xl">复古游戏风</span>
+                        照片样子：<span id="imgResText" class="font-bold text-2xl">高清照片</span>
                     </div>
                 </div>
 
@@ -354,8 +355,8 @@
                     imgPlaceholder.style.display = 'none';
                     imageCanvas.classList.remove('hidden');
                     pixelControlArea.classList.remove('hidden');
-                    // 重置滑块到中间
-                    imgSlider.value = 50;
+                    // 重置滑块到 100 (最清晰)
+                    imgSlider.value = 100;
                     processUserImage();
                 };
                 userImg.src = event.target.result;
@@ -372,48 +373,59 @@
             // 获取滑块值 (1-100)
             const val = parseInt(imgSlider.value);
             
-            // 计算缩放比例
-            // 如果值为1，比例很小 (像素很大)
-            // 如果值为100，比例为1 (原图)
-            const scale = 0.02 + (val / 100) * 0.98;
+            // 新的缩放逻辑：
+            // 1. 如果是 100，直接使用 1.0 (原图)
+            // 2. 如果小于 100，使用平方曲线 (scale = (val/100)^2) 
+            //    这样可以让低数值区间更密集，更容易调节出“大方块”效果，且最低能到非常小的尺寸
             
-            // 计算“低像素”时的尺寸
-            const w = Math.max(1, Math.floor(userImg.width * scale));
-            const h = Math.max(1, Math.floor(userImg.height * scale));
-            
-            // 这里的技巧是：
-            // 1. 创建一个小的离屏 Canvas，把原图“缩小”画进去 (丢失细节)
-            // 2. 把小的 Canvas “放大”画回显示用的 Canvas (因为 CSS 类 .pixelated，会产生锯齿效果)
+            let scale;
+            if (val === 100) {
+                scale = 1;
+            } else {
+                // 使用平方，使得左侧的“像素化”区间更广，下降更快
+                // 例如：50%的位置 -> 0.25 (1/4 尺寸)
+                //      10%的位置 -> 0.01 (1/100 尺寸)
+                scale = Math.pow(val / 100, 2); 
+            }
+
+            // 计算“低像素”时的尺寸，最少保留 2x2 像素，防止报错或完全消失
+            const w = Math.max(2, Math.floor(userImg.width * scale));
+            const h = Math.max(2, Math.floor(userImg.height * scale));
             
             imageCanvas.width = userImg.width;
             imageCanvas.height = userImg.height;
             imageCtx.imageSmoothingEnabled = false;
             
+            // 1. 缩小 (丢失细节)
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = w;
             tempCanvas.height = h;
             const tempCtx = tempCanvas.getContext('2d');
             tempCtx.drawImage(userImg, 0, 0, w, h);
             
-            // 画回大画布
+            // 2. 放大 (显示锯齿)
             imageCtx.drawImage(tempCanvas, 0, 0, w, h, 0, 0, imageCanvas.width, imageCanvas.height);
             
             // 更新文本
-            if (val < 15) {
-                imgResText.innerText = "我的世界风 (像素块超大)";
-                imgResText.className = "font-bold text-2xl text-red-500";
-            }
-            else if (val < 50) {
-                imgResText.innerText = "复古游戏风 (看不清细节)";
-                imgResText.className = "font-bold text-2xl text-orange-500";
-            }
-            else if (val < 90) {
-                imgResText.innerText = "有点模糊 (像老照片)";
-                imgResText.className = "font-bold text-2xl text-yellow-600";
-            }
-            else {
+            if (val === 100) {
                 imgResText.innerText = "高清照片 (像镜子一样)";
                 imgResText.className = "font-bold text-2xl text-green-600";
+            }
+            else if (val > 80) {
+                imgResText.innerText = "稍微模糊 (有点失真)";
+                imgResText.className = "font-bold text-2xl text-green-500";
+            }
+            else if (val > 50) {
+                imgResText.innerText = "复古游戏风 (像素可见)";
+                imgResText.className = "font-bold text-2xl text-yellow-600";
+            }
+            else if (val > 20) {
+                imgResText.innerText = "超级马赛克 (方块很大)";
+                imgResText.className = "font-bold text-2xl text-orange-500";
+            }
+            else {
+                imgResText.innerText = "完全崩解 (看不出来啦)";
+                imgResText.className = "font-bold text-2xl text-red-600";
             }
         }
 
