@@ -103,6 +103,13 @@
             background-color: white;
             border: 1px solid #eee;
         }
+
+        /* 任务六：游戏画布 */
+        #gameCanvas {
+            background-color: #e0f2fe; /* 更亮的天空蓝 */
+            border-bottom: 6px solid #334155;
+            image-rendering: pixelated; /* 强制画布内容像素化 */
+        }
     </style>
 </head>
 <body class="text-gray-800 select-none">
@@ -352,6 +359,66 @@
             </div>
         </section>
 
+        <!-- 第六课：像素大冲关 (游戏模式) -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-cyan-400">
+            <div class="flex flex-col items-center">
+                <h2 class="text-3xl text-cyan-600 mb-6 flex items-center">
+                    <span class="bg-cyan-100 p-2 rounded-lg mr-3">🏃</span>
+                    任务六：像素大冲关
+                </h2>
+                <p class="text-lg text-gray-500 mb-6 text-center">
+                    游戏里的角色也是由像素组成的！<br>
+                    <span class="text-cyan-500 font-bold">在左边设计你的英雄，然后点击开始游戏！</span>
+                </p>
+
+                <!-- 修改了容器宽度，使用 max-w-4xl 或更大，适应更大的 Canvas -->
+                <div class="flex flex-col xl:flex-row gap-8 items-start justify-center w-full max-w-full">
+                    
+                    <!-- 1. 英雄设计区 -->
+                    <div class="flex flex-col items-center bg-cyan-50 p-4 rounded-xl border-2 border-cyan-200">
+                        <div class="font-bold text-cyan-700 mb-2">1. 设计你的英雄 (10x10)</div>
+                        <div id="heroGrid" class="grid grid-cols-10 gap-0 border-4 border-cyan-500 shadow-md cursor-pointer bg-white" style="width: 200px; height: 200px;">
+                            <!-- JS 生成 -->
+                        </div>
+                        
+                        <!-- 迷你选色器 -->
+                        <div class="mt-4 flex flex-wrap justify-center gap-2 max-w-[200px]">
+                            <button onclick="setHeroColor('black')" class="w-6 h-6 rounded bg-black ring-1 ring-gray-300"></button>
+                            <button onclick="setHeroColor('#3b82f6')" class="w-6 h-6 rounded bg-blue-500 ring-1 ring-gray-300"></button>
+                            <button onclick="setHeroColor('#ef4444')" class="w-6 h-6 rounded bg-red-500 ring-1 ring-gray-300"></button>
+                            <button onclick="setHeroColor('#22c55e')" class="w-6 h-6 rounded bg-green-500 ring-1 ring-gray-300"></button>
+                            <button onclick="setHeroColor('#facc15')" class="w-6 h-6 rounded bg-yellow-400 ring-1 ring-gray-300"></button>
+                            <button onclick="setHeroColor('white')" class="w-6 h-6 rounded bg-white border border-gray-300 text-[10px] flex items-center justify-center">🧹</button>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-2">点击颜色，再点击格子</div>
+                    </div>
+
+                    <!-- 2. 游戏区域 -->
+                    <div class="flex flex-col items-center w-full">
+                        <div class="font-bold text-cyan-700 mb-2 flex justify-between w-full px-2 max-w-[800px]">
+                            <span>2. 像素世界 (点击屏幕跳跃)</span>
+                            <span>得分: <span id="scoreVal" class="text-2xl font-mono text-cyan-600">0</span></span>
+                        </div>
+                        
+                        <div class="relative rounded-xl overflow-hidden border-4 border-gray-700 shadow-lg bg-slate-50">
+                            <!-- 增大 Canvas 尺寸：800x400 -->
+                            <canvas id="gameCanvas" width="800" height="400" class="w-full max-w-[800px] h-auto pixelated block"></canvas>
+                            
+                            <!-- 游戏结束/开始 遮罩 -->
+                            <div id="gameOverlay" class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white p-4 text-center">
+                                <div id="gameMsg" class="text-3xl font-bold mb-4">准备好了吗？</div>
+                                <button onclick="startGame()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105 active:scale-95 text-xl">
+                                    开始奔跑！
+                                </button>
+                                <p class="mt-4 text-sm text-gray-300">电脑：按空格跳跃 | 手机：点击屏幕跳跃</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </main>
 
     <!-- 脚本逻辑 -->
@@ -588,7 +655,7 @@
         initPuzzle();
 
 
-        /* ------------------ 任务五：像素动画师逻辑 (NEW) ------------------ */
+        /* ------------------ 任务五：像素动画师逻辑 ------------------ */
         const animGrid1 = document.getElementById('animGrid1');
         const animGrid2 = document.getElementById('animGrid2');
         const animPreview = document.getElementById('animPreview');
@@ -597,8 +664,6 @@
         let isAnimating = false;
         let animationInterval;
         
-        // 8x8 Grids
-        // 使用简单的数组来存储颜色状态: 'white' or 'color'
         let frame1Data = new Array(64).fill('white');
         let frame2Data = new Array(64).fill('white');
 
@@ -609,22 +674,20 @@
                 cell.className = 'anim-cell w-full h-full';
                 cell.style.backgroundColor = dataArray[i];
                 
-                // 点击填色
                 cell.onclick = () => {
                    dataArray[i] = animColor;
                    cell.style.backgroundColor = animColor;
-                   if(!isAnimating) updatePreview(1); // 如果没在播放，更新预览显示第一帧
+                   if(!isAnimating) updatePreview(1); 
                 };
                 element.appendChild(cell);
             }
         }
 
-        // 初始化预览网格 (只读)
         function initPreviewGrid() {
             animPreview.innerHTML = '';
             for(let i=0; i<64; i++) {
                 const cell = document.createElement('div');
-                cell.className = 'w-full h-full border border-gray-100'; // 无边框更像屏幕
+                cell.className = 'w-full h-full border border-gray-100'; 
                 cell.id = `preview-cell-${i}`;
                 cell.style.backgroundColor = 'white';
                 animPreview.appendChild(cell);
@@ -643,15 +706,13 @@
 
         window.toggleAnimation = function() {
             if (isAnimating) {
-                // Stop
                 clearInterval(animationInterval);
                 isAnimating = false;
                 playBtn.innerHTML = "<span>▶️ 播放动画</span>";
                 playBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
                 playBtn.classList.add('bg-green-500', 'hover:bg-green-600');
-                updatePreview(1); // Reset to frame 1
+                updatePreview(1); 
             } else {
-                // Start
                 isAnimating = true;
                 playBtn.innerHTML = "<span>⏹️ 停止</span>";
                 playBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
@@ -663,20 +724,306 @@
                 animationInterval = setInterval(() => {
                     currentFrame = currentFrame === 1 ? 2 : 1;
                     updatePreview(currentFrame);
-                }, 400); // 400ms speed
+                }, 400); 
             }
         }
 
-        // 初始化动画任务
         createAnimGrid(animGrid1, frame1Data);
         createAnimGrid(animGrid2, frame2Data);
         initPreviewGrid();
 
-        // 预设一个简单的默认图案（笑脸眨眼）
-        // Frame 1: Open eyes
-        const defaultEyeLeft = 18; const defaultEyeRight = 21;
-        const mouthIndices = [42, 45, 50, 51, 52, 53];
-        // ... simplified implementation just lets users draw mainly
+
+        /* ------------------ 任务六：像素大冲关逻辑 (NEW) ------------------ */
+        const heroGrid = document.getElementById('heroGrid');
+        const gameCanvas = document.getElementById('gameCanvas');
+        const gameCtx = gameCanvas.getContext('2d');
+        const gameOverlay = document.getElementById('gameOverlay');
+        const gameMsg = document.getElementById('gameMsg');
+        const scoreVal = document.getElementById('scoreVal');
+
+        let heroColor = 'black';
+        let heroPixels = new Array(100).fill(null); // 10x10, null=透明
+        
+        // 预设一个小人 (10x10)
+        const defaultHero = [
+            0,0,0,0,1,1,0,0,0,0,
+            0,0,0,1,1,1,1,0,0,0,
+            0,0,0,1,1,1,1,0,0,0,
+            0,0,0,0,1,1,0,0,0,0,
+            0,0,1,1,1,1,1,1,0,0,
+            0,0,1,0,1,1,0,1,0,0,
+            0,0,1,0,1,1,0,1,0,0,
+            0,0,0,0,1,1,0,0,0,0,
+            0,0,0,1,0,0,1,0,0,0,
+            0,0,1,1,0,0,1,1,0,0
+        ];
+        // 填充默认数据
+        for(let i=0; i<100; i++) {
+            if(defaultHero[i]) heroPixels[i] = 'black';
+        }
+
+        window.setHeroColor = function(c) { heroColor = c; }
+
+        function initHeroGrid() {
+            heroGrid.innerHTML = '';
+            for(let i=0; i<100; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'w-full h-full border border-gray-100';
+                if(heroPixels[i]) cell.style.backgroundColor = heroPixels[i];
+                
+                cell.onclick = () => {
+                    if(heroColor === 'white') {
+                        heroPixels[i] = null;
+                        cell.style.backgroundColor = 'white';
+                    } else {
+                        heroPixels[i] = heroColor;
+                        cell.style.backgroundColor = heroColor;
+                    }
+                };
+                heroGrid.appendChild(cell);
+            }
+        }
+        initHeroGrid();
+
+        // 游戏变量
+        let gameRunning = false;
+        let gameScore = 0;
+        let gameSpeed = 3; 
+        let animationId;
+        
+        // 物理变量
+        const GRAVITY = 0.5; 
+        const JUMP_FORCE = -12; 
+        const GAME_HEIGHT = 400; 
+        const GROUND_Y = 320; 
+        
+        // 背景视差变量
+        let bgScrollX = 0;
+        
+        // 生成逻辑变量 (关键修改)
+        let frameCount = 0;
+        let nextSpawnFrame = 0; // 下一次生成障碍物的帧数
+
+        // 对象
+        let player = {
+            x: 80, 
+            y: GROUND_Y - 40,
+            dy: 0,
+            width: 40,  
+            height: 40,
+            jumping: false
+        };
+        
+        let obstacles = [];
+
+        function resetGame() {
+            gameScore = 0;
+            gameSpeed = 3; 
+            obstacles = [];
+            player.y = GROUND_Y - player.height;
+            player.dy = 0;
+            player.jumping = false;
+            frameCount = 0;
+            bgScrollX = 0; 
+            scoreVal.innerText = 0;
+            
+            // 设定第一次生成时间：60帧后 (约1秒)
+            nextSpawnFrame = 60;
+        }
+
+        window.startGame = function() {
+            resetGame();
+            gameRunning = true;
+            gameOverlay.classList.add('hidden');
+            gameLoop();
+        }
+
+        function gameLoop() {
+            if(!gameRunning) return;
+            
+            // 清空画布 (天空颜色)
+            gameCtx.fillStyle = "#e0f2fe"; 
+            gameCtx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+            
+            // 0. 更新背景位置并绘制 (视差效果)
+            bgScrollX += gameSpeed * 0.2; 
+            drawBackground();
+
+            // 1. 绘制地面
+            gameCtx.beginPath();
+            gameCtx.moveTo(0, GROUND_Y);
+            gameCtx.lineTo(gameCanvas.width, GROUND_Y);
+            gameCtx.strokeStyle = "#334155";
+            gameCtx.lineWidth = 6; 
+            gameCtx.stroke();
+            
+            // 填充满地面以下
+            gameCtx.fillStyle = "#cbd5e1";
+            gameCtx.fillRect(0, GROUND_Y+3, gameCanvas.width, gameCanvas.height - GROUND_Y);
+
+            // 2. 更新玩家物理
+            player.dy += GRAVITY;
+            player.y += player.dy;
+            
+            // 地面碰撞
+            if (player.y > GROUND_Y - player.height) {
+                player.y = GROUND_Y - player.height;
+                player.dy = 0;
+                player.jumping = false;
+            }
+
+            // 3. 绘制玩家 (使用 heroPixels)
+            drawHeroSprite(player.x, player.y, player.width, player.height);
+
+            // 4. 障碍物管理 (关键逻辑修改)
+            // 使用精确的倒计时逻辑，不再使用随机模运算
+            if (frameCount >= nextSpawnFrame) {
+                 // 生成障碍物
+                obstacles.push({
+                    x: gameCanvas.width,
+                    y: GROUND_Y - 30,
+                    width: 30,
+                    height: 30,
+                    color: '#ef4444' 
+                });
+
+                // 计算下一次生成的间隔
+                // 强制最小间隔 100 帧 (确保落地缓冲)
+                // 加上随机 30-100 帧
+                let minFrameGap = 100; 
+                let randomFrameGap = Math.floor(Math.random() * 70) + 30;
+                
+                nextSpawnFrame = frameCount + minFrameGap + randomFrameGap;
+            }
+            
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.x -= gameSpeed;
+                
+                // 绘制像素化障碍物
+                gameCtx.fillStyle = obs.color;
+                gameCtx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                gameCtx.fillStyle = "rgba(0,0,0,0.2)"; 
+                gameCtx.fillRect(obs.x + 5, obs.y + 5, obs.width - 10, obs.height - 10);
+                
+                // 碰撞检测 (稍微缩小判定框)
+                // 上方留一点余地 (obs.y + 5)，左右留一点 (obs.x + 8)
+                if (
+                    player.x + 8 < obs.x + obs.width &&
+                    player.x + player.width - 8 > obs.x &&
+                    player.y + 5 < obs.y + obs.height &&
+                    player.y + player.height > obs.y + 5
+                ) {
+                    gameOver();
+                }
+
+                // 移除出屏幕的障碍物并加分
+                if (obs.x + obs.width < 0) {
+                    obstacles.splice(i, 1);
+                    gameScore++;
+                    scoreVal.innerText = gameScore;
+                    if(gameScore % 5 === 0) gameSpeed += 0.3; 
+                }
+            }
+
+            frameCount++;
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // 绘制像素风格背景
+        function drawBackground() {
+            // 1. 远景：像素山脉 (移动很慢)
+            let mountainOffset = bgScrollX % gameCanvas.width;
+            
+            // 绘制两组山脉以实现无缝循环
+            for(let i=0; i<2; i++) {
+                let startX = -mountainOffset + (i * gameCanvas.width);
+                drawPixelMountain(startX, GROUND_Y);
+                drawPixelMountain(startX + 400, GROUND_Y); // 第二座山
+            }
+
+            // 2. 中景：像素树木 (移动速度稍快)
+            let treeScroll = bgScrollX * 1.5;
+            let treeOffset = treeScroll % gameCanvas.width; 
+            
+            for(let i=0; i<2; i++) {
+                let startX = -treeOffset + (i * gameCanvas.width);
+                drawPixelTree(startX + 100, GROUND_Y);
+                drawPixelTree(startX + 350, GROUND_Y);
+                drawPixelTree(startX + 600, GROUND_Y);
+            }
+        }
+        
+        // 绘制阶梯状的像素山
+        function drawPixelMountain(x, bottomY) {
+            gameCtx.fillStyle = "#94a3b8"; // 山体颜色
+            const stepSize = 10;
+            const width = 300;
+            const height = 150;
+            
+            for(let h = 0; h < height; h += stepSize) {
+                let currentW = width * (1 - h/height);
+                let currentX = x + (width - currentW) / 2;
+                gameCtx.fillRect(currentX, bottomY - h - stepSize, currentW, stepSize);
+            }
+            
+            // 山顶积雪
+            gameCtx.fillStyle = "white";
+            gameCtx.fillRect(x + width/2 - 20, bottomY - height, 40, stepSize * 2);
+        }
+        
+        // 绘制矩形堆叠的像素树
+        function drawPixelTree(x, bottomY) {
+            gameCtx.fillStyle = "#78350f"; 
+            gameCtx.fillRect(x+10, bottomY-30, 20, 30);
+            
+            gameCtx.fillStyle = "#22c55e"; 
+            gameCtx.fillRect(x-10, bottomY-50, 60, 20);
+            gameCtx.fillRect(x, bottomY-70, 40, 20);
+            gameCtx.fillRect(x+10, bottomY-85, 20, 15);
+        }
+
+        function drawHeroSprite(x, y, w, h) {
+            const cellSize = w / 10;
+            for(let r=0; r<10; r++) {
+                for(let c=0; c<10; c++) {
+                    const color = heroPixels[r*10 + c];
+                    if(color) {
+                        gameCtx.fillStyle = color;
+                        gameCtx.fillRect(x + c*cellSize, y + r*cellSize, cellSize, cellSize);
+                    }
+                }
+            }
+        }
+
+        function jump() {
+            if (!player.jumping && gameRunning) {
+                player.dy = JUMP_FORCE;
+                player.jumping = true;
+            }
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            cancelAnimationFrame(animationId);
+            gameMsg.innerText = "游戏结束！得分: " + gameScore;
+            gameOverlay.classList.remove('hidden');
+        }
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); 
+                if(gameRunning) jump();
+                else if(!gameOverlay.classList.contains('hidden')) startGame();
+            }
+        });
+        
+        // 触摸控制
+        gameCanvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if(gameRunning) jump();
+        });
 
     </script>
 </body>
