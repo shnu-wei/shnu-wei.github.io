@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>像素大冒险 - 它是怎么组成的？</title>
+    <!-- 使用 Tailwind CSS 进行快速美化 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+
+        body {
+            font-family: 'ZCOOL KuaiLe', cursive, sans-serif; /* 使用可爱的字体风格 */
+            background-color: #f0f9ff;
+            background-image: radial-gradient(#bae6fd 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 像素化渲染，关键 CSS */
+        .pixelated {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .grid-cell {
+            transition: transform 0.1s;
+            cursor: pointer;
+        }
+        .grid-cell:hover {
+            transform: scale(0.9);
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+        .grid-cell:active {
+            transform: scale(0.8);
+        }
+
+        /* 自定义滑块样式 */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            margin-top: -12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #bfdbfe;
+            border-radius: 5px;
+        }
+        
+        /* 针对任务三的不同颜色滑块 */
+        #imagePixelSlider::-webkit-slider-thumb {
+            background: #f59e0b; /* Amber-500 */
+        }
+        #imagePixelSlider::-webkit-slider-runnable-track {
+            background: #fde68a; /* Amber-200 */
+        }
+    </style>
+</head>
+<body class="text-gray-800 select-none">
+
+    <!-- 顶部标题区 -->
+    <header class="text-center py-8 px-4">
+        <h1 class="text-5xl md:text-6xl text-blue-600 drop-shadow-md mb-4">👾 像素大冒险 👾</h1>
+        <p class="text-xl md:text-2xl text-gray-600 bg-white inline-block px-6 py-2 rounded-full shadow-lg border-2 border-blue-200">
+            图画是由千万个小方块组成的！
+        </p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 space-y-12 pb-20">
+
+        <!-- 第一课：什么是像素？（观察模式） -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-blue-200">
+            <div class="flex flex-col items-center">
+                <h2 class="text-3xl text-purple-600 mb-6 flex items-center">
+                    <span class="bg-purple-100 p-2 rounded-lg mr-3">🔍</span> 
+                    任务一：变身侦探
+                </h2>
+                <p class="text-lg text-gray-500 mb-6 text-center">
+                    这看起来是一个清晰的蘑菇，但是如果我们把它变得很小，再强行放大，会发生什么呢？<br>
+                    <span class="text-blue-500 font-bold">拖动下面的滑块试试看！</span>
+                </p>
+
+                <!-- 像素变换展示区 -->
+                <div class="relative w-64 h-64 bg-gray-100 rounded-xl overflow-hidden border-4 border-gray-300 shadow-inner mb-6 flex items-center justify-center">
+                    <!-- 这个 Canvas 用来动态绘制低分辨率图像 -->
+                    <canvas id="pixelCanvas" width="8" height="8" class="pixelated w-full h-full object-contain"></canvas>
+                    
+                    <!-- 原始的高清 Emoji (作为参考或源) -->
+                    <div id="sourceEmoji" style="display:none; font-size: 100px;">🍄</div>
+                </div>
+
+                <div class="w-full max-w-md bg-blue-50 p-4 rounded-xl">
+                    <div class="flex justify-between text-lg font-bold text-blue-800 mb-2">
+                        <span>全是方块 (像素低)</span>
+                        <span>很清晰 (像素高)</span>
+                    </div>
+                    <input type="range" id="resolutionSlider" min="4" max="128" value="128" step="1" class="w-full">
+                    <div class="text-center mt-2 text-xl text-blue-600">
+                        当前方块数量：<span id="resValue" class="font-bold text-2xl">很多</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-yellow-100 p-4 rounded-lg text-yellow-800 text-lg">
+                    💡 <strong>小知识：</strong> 每一个小色块就叫一个 <strong>“像素” (Pixel)”</strong>。像搭积木一样，方块越多，画就越清楚！
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二课：我来画像素（创造模式） -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-green-200">
+            <div class="flex flex-col items-center">
+                <h2 class="text-3xl text-green-600 mb-6 flex items-center">
+                    <span class="bg-green-100 p-2 rounded-lg mr-3">🎨</span>
+                    任务二：我是小画家
+                </h2>
+                <p class="text-lg text-gray-500 mb-6 text-center">
+                    既然图画是方块组成的，那我们也来用方块画画吧！<br>
+                    <span class="text-green-500 font-bold">点击下面的格子填色。</span>
+                </p>
+
+                <!-- 颜色选择器 -->
+                <div class="flex gap-4 mb-6 bg-gray-100 p-3 rounded-full shadow-inner">
+                    <button onclick="setColor('red')" class="w-12 h-12 rounded-full bg-red-500 hover:scale-110 transition ring-4 ring-transparent hover:ring-red-200 focus:ring-red-300 shadow-md transform active:scale-90" aria-label="红色"></button>
+                    <button onclick="setColor('#3b82f6')" class="w-12 h-12 rounded-full bg-blue-500 hover:scale-110 transition ring-4 ring-transparent hover:ring-blue-200 focus:ring-blue-300 shadow-md transform active:scale-90" aria-label="蓝色"></button>
+                    <button onclick="setColor('#22c55e')" class="w-12 h-12 rounded-full bg-green-500 hover:scale-110 transition ring-4 ring-transparent hover:ring-green-200 focus:ring-green-300 shadow-md transform active:scale-90" aria-label="绿色"></button>
+                    <button onclick="setColor('#facc15')" class="w-12 h-12 rounded-full bg-yellow-400 hover:scale-110 transition ring-4 ring-transparent hover:ring-yellow-200 focus:ring-yellow-300 shadow-md transform active:scale-90" aria-label="黄色"></button>
+                    <button onclick="setColor('black')" class="w-12 h-12 rounded-full bg-gray-900 hover:scale-110 transition ring-4 ring-transparent hover:ring-gray-300 focus:ring-gray-400 shadow-md transform active:scale-90" aria-label="黑色"></button>
+                    <!-- 橡皮擦 -->
+                    <button onclick="setColor('white')" class="w-12 h-12 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center hover:scale-110 transition shadow-md text-xl" title="橡皮擦">🧽</button>
+                </div>
+                
+                <div id="currentColorDisplay" class="mb-4 text-lg">
+                    现在手里拿的是：<span class="font-bold px-3 py-1 rounded text-white shadow" style="background-color: red;">红色</span>
+                </div>
+
+                <!-- 10x10 画布 -->
+                <div id="pixelGrid" class="grid grid-cols-10 gap-0.5 bg-gray-300 p-1 rounded border-4 border-gray-400 shadow-lg" style="width: 320px; height: 320px;">
+                    <!-- 格子将通过 JS 生成 -->
+                </div>
+
+                <div class="flex gap-4 mt-6">
+                    <button onclick="clearGrid()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-full transition shadow-md">
+                        🗑️ 全部擦掉
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第三课：万物皆像素 (上传模式) -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-yellow-400">
+            <div class="flex flex-col items-center">
+                <h2 class="text-3xl text-yellow-600 mb-6 flex items-center">
+                    <span class="bg-yellow-100 p-2 rounded-lg mr-3">📸</span>
+                    任务三：万物皆像素
+                </h2>
+                <p class="text-lg text-gray-500 mb-6 text-center">
+                    你可以上传一张自己的照片，看看它变成像素画是什么样子的！<br>
+                    <span class="text-orange-500 font-bold">点击下方按钮上传，然后拖动滑块。</span>
+                </p>
+
+                <!-- 上传控件 -->
+                <div class="mb-6 w-full max-w-md">
+                    <label class="block w-full flex flex-col items-center px-4 py-6 bg-orange-50 text-orange-500 rounded-xl shadow-lg tracking-wide uppercase border border-orange-200 cursor-pointer hover:bg-orange-100 transition active:scale-95">
+                        <span class="text-4xl mb-2">📤</span>
+                        <span class="text-xl leading-normal font-bold">点击上传图片</span>
+                        <input type='file' class="hidden" id="uploadInput" accept="image/*" />
+                    </label>
+                </div>
+
+                <!-- 像素控制 (默认隐藏，上传后显示) -->
+                <div class="w-full max-w-md bg-yellow-50 p-4 rounded-xl mb-6 hidden transition-all duration-500" id="pixelControlArea">
+                    <div class="flex justify-between text-lg font-bold text-yellow-800 mb-2">
+                        <span>方块大 (像素风)</span>
+                        <span>方块小 (高清)</span>
+                    </div>
+                    <input type="range" id="imagePixelSlider" min="1" max="100" value="50" step="1" class="w-full">
+                    <div class="text-center mt-2 text-xl text-yellow-700">
+                        照片样子：<span id="imgResText" class="font-bold text-2xl">复古游戏风</span>
+                    </div>
+                </div>
+
+                <!-- 图片展示区 -->
+                <div class="relative w-full max-w-md bg-gray-100 rounded-xl overflow-hidden border-4 border-gray-300 shadow-inner min-h-[300px] flex items-center justify-center">
+                    <div id="imgPlaceholder" class="text-center p-4">
+                        <span class="text-6xl block mb-2">🖼️</span>
+                        <p class="text-gray-400 text-xl">图片会显示在这里</p>
+                    </div>
+                    <!-- 图片 Canvas -->
+                    <canvas id="imageCanvas" class="pixelated w-full h-auto hidden"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 脚本逻辑 -->
+    <script>
+        /* ------------------ 任务一：像素变焦逻辑 ------------------ */
+        const canvas = document.getElementById('pixelCanvas');
+        const ctx = canvas.getContext('2d');
+        const slider = document.getElementById('resolutionSlider');
+        const resValue = document.getElementById('resValue');
+        
+        // 禁用平滑处理，确保像素看起来是方方正正的
+        ctx.imageSmoothingEnabled = false;
+
+        // 我们要画的 Emoji
+        const emoji = "🍄";
+        
+        function drawPixelated(resolution) {
+            // 1. 设置 Canvas 的实际分辨率（比如 8x8 或 64x64）
+            canvas.width = resolution;
+            canvas.height = resolution;
+            
+            // 2. 再次确保关闭平滑（有些浏览器重置宽高后会重置此属性）
+            ctx.imageSmoothingEnabled = false;
+
+            // 3. 在这个小小的画布上画一个巨大的 Emoji
+            // 字体大小需要匹配画布大小，甚至稍微大一点以填满
+            ctx.font = `${resolution * 0.9}px serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+            // 填充背景以防透明
+            ctx.fillStyle = "#e0f2fe"; 
+            ctx.fillRect(0, 0, resolution, resolution);
+            
+            // 画 Emoji
+            ctx.fillText(emoji, resolution / 2, resolution / 1.8);
+
+            // 更新文字说明
+            if (resolution < 10) {
+                resValue.innerText = "很少 (看不清啦!)";
+                resValue.className = "font-bold text-2xl text-red-500";
+            } else if (resolution < 40) {
+                resValue.innerText = "一点点 (马赛克)";
+                resValue.className = "font-bold text-2xl text-yellow-600";
+            } else {
+                resValue.innerText = "很多 (超级清楚!)";
+                resValue.className = "font-bold text-2xl text-green-600";
+            }
+        }
+
+        // 监听滑块
+        slider.addEventListener('input', (e) => {
+            drawPixelated(parseInt(e.target.value));
+        });
+
+        // 初始化
+        drawPixelated(128);
+
+
+        /* ------------------ 任务二：绘画板逻辑 ------------------ */
+        const grid = document.getElementById('pixelGrid');
+        const colorDisplay = document.querySelector('#currentColorDisplay span');
+        let currentColor = 'red';
+        let isDrawing = false; // 支持拖拽绘画
+
+        // 生成 10x10 = 100 个格子
+        function initGrid() {
+            grid.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell bg-white w-full h-full';
+                cell.dataset.index = i;
+                
+                // 点击变色
+                cell.addEventListener('mousedown', () => {
+                    cell.style.backgroundColor = currentColor;
+                });
+                
+                // 鼠标滑过变色（如果按住的话）
+                cell.addEventListener('mouseenter', () => {
+                    if (isDrawing) {
+                        cell.style.backgroundColor = currentColor;
+                    }
+                });
+
+                // 移动端触摸支持
+                cell.addEventListener('touchstart', (e) => {
+                    e.preventDefault(); // 防止滚动
+                    cell.style.backgroundColor = currentColor;
+                });
+
+                grid.appendChild(cell);
+            }
+        }
+
+        // 全局鼠标状态监听，用于拖拽绘画
+        document.body.addEventListener('mousedown', () => isDrawing = true);
+        document.body.addEventListener('mouseup', () => isDrawing = false);
+
+        // 选色功能
+        window.setColor = function(color) {
+            currentColor = color;
+            
+            // 更新文字提示
+            if(color === 'red') { colorDisplay.innerText = "红色"; colorDisplay.style.backgroundColor = "red"; colorDisplay.style.color = "white"; }
+            else if(color === '#3b82f6') { colorDisplay.innerText = "蓝色"; colorDisplay.style.backgroundColor = "#3b82f6"; colorDisplay.style.color = "white"; }
+            else if(color === '#22c55e') { colorDisplay.innerText = "绿色"; colorDisplay.style.backgroundColor = "#22c55e"; colorDisplay.style.color = "white"; }
+            else if(color === '#facc15') { colorDisplay.innerText = "黄色"; colorDisplay.style.backgroundColor = "#facc15"; colorDisplay.style.color = "black"; }
+            else if(color === 'black') { colorDisplay.innerText = "黑色"; colorDisplay.style.backgroundColor = "black"; colorDisplay.style.color = "white"; }
+            else if(color === 'white') { colorDisplay.innerText = "橡皮擦"; colorDisplay.style.backgroundColor = "white"; colorDisplay.style.color = "black"; colorDisplay.style.border = "1px solid #ccc"; }
+        }
+
+        // 清空画布
+        window.clearGrid = function() {
+            const cells = document.querySelectorAll('.grid-cell');
+            cells.forEach(cell => {
+                cell.style.backgroundColor = 'white';
+                cell.style.transform = "scale(1)"; // 重置动画状态
+            });
+            // 简单的动画反馈
+            grid.classList.add('animate-pulse');
+            setTimeout(() => grid.classList.remove('animate-pulse'), 500);
+        }
+
+        initGrid();
+
+        /* ------------------ 任务三：图片像素化逻辑 ------------------ */
+        const uploadInput = document.getElementById('uploadInput');
+        const imageCanvas = document.getElementById('imageCanvas');
+        const imageCtx = imageCanvas.getContext('2d');
+        const imgSlider = document.getElementById('imagePixelSlider');
+        const imgResText = document.getElementById('imgResText');
+        const imgPlaceholder = document.getElementById('imgPlaceholder');
+        const pixelControlArea = document.getElementById('pixelControlArea');
+
+        let userImg = new Image();
+
+        // 监听文件上传
+        uploadInput.addEventListener('change', handleFile);
+
+        function handleFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                userImg = new Image();
+                userImg.onload = () => {
+                    // 图片加载完成后，显示控制区和 Canvas
+                    imgPlaceholder.style.display = 'none';
+                    imageCanvas.classList.remove('hidden');
+                    pixelControlArea.classList.remove('hidden');
+                    // 重置滑块到中间
+                    imgSlider.value = 50;
+                    processUserImage();
+                };
+                userImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 监听滑块
+        imgSlider.addEventListener('input', processUserImage);
+
+        function processUserImage() {
+            if (!userImg.width) return;
+            
+            // 获取滑块值 (1-100)
+            const val = parseInt(imgSlider.value);
+            
+            // 计算缩放比例
+            // 如果值为1，比例很小 (像素很大)
+            // 如果值为100，比例为1 (原图)
+            const scale = 0.02 + (val / 100) * 0.98;
+            
+            // 计算“低像素”时的尺寸
+            const w = Math.max(1, Math.floor(userImg.width * scale));
+            const h = Math.max(1, Math.floor(userImg.height * scale));
+            
+            // 这里的技巧是：
+            // 1. 创建一个小的离屏 Canvas，把原图“缩小”画进去 (丢失细节)
+            // 2. 把小的 Canvas “放大”画回显示用的 Canvas (因为 CSS 类 .pixelated，会产生锯齿效果)
+            
+            imageCanvas.width = userImg.width;
+            imageCanvas.height = userImg.height;
+            imageCtx.imageSmoothingEnabled = false;
+            
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = w;
+            tempCanvas.height = h;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(userImg, 0, 0, w, h);
+            
+            // 画回大画布
+            imageCtx.drawImage(tempCanvas, 0, 0, w, h, 0, 0, imageCanvas.width, imageCanvas.height);
+            
+            // 更新文本
+            if (val < 15) {
+                imgResText.innerText = "我的世界风 (像素块超大)";
+                imgResText.className = "font-bold text-2xl text-red-500";
+            }
+            else if (val < 50) {
+                imgResText.innerText = "复古游戏风 (看不清细节)";
+                imgResText.className = "font-bold text-2xl text-orange-500";
+            }
+            else if (val < 90) {
+                imgResText.innerText = "有点模糊 (像老照片)";
+                imgResText.className = "font-bold text-2xl text-yellow-600";
+            }
+            else {
+                imgResText.innerText = "高清照片 (像镜子一样)";
+                imgResText.className = "font-bold text-2xl text-green-600";
+            }
+        }
+
+    </script>
+</body>
+</html>
