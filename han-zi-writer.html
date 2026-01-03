@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>汉字序列特训系统 (音效增强版)</title>
+    <title>汉字序列特训系统 (终极体验版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <style>
@@ -24,6 +24,7 @@
             cursor: crosshair;
             transition: transform 0.1s;
             overflow: hidden;
+            z-index: 1; /* 建立层叠上下文 */
         }
 
         .mizige {
@@ -37,6 +38,8 @@
             width: 100%;
             height: 100%;
             border-radius: 20px;
+            position: relative;
+            z-index: 5; /* 汉字层 */
         }
 
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
@@ -49,30 +52,34 @@
 
         .progress-bar { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
+        /* 粒子特效 - 提高层级 */
         .particle {
             position: absolute;
             pointer-events: none;
             border-radius: 50%;
             animation: pop 0.6s ease-out forwards;
+            z-index: 50; /* 确保在最上层 */
         }
         @keyframes pop {
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
 
+        /* 连击文字 - 提高层级 */
         .combo-text {
             position: absolute;
-            top: 20%;
+            top: 30%;
             left: 50%;
             transform: translateX(-50%) scale(0);
             font-weight: 900;
             font-style: italic;
             color: #f59e0b;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8), 0 0 10px rgba(245, 158, 11, 0.5);
             pointer-events: none;
-            z-index: 30;
+            z-index: 60; /* 确保在粒子之上 */
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
+            white-space: nowrap;
         }
         .combo-active {
             transform: translateX(-50%) scale(1.5);
@@ -80,9 +87,9 @@
             animation: pulse-combo 0.3s ease-in-out;
         }
         @keyframes pulse-combo {
-            0% { transform: translateX(-50%) scale(1.2); }
-            50% { transform: translateX(-50%) scale(1.8); }
-            100% { transform: translateX(-50%) scale(1.5); }
+            0% { transform: translateX(-50%) scale(1.2) rotate(-5deg); }
+            50% { transform: translateX(-50%) scale(1.8) rotate(5deg); }
+            100% { transform: translateX(-50%) scale(1.5) rotate(0deg); }
         }
 
         .star-pop { animation: star-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0); }
@@ -159,9 +166,11 @@
         <!-- 字格容器 -->
         <div id="canvas-wrapper" class="relative">
             <div id="character-target-div" class="mizige"></div>
+            <!-- 连击文字移到这里，确保z-index生效 -->
             <div id="combo-display" class="combo-text text-4xl">Combo x2!</div>
+            
             <!-- 完成时的评价覆盖层 -->
-            <div id="completion-overlay" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
+            <div id="completion-overlay" class="absolute inset-0 z-50 hidden flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
                 <div class="flex gap-2 mb-4" id="star-container"></div>
                 <div id="completion-msg" class="text-indigo-600 font-black text-2xl mb-2">完美!</div>
                 <div class="text-sm text-slate-400 font-medium">+50 额外奖励</div>
@@ -268,11 +277,9 @@
                 }
             },
 
-            // 播放合成音效
             playTone: function(freq, type, duration, volume = 0.1, slideTo = null) {
                 if (this.isMuted || !this.ctx) return;
                 
-                // 恢复上下文（浏览器需要用户交互后才能播放）
                 if (this.ctx.state === 'suspended') {
                     this.ctx.resume();
                 }
@@ -280,7 +287,7 @@
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
 
-                osc.type = type; // sine, square, sawtooth, triangle
+                osc.type = type;
                 osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
                 if (slideTo) {
                     osc.frequency.exponentialRampToValueAtTime(slideTo, this.ctx.currentTime + duration);
@@ -297,22 +304,16 @@
             },
 
             playCorrect: function(combo = 0) {
-                // 连击越高，音调越高
                 const baseFreq = 500 + (Math.min(combo, 10) * 50);
-                // 使用正弦波，类似“叮”声
                 this.playTone(baseFreq, 'sine', 0.3, 0.15); 
-                // 叠加一个高频泛音
                 setTimeout(() => this.playTone(baseFreq * 1.5, 'triangle', 0.2, 0.05), 50);
             },
 
             playMistake: function() {
-                // 低频锯齿波，类似“Buzz”
                 this.playTone(150, 'sawtooth', 0.3, 0.1, 100);
             },
 
             playComplete: function() {
-                // C大调三和弦 C-E-G-C (快速琶音)
-                const now = this.ctx ? this.ctx.currentTime : 0;
                 const notes = [523.25, 659.25, 783.99, 1046.50];
                 notes.forEach((freq, i) => {
                     setTimeout(() => this.playTone(freq, 'sine', 0.6, 0.1), i * 80);
@@ -329,23 +330,37 @@
             combo: 0,
             mistakesInCurrentChar: 0,
             isQuizzing: false,
-            lastPointerX: 0,
-            lastPointerY: 0,
+            lastPointerX: -1, // 初始化为无效值
+            lastPointerY: -1,
             selectedOCRChars: new Set(),
             apiKey: ''
         };
 
-        // --- 全局交互监听 ---
-        document.addEventListener('pointermove', (e) => {
-            GameState.lastPointerX = e.clientX;
-            GameState.lastPointerY = e.clientY;
-        });
+        // --- 全局交互监听 (使用 capture 确保不被拦截) ---
+        const updatePointer = (e) => {
+            // 如果是触摸事件，取第一个触点
+            if (e.touches && e.touches.length > 0) {
+                GameState.lastPointerX = e.touches[0].clientX;
+                GameState.lastPointerY = e.touches[0].clientY;
+            } else {
+                GameState.lastPointerX = e.clientX;
+                GameState.lastPointerY = e.clientY;
+            }
+        };
+
+        // 使用 passive: false 和 capture: true 提高优先级
+        document.addEventListener('pointermove', updatePointer, { capture: true });
+        document.addEventListener('touchmove', updatePointer, { capture: true, passive: false });
+        
         document.addEventListener('pointerdown', (e) => {
-            GameState.lastPointerX = e.clientX;
-            GameState.lastPointerY = e.clientY;
-            // 第一次交互时初始化音频引擎
+            updatePointer(e);
             SoundEngine.init();
-        });
+        }, { capture: true });
+        
+        document.addEventListener('touchstart', (e) => {
+            updatePointer(e);
+            SoundEngine.init();
+        }, { capture: true, passive: false });
 
         // --- 初始化 ---
         function getCanvasSize() {
@@ -371,7 +386,7 @@
             };
         }
 
-        // --- 游戏逻辑：分数与连击 ---
+        // --- 游戏逻辑 ---
         function updateScore(points) {
             const startScore = GameState.score;
             const endScore = startScore + points;
@@ -403,10 +418,14 @@
             if (reset) {
                 GameState.combo = 0;
                 el.classList.remove('combo-active');
+                el.style.opacity = '0';
             } else {
                 GameState.combo++;
                 if (GameState.combo > 1) {
                     el.innerText = `Combo x${GameState.combo}!`;
+                    el.style.opacity = '1';
+                    
+                    // 强制重绘触发动画
                     el.classList.remove('combo-active');
                     void el.offsetWidth; 
                     el.classList.add('combo-active');
@@ -424,31 +443,43 @@
             } else {
                 onIcon.classList.remove('hidden');
                 offIcon.classList.add('hidden');
-                // 播放一个试听音效
                 SoundEngine.playTone(440, 'sine', 0.2, 0.1);
             }
         }
 
-        // --- 视觉特效 ---
+        // --- 视觉特效：粒子系统 ---
         function spawnParticles() {
             const wrapper = document.getElementById('canvas-wrapper');
             const rect = wrapper.getBoundingClientRect();
             
-            const x = GameState.lastPointerX - rect.left;
-            const y = GameState.lastPointerY - rect.top;
+            let x, y;
 
-            if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+            // 检查坐标是否有效，如果无效（比如从未点击过或超出边界），则默认在中心生成
+            // 修复：只要在页面范围内就算有效，不再严格限制在 wrapper 内，防止误判
+            if (GameState.lastPointerX > 0 && GameState.lastPointerY > 0) {
+                x = GameState.lastPointerX - rect.left;
+                y = GameState.lastPointerY - rect.top;
+            } else {
+                // 默认中心
+                x = rect.width / 2;
+                y = rect.height / 2;
+            }
+
+            // 限制粒子产生位置在 wrapper 内部，防止溢出看不到
+            x = Math.max(20, Math.min(x, rect.width - 20));
+            y = Math.max(20, Math.min(y, rect.height - 20));
 
             const colors = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
             
-            for (let i = 0; i < 12; i++) {
+            // 增加粒子数量和尺寸
+            for (let i = 0; i < 16; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
                 
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                const size = Math.random() * 6 + 4;
+                const size = Math.random() * 8 + 5; // 更大的粒子
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 60 + 20;
+                const velocity = Math.random() * 80 + 30; // 更快的速度
                 
                 const tx = Math.cos(angle) * velocity;
                 const ty = Math.sin(angle) * velocity;
@@ -502,6 +533,10 @@
             document.getElementById('character-target-div').innerHTML = ''; 
             document.getElementById('completion-overlay').classList.add('hidden');
             document.getElementById('completion-overlay').classList.remove('flex');
+            
+            // 重置坐标，避免上个字的位置影响
+            GameState.lastPointerX = wrapper.getBoundingClientRect().left + size/2;
+            GameState.lastPointerY = wrapper.getBoundingClientRect().top + size/2;
 
             GameState.mistakesInCurrentChar = 0;
             updateCombo(true);
@@ -523,7 +558,6 @@
                     showStatus(`⚠️ 无法加载 "${char}"`, 'error');
                 },
                 onLoadCharDataSuccess: () => {
-                     // 可以在这里预热音频引擎
                      SoundEngine.init();
                 }
             });
@@ -548,7 +582,7 @@
             } else {
                  showStatus('🏆 所有关卡挑战完成！', 'complete');
                  document.getElementById('progress-indicator').style.width = '100%';
-                 SoundEngine.playComplete(); // 再次播放庆祝
+                 SoundEngine.playComplete();
             }
         }
 
@@ -577,7 +611,6 @@
                     updateCombo(true);
                     showStatus('❌ 失误！连击中断', 'error');
                     
-                    // 播放错误音效
                     SoundEngine.playMistake();
 
                     const el = document.getElementById('canvas-wrapper');
@@ -586,10 +619,10 @@
                     el.classList.add('shake');
                 },
                 onCorrectStroke: function(data) {
+                    // 先生成粒子特效
                     spawnParticles();
-                    updateCombo();
                     
-                    // 播放正确音效
+                    updateCombo();
                     SoundEngine.playCorrect(GameState.combo);
 
                     const comboBonus = Math.min(GameState.combo, 10) * 5;
@@ -598,7 +631,6 @@
                     showStatus(`✅ 完美！Combo x${GameState.combo}`, 'success');
                 },
                 onComplete: function(summary) {
-                    // 播放完成音效
                     SoundEngine.playComplete();
                     handleLevelComplete(summary);
                 }
@@ -832,6 +864,10 @@
                 const chip = document.createElement('button');
                 chip.innerText = char;
                 chip.className = 'char-chip w-10 h-10 rounded-lg border-2 border-slate-200 bg-white text-lg font-black text-slate-700 shadow-sm hover:border-indigo-400 hover:text-indigo-600 transition-all active:scale-90';
+                
+                // 默认不选中
+                // toggleCharSelection(chip, char); 
+
                 chip.onclick = () => toggleCharSelection(chip, char);
                 container.appendChild(chip);
             });
