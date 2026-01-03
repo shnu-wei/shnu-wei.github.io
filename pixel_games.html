@@ -28,11 +28,43 @@
             cursor: pointer;
         }
         .grid-cell:hover {
-            transform: scale(0.9);
-            border: 2px solid rgba(0,0,0,0.2);
+            transform: scale(0.95);
+            z-index: 10;
         }
         .grid-cell:active {
-            transform: scale(0.8);
+            transform: scale(0.85);
+        }
+
+        /* 任务四专用样式：数字格子 */
+        .number-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #ccc;
+            user-select: none;
+            transition: all 0.2s;
+        }
+        .number-cell.solved {
+            color: transparent; /* 填色后隐藏数字 */
+            transform: scale(1);
+            border: none;
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
         /* 自定义滑块样式 */
@@ -64,6 +96,12 @@
         }
         #imagePixelSlider::-webkit-slider-runnable-track {
             background: #fde68a; /* Amber-200 */
+        }
+
+        /* 任务五：动画格子 */
+        .anim-cell {
+            background-color: white;
+            border: 1px solid #eee;
         }
     </style>
 </head>
@@ -130,7 +168,7 @@
                 </p>
 
                 <!-- 颜色选择器 -->
-                <div class="flex gap-4 mb-6 bg-gray-100 p-3 rounded-full shadow-inner">
+                <div class="flex gap-4 mb-6 bg-gray-100 p-3 rounded-full shadow-inner flex-wrap justify-center">
                     <button onclick="setColor('red')" class="w-12 h-12 rounded-full bg-red-500 hover:scale-110 transition ring-4 ring-transparent hover:ring-red-200 focus:ring-red-300 shadow-md transform active:scale-90" aria-label="红色"></button>
                     <button onclick="setColor('#3b82f6')" class="w-12 h-12 rounded-full bg-blue-500 hover:scale-110 transition ring-4 ring-transparent hover:ring-blue-200 focus:ring-blue-300 shadow-md transform active:scale-90" aria-label="蓝色"></button>
                     <button onclick="setColor('#22c55e')" class="w-12 h-12 rounded-full bg-green-500 hover:scale-110 transition ring-4 ring-transparent hover:ring-green-200 focus:ring-green-300 shadow-md transform active:scale-90" aria-label="绿色"></button>
@@ -145,7 +183,7 @@
                 </div>
 
                 <!-- 10x10 画布 -->
-                <div id="pixelGrid" class="grid grid-cols-10 gap-0.5 bg-gray-300 p-1 rounded border-4 border-gray-400 shadow-lg" style="width: 320px; height: 320px;">
+                <div id="pixelGrid" class="grid grid-cols-10 gap-0.5 bg-gray-300 p-1 rounded border-4 border-gray-400 shadow-lg touch-none" style="width: 320px; height: 320px;">
                     <!-- 格子将通过 JS 生成 -->
                 </div>
 
@@ -203,6 +241,117 @@
             </div>
         </section>
 
+        <!-- 第四课：数字解密 (Puzzle模式) -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-pink-400">
+            <div class="flex flex-col items-center">
+                <h2 class="text-3xl text-pink-600 mb-6 flex items-center">
+                    <span class="bg-pink-100 p-2 rounded-lg mr-3">🧩</span>
+                    任务四：数字解密
+                </h2>
+                <p class="text-lg text-gray-500 mb-6 text-center">
+                    电脑其实不认识颜色，它只认识<strong>数字</strong>！<br>
+                    <span class="text-pink-500 font-bold">请根据下面的数字代码，帮电脑还原这幅画吧。</span>
+                </p>
+
+                <!-- 游戏状态提示 -->
+                <div id="puzzleMessage" class="h-8 mb-4 text-xl font-bold text-pink-500">
+                    拿起画笔开始吧！
+                </div>
+
+                <!-- 调色板 (数字映射) -->
+                <div class="flex gap-6 mb-6 bg-pink-50 p-4 rounded-xl shadow-inner">
+                    <div onclick="setPuzzleTool(1)" class="puzzle-tool cursor-pointer flex flex-col items-center gap-1 hover:scale-110 transition transform active:scale-95" id="tool-1">
+                        <div class="w-12 h-12 rounded-full bg-red-500 shadow-md ring-4 ring-transparent border-2 border-white"></div>
+                        <span class="font-bold text-xl text-red-500">1</span>
+                    </div>
+                    <div onclick="setPuzzleTool(2)" class="puzzle-tool cursor-pointer flex flex-col items-center gap-1 hover:scale-110 transition transform active:scale-95" id="tool-2">
+                        <div class="w-12 h-12 rounded-full bg-green-500 shadow-md ring-4 ring-transparent border-2 border-white"></div>
+                        <span class="font-bold text-xl text-green-500">2</span>
+                    </div>
+                    <div onclick="setPuzzleTool(3)" class="puzzle-tool cursor-pointer flex flex-col items-center gap-1 hover:scale-110 transition transform active:scale-95" id="tool-3">
+                        <div class="w-12 h-12 rounded-full bg-black shadow-md ring-4 ring-transparent border-2 border-white"></div>
+                        <span class="font-bold text-xl text-black">3</span>
+                    </div>
+                </div>
+
+                <!-- 8x8 解密网格 -->
+                <div id="puzzleGrid" class="grid grid-cols-8 gap-1 bg-gray-200 p-2 rounded-xl border-4 border-pink-300 shadow-lg" style="width: 340px; height: 340px;">
+                    <!-- JS 生成格子 -->
+                </div>
+
+                <div class="mt-6 text-gray-400 text-sm">
+                    提示：用正确的颜色点击对应的数字格子。
+                </div>
+                
+                <button onclick="resetPuzzle()" class="mt-4 text-pink-400 underline hover:text-pink-600">
+                    重新开始
+                </button>
+            </div>
+        </section>
+
+        <!-- 第五课：像素动画师 (Animation模式) -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-b-8 border-indigo-400">
+            <div class="flex flex-col items-center">
+                <h2 class="text-3xl text-indigo-600 mb-6 flex items-center">
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">🎬</span>
+                    任务五：像素动画师
+                </h2>
+                <p class="text-lg text-gray-500 mb-6 text-center">
+                    动画片就是图片变变得很快！<br>
+                    <span class="text-indigo-500 font-bold">画两个不一样的图，然后点“播放”看看！</span>
+                </p>
+
+                <!-- 两个画板容器 -->
+                <div class="flex flex-col md:flex-row gap-8 items-center justify-center mb-6">
+                    <!-- 第一帧 -->
+                    <div class="flex flex-col items-center">
+                        <span class="mb-2 font-bold text-gray-500 bg-gray-200 px-3 py-1 rounded-full">第一张 (Frame 1)</span>
+                        <div id="animGrid1" class="grid grid-cols-8 gap-0 border-4 border-indigo-300 shadow-md cursor-pointer" style="width: 160px; height: 160px;"></div>
+                    </div>
+
+                    <!-- 箭头 -->
+                    <div class="text-4xl text-indigo-300 hidden md:block">➡</div>
+                    <div class="text-4xl text-indigo-300 md:hidden">⬇</div>
+
+                    <!-- 第二帧 -->
+                    <div class="flex flex-col items-center">
+                        <span class="mb-2 font-bold text-gray-500 bg-gray-200 px-3 py-1 rounded-full">第二张 (Frame 2)</span>
+                        <div id="animGrid2" class="grid grid-cols-8 gap-0 border-4 border-indigo-300 shadow-md cursor-pointer" style="width: 160px; height: 160px;"></div>
+                    </div>
+                </div>
+
+                <!-- 播放控制与预览 -->
+                <div class="flex flex-col items-center gap-4 bg-indigo-50 p-6 rounded-2xl w-full max-w-md border-2 border-indigo-100">
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleAnimation()" id="playBtn" class="bg-green-500 hover:bg-green-600 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg transition transform active:scale-95 flex items-center">
+                            <span>▶️ 播放动画</span>
+                        </button>
+                    </div>
+
+                    <div class="mt-2 text-indigo-800 font-bold">
+                        📺 电视机预览：
+                    </div>
+                    <!-- 预览窗口 -->
+                    <div class="relative w-32 h-32 bg-white rounded-lg border-4 border-gray-700 shadow-inner flex items-center justify-center overflow-hidden">
+                        <div id="animPreview" class="grid grid-cols-8 gap-0 w-full h-full">
+                            <!-- 动态填充 -->
+                        </div>
+                        <!-- 扫描线效果 -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-10 pointer-events-none" style="background-size: 100% 4px;"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">小提示：试着画一个闭眼睛的脸，和一个睁眼睛的脸！</p>
+                </div>
+                
+                <!-- 简单选色器 (复用逻辑) -->
+                <div class="mt-6 flex gap-2">
+                    <div class="text-gray-500 mr-2 flex items-center">当前颜色:</div>
+                    <button onclick="setAnimColor('black')" class="w-8 h-8 rounded bg-black border-2 border-white ring-2 ring-gray-300 shadow-sm"></button>
+                    <button onclick="setAnimColor('red')" class="w-8 h-8 rounded bg-red-500 border-2 border-white ring-2 ring-gray-300 shadow-sm"></button>
+                    <button onclick="setAnimColor('white')" class="w-8 h-8 rounded bg-white border-2 border-gray-300 shadow-sm flex items-center justify-center text-xs">🧹</button>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- 脚本逻辑 -->
@@ -213,34 +362,20 @@
         const slider = document.getElementById('resolutionSlider');
         const resValue = document.getElementById('resValue');
         
-        // 禁用平滑处理，确保像素看起来是方方正正的
         ctx.imageSmoothingEnabled = false;
-
-        // 我们要画的 Emoji
         const emoji = "🍄";
         
         function drawPixelated(resolution) {
-            // 1. 设置 Canvas 的实际分辨率（比如 8x8 或 64x64）
             canvas.width = resolution;
             canvas.height = resolution;
-            
-            // 2. 再次确保关闭平滑（有些浏览器重置宽高后会重置此属性）
             ctx.imageSmoothingEnabled = false;
-
-            // 3. 在这个小小的画布上画一个巨大的 Emoji
-            // 字体大小需要匹配画布大小，甚至稍微大一点以填满
             ctx.font = `${resolution * 0.9}px serif`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            
-            // 填充背景以防透明
             ctx.fillStyle = "#e0f2fe"; 
             ctx.fillRect(0, 0, resolution, resolution);
-            
-            // 画 Emoji
             ctx.fillText(emoji, resolution / 2, resolution / 1.8);
 
-            // 更新文字说明
             if (resolution < 10) {
                 resValue.innerText = "很少 (看不清啦!)";
                 resValue.className = "font-bold text-2xl text-red-500";
@@ -252,13 +387,7 @@
                 resValue.className = "font-bold text-2xl text-green-600";
             }
         }
-
-        // 监听滑块
-        slider.addEventListener('input', (e) => {
-            drawPixelated(parseInt(e.target.value));
-        });
-
-        // 初始化
+        slider.addEventListener('input', (e) => drawPixelated(parseInt(e.target.value)));
         drawPixelated(128);
 
 
@@ -266,67 +395,48 @@
         const grid = document.getElementById('pixelGrid');
         const colorDisplay = document.querySelector('#currentColorDisplay span');
         let currentColor = 'red';
-        let isDrawing = false; // 支持拖拽绘画
+        let isDrawing = false; 
 
-        // 生成 10x10 = 100 个格子
         function initGrid() {
             grid.innerHTML = '';
             for (let i = 0; i < 100; i++) {
                 const cell = document.createElement('div');
-                cell.className = 'grid-cell bg-white w-full h-full';
+                cell.className = 'grid-cell bg-white w-full h-full border border-gray-100';
                 cell.dataset.index = i;
                 
-                // 点击变色
-                cell.addEventListener('mousedown', () => {
-                    cell.style.backgroundColor = currentColor;
-                });
-                
-                // 鼠标滑过变色（如果按住的话）
-                cell.addEventListener('mouseenter', () => {
-                    if (isDrawing) {
-                        cell.style.backgroundColor = currentColor;
-                    }
-                });
-
-                // 移动端触摸支持
-                cell.addEventListener('touchstart', (e) => {
-                    e.preventDefault(); // 防止滚动
-                    cell.style.backgroundColor = currentColor;
-                });
+                cell.addEventListener('mousedown', () => { cell.style.backgroundColor = currentColor; });
+                cell.addEventListener('mouseenter', () => { if (isDrawing) cell.style.backgroundColor = currentColor; });
+                cell.addEventListener('touchstart', (e) => { e.preventDefault(); cell.style.backgroundColor = currentColor; });
 
                 grid.appendChild(cell);
             }
         }
-
-        // 全局鼠标状态监听，用于拖拽绘画
         document.body.addEventListener('mousedown', () => isDrawing = true);
         document.body.addEventListener('mouseup', () => isDrawing = false);
 
-        // 选色功能
         window.setColor = function(color) {
             currentColor = color;
-            
-            // 更新文字提示
-            if(color === 'red') { colorDisplay.innerText = "红色"; colorDisplay.style.backgroundColor = "red"; colorDisplay.style.color = "white"; }
-            else if(color === '#3b82f6') { colorDisplay.innerText = "蓝色"; colorDisplay.style.backgroundColor = "#3b82f6"; colorDisplay.style.color = "white"; }
-            else if(color === '#22c55e') { colorDisplay.innerText = "绿色"; colorDisplay.style.backgroundColor = "#22c55e"; colorDisplay.style.color = "white"; }
-            else if(color === '#facc15') { colorDisplay.innerText = "黄色"; colorDisplay.style.backgroundColor = "#facc15"; colorDisplay.style.color = "black"; }
-            else if(color === 'black') { colorDisplay.innerText = "黑色"; colorDisplay.style.backgroundColor = "black"; colorDisplay.style.color = "white"; }
-            else if(color === 'white') { colorDisplay.innerText = "橡皮擦"; colorDisplay.style.backgroundColor = "white"; colorDisplay.style.color = "black"; colorDisplay.style.border = "1px solid #ccc"; }
+            if(color === 'red') { updateColorDisplay("红色", "red", "white"); }
+            else if(color === '#3b82f6') { updateColorDisplay("蓝色", "#3b82f6", "white"); }
+            else if(color === '#22c55e') { updateColorDisplay("绿色", "#22c55e", "white"); }
+            else if(color === '#facc15') { updateColorDisplay("黄色", "#facc15", "black"); }
+            else if(color === 'black') { updateColorDisplay("黑色", "black", "white"); }
+            else if(color === 'white') { updateColorDisplay("橡皮擦", "white", "black", true); }
         }
 
-        // 清空画布
+        function updateColorDisplay(text, bg, textCol, border = false) {
+            colorDisplay.innerText = text;
+            colorDisplay.style.backgroundColor = bg;
+            colorDisplay.style.color = textCol;
+            colorDisplay.style.border = border ? "1px solid #ccc" : "none";
+        }
+
         window.clearGrid = function() {
             const cells = document.querySelectorAll('.grid-cell');
-            cells.forEach(cell => {
-                cell.style.backgroundColor = 'white';
-                cell.style.transform = "scale(1)"; // 重置动画状态
-            });
-            // 简单的动画反馈
+            cells.forEach(cell => { cell.style.backgroundColor = 'white'; cell.style.transform = "scale(1)"; });
             grid.classList.add('animate-pulse');
             setTimeout(() => grid.classList.remove('animate-pulse'), 500);
         }
-
         initGrid();
 
         /* ------------------ 任务三：图片像素化逻辑 ------------------ */
@@ -337,25 +447,20 @@
         const imgResText = document.getElementById('imgResText');
         const imgPlaceholder = document.getElementById('imgPlaceholder');
         const pixelControlArea = document.getElementById('pixelControlArea');
-
         let userImg = new Image();
 
-        // 监听文件上传
         uploadInput.addEventListener('change', handleFile);
 
         function handleFile(e) {
             const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = (event) => {
                 userImg = new Image();
                 userImg.onload = () => {
-                    // 图片加载完成后，显示控制区和 Canvas
                     imgPlaceholder.style.display = 'none';
                     imageCanvas.classList.remove('hidden');
                     pixelControlArea.classList.remove('hidden');
-                    // 重置滑块到 100 (最清晰)
                     imgSlider.value = 100;
                     processUserImage();
                 };
@@ -363,32 +468,15 @@
             };
             reader.readAsDataURL(file);
         }
-
-        // 监听滑块
         imgSlider.addEventListener('input', processUserImage);
 
         function processUserImage() {
             if (!userImg.width) return;
-            
-            // 获取滑块值 (1-100)
             const val = parseInt(imgSlider.value);
-            
-            // 新的缩放逻辑：
-            // 1. 如果是 100，直接使用 1.0 (原图)
-            // 2. 如果小于 100，使用平方曲线 (scale = (val/100)^2) 
-            //    这样可以让低数值区间更密集，更容易调节出“大方块”效果，且最低能到非常小的尺寸
-            
             let scale;
-            if (val === 100) {
-                scale = 1;
-            } else {
-                // 使用平方，使得左侧的“像素化”区间更广，下降更快
-                // 例如：50%的位置 -> 0.25 (1/4 尺寸)
-                //      10%的位置 -> 0.01 (1/100 尺寸)
-                scale = Math.pow(val / 100, 2); 
-            }
+            if (val === 100) scale = 1;
+            else scale = Math.pow(val / 100, 2); 
 
-            // 计算“低像素”时的尺寸，最少保留 2x2 像素，防止报错或完全消失
             const w = Math.max(2, Math.floor(userImg.width * scale));
             const h = Math.max(2, Math.floor(userImg.height * scale));
             
@@ -396,38 +484,199 @@
             imageCanvas.height = userImg.height;
             imageCtx.imageSmoothingEnabled = false;
             
-            // 1. 缩小 (丢失细节)
             const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = w;
-            tempCanvas.height = h;
+            tempCanvas.width = w; tempCanvas.height = h;
             const tempCtx = tempCanvas.getContext('2d');
             tempCtx.drawImage(userImg, 0, 0, w, h);
-            
-            // 2. 放大 (显示锯齿)
             imageCtx.drawImage(tempCanvas, 0, 0, w, h, 0, 0, imageCanvas.width, imageCanvas.height);
             
-            // 更新文本
-            if (val === 100) {
-                imgResText.innerText = "高清照片 (像镜子一样)";
-                imgResText.className = "font-bold text-2xl text-green-600";
-            }
-            else if (val > 80) {
-                imgResText.innerText = "稍微模糊 (有点失真)";
-                imgResText.className = "font-bold text-2xl text-green-500";
-            }
-            else if (val > 50) {
-                imgResText.innerText = "复古游戏风 (像素可见)";
-                imgResText.className = "font-bold text-2xl text-yellow-600";
-            }
-            else if (val > 20) {
-                imgResText.innerText = "超级马赛克 (方块很大)";
-                imgResText.className = "font-bold text-2xl text-orange-500";
-            }
-            else {
-                imgResText.innerText = "完全崩解 (看不出来啦)";
-                imgResText.className = "font-bold text-2xl text-red-600";
+            if (val === 100) { imgResText.innerText = "高清照片 (像镜子一样)"; imgResText.className = "font-bold text-2xl text-green-600"; }
+            else if (val > 80) { imgResText.innerText = "稍微模糊 (有点失真)"; imgResText.className = "font-bold text-2xl text-green-500"; }
+            else if (val > 50) { imgResText.innerText = "复古游戏风 (像素可见)"; imgResText.className = "font-bold text-2xl text-yellow-600"; }
+            else if (val > 20) { imgResText.innerText = "超级马赛克 (方块很大)"; imgResText.className = "font-bold text-2xl text-orange-500"; }
+            else { imgResText.innerText = "完全崩解 (看不出来啦)"; imgResText.className = "font-bold text-2xl text-red-600"; }
+        }
+
+        /* ------------------ 任务四：数字解密逻辑 ------------------ */
+        const puzzleMap = [
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,2,2,2,2,0,0], 
+            [0,2,1,1,1,1,2,0], 
+            [0,2,1,3,1,3,2,0], 
+            [0,2,1,1,1,1,2,0], 
+            [0,0,2,2,2,2,0,0], 
+            [0,0,0,0,0,0,0,0]
+        ];
+
+        let puzzleTool = 1; 
+        const puzzleGrid = document.getElementById('puzzleGrid');
+        const puzzleMessage = document.getElementById('puzzleMessage');
+
+        function setPuzzleTool(num) {
+            puzzleTool = num;
+            [1,2,3].forEach(n => {
+                const el = document.getElementById(`tool-${n}`);
+                const ringColor = (n === 1) ? 'ring-red-200' : (n === 2) ? 'ring-green-200' : 'ring-gray-300';
+                if (n === num) {
+                    el.classList.add(ringColor, 'scale-110');
+                    el.children[0].classList.add('ring-4');
+                } else {
+                    el.classList.remove(ringColor, 'scale-110');
+                    el.children[0].classList.remove('ring-4');
+                }
+            });
+        }
+
+        function initPuzzle() {
+            puzzleGrid.innerHTML = '';
+            setPuzzleTool(1); 
+            puzzleMessage.innerText = "拿起画笔开始吧！";
+            puzzleMessage.className = "h-8 mb-4 text-xl font-bold text-pink-500";
+
+            for(let r=0; r<8; r++) {
+                for(let c=0; c<8; c++) {
+                    const val = puzzleMap[r][c];
+                    const cell = document.createElement('div');
+                    cell.className = 'number-cell bg-white rounded cursor-pointer border border-gray-100';
+                    if (val === 0) { cell.style.backgroundColor = '#f3f4f6'; } 
+                    else { cell.innerText = val; cell.onclick = () => checkPuzzleCell(cell, val); }
+                    puzzleGrid.appendChild(cell);
+                }
             }
         }
+
+        function checkPuzzleCell(cell, targetVal) {
+            if (cell.classList.contains('solved')) return;
+            if (puzzleTool === targetVal) {
+                cell.classList.add('solved');
+                cell.innerText = ""; 
+                if (targetVal === 1) cell.style.backgroundColor = '#ef4444'; 
+                if (targetVal === 2) cell.style.backgroundColor = '#22c55e'; 
+                if (targetVal === 3) cell.style.backgroundColor = 'black';   
+                checkWin();
+            } else {
+                cell.classList.add('shake');
+                setTimeout(() => cell.classList.remove('shake'), 500);
+                puzzleMessage.innerText = "哎呀，颜色不对哦！再试试？";
+                puzzleMessage.className = "h-8 mb-4 text-xl font-bold text-red-500 animate-bounce";
+                setTimeout(() => {
+                   if(!puzzleMessage.innerText.includes("恭喜")) {
+                       puzzleMessage.innerText = "拿起画笔加油！";
+                       puzzleMessage.className = "h-8 mb-4 text-xl font-bold text-pink-500";
+                   }
+                }, 1500);
+            }
+        }
+
+        function checkWin() {
+            const allCells = document.querySelectorAll('.number-cell');
+            let solvedCount = 0; let totalTarget = 0;
+            puzzleMap.flat().forEach(v => { if(v !== 0) totalTarget++; });
+            allCells.forEach(c => { if(c.classList.contains('solved')) solvedCount++; });
+            if (solvedCount === totalTarget) {
+                puzzleMessage.innerText = "🎉 哇！你成功还原了西瓜！太棒了！ 🎉";
+                puzzleMessage.className = "h-8 mb-4 text-2xl font-bold text-green-600 animate-bounce";
+                puzzleGrid.classList.add('ring-4', 'ring-yellow-400');
+            }
+        }
+
+        window.resetPuzzle = function() {
+            puzzleGrid.classList.remove('ring-4', 'ring-yellow-400');
+            initPuzzle();
+        }
+        initPuzzle();
+
+
+        /* ------------------ 任务五：像素动画师逻辑 (NEW) ------------------ */
+        const animGrid1 = document.getElementById('animGrid1');
+        const animGrid2 = document.getElementById('animGrid2');
+        const animPreview = document.getElementById('animPreview');
+        const playBtn = document.getElementById('playBtn');
+        let animColor = 'black';
+        let isAnimating = false;
+        let animationInterval;
+        
+        // 8x8 Grids
+        // 使用简单的数组来存储颜色状态: 'white' or 'color'
+        let frame1Data = new Array(64).fill('white');
+        let frame2Data = new Array(64).fill('white');
+
+        function createAnimGrid(element, dataArray) {
+            element.innerHTML = '';
+            for(let i=0; i<64; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'anim-cell w-full h-full';
+                cell.style.backgroundColor = dataArray[i];
+                
+                // 点击填色
+                cell.onclick = () => {
+                   dataArray[i] = animColor;
+                   cell.style.backgroundColor = animColor;
+                   if(!isAnimating) updatePreview(1); // 如果没在播放，更新预览显示第一帧
+                };
+                element.appendChild(cell);
+            }
+        }
+
+        // 初始化预览网格 (只读)
+        function initPreviewGrid() {
+            animPreview.innerHTML = '';
+            for(let i=0; i<64; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'w-full h-full border border-gray-100'; // 无边框更像屏幕
+                cell.id = `preview-cell-${i}`;
+                cell.style.backgroundColor = 'white';
+                animPreview.appendChild(cell);
+            }
+        }
+
+        function updatePreview(frameNum) {
+            const data = frameNum === 1 ? frame1Data : frame2Data;
+            for(let i=0; i<64; i++) {
+                const cell = document.getElementById(`preview-cell-${i}`);
+                if(cell) cell.style.backgroundColor = data[i];
+            }
+        }
+
+        window.setAnimColor = function(c) { animColor = c; }
+
+        window.toggleAnimation = function() {
+            if (isAnimating) {
+                // Stop
+                clearInterval(animationInterval);
+                isAnimating = false;
+                playBtn.innerHTML = "<span>▶️ 播放动画</span>";
+                playBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                playBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                updatePreview(1); // Reset to frame 1
+            } else {
+                // Start
+                isAnimating = true;
+                playBtn.innerHTML = "<span>⏹️ 停止</span>";
+                playBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                playBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+                
+                let currentFrame = 1;
+                updatePreview(1);
+                
+                animationInterval = setInterval(() => {
+                    currentFrame = currentFrame === 1 ? 2 : 1;
+                    updatePreview(currentFrame);
+                }, 400); // 400ms speed
+            }
+        }
+
+        // 初始化动画任务
+        createAnimGrid(animGrid1, frame1Data);
+        createAnimGrid(animGrid2, frame2Data);
+        initPreviewGrid();
+
+        // 预设一个简单的默认图案（笑脸眨眼）
+        // Frame 1: Open eyes
+        const defaultEyeLeft = 18; const defaultEyeRight = 21;
+        const mouthIndices = [42, 45, 50, 51, 52, 53];
+        // ... simplified implementation just lets users draw mainly
 
     </script>
 </body>
