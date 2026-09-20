@@ -1,268 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Victor的分享空间 | 首页</title>
-    <meta name="description" content="欢迎来到Victor的分享空间。探索我的项目、思考与发现。">
-
-    <style>
-        :root {
-            --primary-color: #3498db; /* 主题色 */
-            --primary-hover-color: #2980b9;
-            --card-bg-color: #ffffff;
-            --page-bg-color: #f7f9fc;
-            --text-color: #333333;
-            --heading-color: #2c3e50;
-            --border-color: #e0e0e0;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-        }
-        body {
-            font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            margin: 0;
-            background-color: var(--page-bg-color);
-            color: var(--text-color);
-            line-height: 1.7;
-        }
-        .page-header {
-            background-color: var(--card-bg-color);
-            text-align: center;
-            padding: 3rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .page-header h1 {
-            font-size: 3rem;
-            color: var(--heading-color);
-            margin: 0;
-            font-weight: 700;
-        }
-        .page-header .subtitle {
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            margin-top: 0.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .content-wrapper {
-            max-width: 960px;
-            margin: 3rem auto;
-            padding: 0 1.5rem;
-        }
-        .share-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .share-card {
-            background-color: var(--card-bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 6px var(--shadow-color);
-        }
-        .share-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px var(--shadow-color);
-        }
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-        .share-card h2 {
-            font-size: 1.5rem;
-            margin: 0 0 0.75rem 0;
-            color: var(--heading-color);
-        }
-        .share-card p {
-            flex-grow: 1;
-            margin: 0 0 1.5rem 0;
-            color: #555;
-        }
-        .share-card .card-button {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: #ffffff;
-            padding: 0.8rem 1.6rem;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            transition: background-color 0.2s ease;
-        }
-        .share-card .card-button:hover {
-            background-color: var(--primary-hover-color);
-        }
-        .page-footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-            color: #999;
-            font-size: 0.9rem;
-        }
-    </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>研究设计与测量 · 量化研究课堂</title>
+<meta name="description" content="学前教育量化研究方法：模块一课堂学习与研究任务练习。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%231b4ee4'/%3E%3Cpath d='M10 27V19M20 27V10M30 27V15' stroke='white' stroke-width='4'/%3E%3C/svg%3E">
+<style>
+:root{--ink:#142341;--muted:#58667b;--blue:#214de0;--blue-light:#edf2ff;--line:#dce3ef;--bg:#f5f7fb;--yellow:#ffd669;--green:#17684e;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);font-size:16px;line-height:1.7}*{box-sizing:border-box}body{margin:0;background:var(--bg)}button,input,textarea,select{font:inherit}button,a,input,textarea,select,summary{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{cursor:default;opacity:.45}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #bc8700;outline-offset:4px}a{color:var(--blue)}header{height:78px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px;gap:20px}header .brand{display:flex;gap:13px;align-items:center}.mark{background:var(--blue);color:#fff;width:39px;height:39px;display:grid;place-items:center;border-radius:10px;font-weight:800;font-size:21px}.brand strong{font-size:17px}.brand small{display:block;color:var(--muted);font-size:12px;letter-spacing:.06em}.header-actions{display:flex;align-items:center;gap:12px}.subtle{color:var(--muted);font-size:14px}.shell{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:calc(100vh - 78px)}aside{padding:30px 20px;border-right:1px solid var(--line);background:white}aside .eyebrow{margin:0 12px 13px}nav{display:grid;gap:7px}nav button{display:flex;align-items:center;gap:12px;padding:12px;border:0;background:transparent;text-align:left;border-radius:8px;color:var(--muted);width:100%;font-size:15px}nav button[aria-current="step"]{background:var(--blue-light);color:var(--blue);font-weight:650}nav button:hover{background:#f1f4f9}.number{font-size:12px;border:1px solid #cbd4e3;border-radius:50%;height:26px;width:26px;display:grid;place-items:center;flex-shrink:0}nav button[aria-current="step"] .number{background:var(--blue);color:white;border-color:var(--blue)}.aside-note{margin-top:28px;padding:18px 12px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}.aside-note b{color:var(--ink);display:block;margin-bottom:8px}.module-list{font-size:13px;margin:12px 0;line-height:2.2}.workspace{max-width:1230px;width:100%;padding:34px 44px 64px;margin:0 auto}.eyebrow{font-size:12px;letter-spacing:.1em;font-weight:650;color:var(--muted)}.breadcrumb{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:24px}.pill{display:inline-flex;align-items:center;border-radius:20px;padding:4px 12px;background:var(--blue-light);color:var(--blue);font-size:13px;font-weight:600}.heading{display:flex;align-items:flex-start;gap:20px;justify-content:space-between;margin-bottom:24px}h1{font-size:34px;line-height:1.35;letter-spacing:-.04em;margin:7px 0 12px;font-weight:750}h2{font-size:22px;line-height:1.5;margin:0 0 12px}h3{font-size:17px;margin:0 0 10px}p{margin:0 0 13px}.lede{max-width:770px;color:var(--muted)}.step-count{font-size:40px;color:#c7d1e7;line-height:1.3;font-weight:300;white-space:nowrap}.step-count small{font-size:17px}.flow{display:flex;gap:8px;margin-bottom:25px;color:var(--muted);font-size:13px;flex-wrap:wrap}.flow span{padding:5px 12px;border:1px solid var(--line);border-radius:5px;background:white}.flow .active{background:var(--ink);color:white;border-color:var(--ink)}.card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:27px;margin-bottom:20px}.case{background:#162746;color:white;border:none;position:relative;overflow:hidden}.case p{color:#dce5f6;max-width:810px}.case .eyebrow{color:#b7c9f9}.case h2{margin-top:10px;font-size:25px}.case-label{color:var(--yellow);font-size:13px}.case-footer{border-top:1px solid #41516d;padding-top:12px;margin-top:16px;font-size:13px;color:#c8d7ee}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}.two-col .card{margin:0}.section-label{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.08em;margin-bottom:9px}.primary,.secondary,.quiet{border:1px solid transparent;border-radius:7px;padding:10px 17px;font-weight:600;font-size:14px}.primary{background:var(--blue);color:white}.primary:hover{background:#163cbe}.secondary{background:white;border-color:var(--line);color:var(--ink)}.secondary:hover{background:var(--blue-light)}.quiet{background:transparent;color:var(--blue)}.actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:17px}.feedback{background:#eef5ff;border-left:3px solid var(--blue);padding:16px 18px;margin-top:18px;border-radius:0 7px 7px 0}.feedback.good{background:#eef8f3;border-color:var(--green)}.feedback b{display:block;margin-bottom:5px}.feedback p:last-child{margin-bottom:0}.quiz fieldset{border:0;margin:0;padding:0}.quiz legend{font-weight:650;font-size:18px;margin-bottom:14px}.option{display:flex;gap:12px;padding:13px 15px;margin:9px 0;border:1px solid var(--line);border-radius:8px;align-items:flex-start}.option:has(input:checked){background:var(--blue-light);border-color:var(--blue)}.option input{margin-top:7px;accent-color:var(--blue);flex-shrink:0}.hint{font-size:14px;color:var(--muted)}textarea,input[type=text],select{display:block;width:100%;border:1px solid #bdcadd;border-radius:7px;padding:11px 12px;background:#fff;color:var(--ink)}textarea{resize:vertical;min-height:100px}label.field{display:block;font-weight:600;font-size:15px;margin:16px 0 7px}.help{font-size:13px;font-weight:400;color:var(--muted);display:block;margin:4px 0 8px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}details{border-top:1px solid var(--line);padding-top:15px;margin-top:20px}summary{cursor:pointer;font-size:14px;font-weight:650;color:var(--blue)}details p,details ul{font-size:15px;margin-top:12px}.source{font-size:12px;color:var(--muted);margin-top:18px}.bottom-nav{display:flex;justify-content:space-between;margin-top:28px;border-top:1px solid var(--line);padding-top:20px;gap:15px}.stage-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}.stage-tabs button{padding:11px 9px;background:white;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:14px}.stage-tabs button[aria-pressed=true]{background:var(--blue);color:white;border-color:var(--blue)}.stage-tabs small{display:block;opacity:.8}.diagram{background:#f5f7fb;border:1px solid var(--line);border-radius:9px;padding:19px;margin:17px 0}.diagram-row{display:flex;align-items:center;gap:12px;margin:10px 0}.diagram-label{width:70px;font-size:14px;font-weight:650;flex-shrink:0}.node{padding:9px 12px;background:white;border:1px solid #c4cee0;border-radius:6px;text-align:center;flex:1;font-size:14px}.node.treatment{background:#eaf0ff;color:var(--blue);border-color:#b7c7ff}.node.empty{border-style:dashed;background:transparent;color:var(--muted)}.arrow{font-size:18px;color:#7b8ca8}.note{border-left:3px solid #e2b04a;background:#fff8e7;padding:14px 17px;font-size:14px;margin:16px 0}.var-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:17px 0;border-top:1px solid var(--line)}.var-row label{font-size:14px}.var-row select{margin-top:7px}.var-name{font-weight:650;padding-top:22px}.status{font-size:13px;color:var(--muted)}.checklist label{display:flex;gap:12px;margin:12px 0;font-size:15px;align-items:flex-start}.checklist input{margin-top:7px;accent-color:var(--blue)}.checklist input:checked+span{color:var(--green)}.progress-track{height:4px;background:#e7edf7;margin-top:13px;border-radius:4px;overflow:hidden}.progress-fill{background:var(--blue);height:100%}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:13px 22px;border-radius:8px;z-index:10;font-size:14px;max-width:90vw}.toast:empty{display:none}.teacher-note{display:none}.projector aside,.projector .save-state{display:none}.projector .shell{grid-template-columns:1fr}.projector .workspace{max-width:1280px}.projector{font-size:20px}.projector .teacher-note{display:block}.projector .option,.projector .node{font-size:18px}.projector h1{font-size:40px}.print-output{display:none}.skip{position:absolute;left:10px;top:-80px}.skip:focus{top:10px;background:white;padding:10px;z-index:100}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:14px;background:#f5f7fb;padding:18px;border-radius:8px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line)}th{background:#f5f7fb}.mobile-section{display:none}
+@media(max-width:1100px){.workspace{padding:28px}.shell{grid-template-columns:220px minmax(0,1fr)}.two-col{grid-template-columns:1fr}h1{font-size:30px}}
+@media(max-width:760px){header{height:auto;min-height:72px;padding:15px 18px;flex-wrap:wrap;gap:12px}.brand strong{font-size:15px}.header-actions{width:100%;justify-content:space-between}.shell{display:block}aside{padding:12px;border-right:0;border-bottom:1px solid var(--line)}aside>.eyebrow,.aside-note{display:none}nav{display:flex;overflow:auto;gap:6px}nav button{width:auto;flex-shrink:0;padding:9px;font-size:13px}.number{width:22px;height:22px}.workspace{padding:24px 16px 42px}.card{padding:20px}.field-grid{grid-template-columns:1fr}.step-count{display:none}.heading{margin-bottom:18px}h1{font-size:28px}.case h2{font-size:22px}.stage-tabs{grid-template-columns:1fr 1fr}.diagram{padding:12px}.diagram-row{gap:5px;flex-wrap:wrap}.diagram-label{width:100%}.node{padding:8px 5px;font-size:13px}.arrow{font-size:14px}.var-row{grid-template-columns:1fr 1fr}.var-name{grid-column:1/-1;padding-top:0}.save-state{max-width:160px;font-size:12px}.breadcrumb{align-items:flex-start}.projector .workspace{padding:20px 16px}.projector h1{font-size:29px}}
+@media print{body{background:white;color:black}header,.shell,.toast{display:none!important}.print-output{display:block;white-space:pre-wrap;font-size:12pt;line-height:1.7} @page{margin:18mm}}
+</style>
 </head>
 <body>
-
-    <header class="page-header">
-        <h1>Victor's Hub</h1>
-        <p class="subtitle">一个记录和分享项目、思考与发现的数字空间。</p>
-    </header>
-
-    <main class="content-wrapper">
-        <div class="share-grid">
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>上海宝宝屋</h2>
-                <p>上海宝宝屋的发展情况。</p>
-                <a href="宝宝屋.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>中心极限定理</h2>
-                <p>演示中心极限定理，即抽样分布定理。</p>
-                <a href="central limit theorem.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>国际视野下的早期科学教育</h2>
-                <p>介绍国际视野下的早期科学教育</p>
-                <a href="国际视野下的早期科学教育.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #4</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-4.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>2024年非全日制考研报告</h2>
-                <p>2024年非全日制考研报告介绍。</p>
-                <a href="2024-part-time-grad.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>教育硕士考研科目备考</h2>
-                <p>教育硕士考研科目备考指南：系统化、分阶段、全方位备考策略深度解析。</p>
-                <a href="grad-exam.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>政治（2025真题）</h2>
-                <p>2025年考研政治真题</p>
-                <a href="2025-politic.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>英语2（2025真题）</h2>
-                <p>2025年考研英语真题</p>
-                <a href="2025-english-2.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>333教育综合样题</h2>
-                <p>教育综合333样题</p>
-                <a href="333.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>835学前教育综合</h2>
-                <p>835学前教育综合回忆版题目</p>
-                <a href="2025-835.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #11</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-11.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #12</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-12.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #13</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-13.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #14</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-14.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #15</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-15.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #16</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-16.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #17</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-17.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #18</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-18.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #19</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-19.html" class="card-button">阅读更多</a>
-            </article>
-
-            <article class="share-card">
-                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg></div>
-                <h2>分享主题 #20</h2>
-                <p>这里是关于这个分享的简短描述，您可以在这里填写具体内容。</p>
-                <a href="share-20.html" class="card-button">阅读更多</a>
-            </article>
-
-        </div>
-    </main>
-
-    <footer class="page-footer">
-        <p>&copy; 2025 Victor. All Rights Reserved.</p>
-    </footer>
-
+<a class="skip" href="#main">跳到学习内容</a>
+<header><div class="brand"><div class="mark" aria-hidden="true">研</div><div><strong>量化研究课堂</strong><small>人工智能时代的量化研究方法</small></div></div><div class="header-actions"><span class="status save-state" id="save-state" role="status">草稿仅保存在本机浏览器</span><button class="secondary" id="projection" aria-pressed="false">课堂投影</button></div></header>
+<div class="shell"><aside><p class="eyebrow">模块 01 · 研究设计与测量</p><nav aria-label="模块一学习任务" id="nav"></nav><div class="aside-note"><b>边学习，边完成自己的研究</b>先独立判断，再小组讨论。每一步的思考，都可以带入最后的研究任务说明。<div class="progress-track"><div class="progress-fill" id="progress"></div></div><p id="progress-text" style="margin-top:9px"></p></div><div class="aside-note"><b>课程地图</b><div class="module-list">01 研究设计与测量 · 当前<br>02 数据整理与描述统计<br>03 差异分析<br>04 相关与回归分析<br>05 测量与机制分析</div><span>本原型开放模块一。</span></div></aside><main class="workspace" id="main" tabindex="-1"></main></div>
+<div class="toast" role="status" aria-live="polite" id="toast"></div><div class="print-output" id="print-output"></div>
+<script>
+'use strict';
+const KEY='quant-classroom-module1-v1';
+const titles=['提出研究问题','定义与辨认变量','选择测量方法','比较研究设计','确定对象与抽样','形成研究任务说明'];
+const shortTitles=['研究问题','变量与操作化','方法与工具','设计与证据','对象与抽样','我的研究任务'];
+const intro=['把一个感兴趣的教育现象，转化为能够用资料回答的问题。','区分变量的角色、测量类型与编码，并写清楚怎样观察。','根据需要的信息选择收集方法，检查题目与分数的含义。','每增加一种证据，重新判断：现在能说什么，还不能说什么？','区分“希望研究谁”“实际研究了谁”和“结论可以推广到谁”。','把前面的判断连接起来，形成小组研究任务说明第一版。'];
+let saved={},storageAvailable=true;
+try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');if(!saved||typeof saved!=='object'||Array.isArray(saved))saved={};}catch(e){storageAvailable=false;}
+const state={fields:{},answers:{},feedback:{},checks:{},page:0,stage:0,...saved};
+for(const key of ['fields','answers','feedback','checks'])if(!state[key]||typeof state[key]!=='object'||Array.isArray(state[key]))state[key]={};
+state.page=Number.isInteger(state.page)&&state.page>=0&&state.page<6?state.page:0;
+state.stage=Number.isInteger(state.stage)&&state.stage>=0&&state.stage<4?state.stage:0;
+let projector=false,toastTimer;
+const $=id=>document.getElementById(id);
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageAvailable=true;$('save-state').textContent='已保存到本机 · 未提交给教师';}catch(e){storageAvailable=false;$('save-state').textContent='当前无法保存，请及时下载草稿';}updateProgress();}
+function notify(s){$('toast').textContent=s;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').textContent='',4000);}
+function field(id,label,help='',single=false){return `<label class="field" for="${id}">${label}${help?`<span class="help">${help}</span>`:''}</label>${single?`<input type="text" id="${id}" data-field="${id}" value="${esc(state.fields[id])}">`:`<textarea id="${id}" data-field="${id}">${esc(state.fields[id])}</textarea>`}`;}
+const quizzes={
+ question:{q:'哪一个问题最接近可以进一步落实设计与测量的研究问题？',options:['幼儿的社会性发展很重要吗？','某园大班幼儿参加两周社会交往课程后，攻击行为的变化是否不同于日常课程组？','怎样全面提高幼儿的综合素质？'],correct:1,feedback:['这个问题表达了价值判断，但还没有明确观察什么、比较什么。','问题指出了对象、课程条件、时间及结果变量。接下来还要定义攻击行为，并说明分组和测量办法。','范围过大，“综合素质”还没有落实为具体变量和可获得的资料。']},
+ definition:{q:'两位观察者需要记录“分心”。哪一种规则更便于一致地判断？',options:['幼儿明显不认真时记为分心。','在规定的集体活动观察时段，视线离开教师或当前活动材料连续超过10秒，记录1次，并说明恢复关注后如何重新计次。','教师认为幼儿不喜欢活动时记为分心。'],correct:1,feedback:['“明显”“不认真”缺少可共同执行的观察标准。','这个版本提供了情境、可观察行为、阈值和计次规则。它仍可能把有意义的观察误记为分心，需要讨论和试记。10秒是原课教学示例，不是通用诊断标准。','“不喜欢”是推断，不能直接替代可观察行为，需要另外的测量证据。']},
+ measure:{q:'五道题都用“非常不满意—非常满意”作答，分别询问教师、户外设施、教室布置、科探活动和家园活动。可以直接求均分，称为同一量表吗？',options:['可以，选项一样就测量同一内容。','暂不能仅凭选项相同决定，需要明确构念、计分依据和结构证据。','不可以，任何满意度题目都不能求均分。'],correct:1,feedback:['相同选项只是回答格式相同，不能证明题目反映同一个构念。','先区分问卷中的多个信息与同一构念的测量。可以先逐题描述；若要合成分数，要说明理论和计分依据，并检查测量证据。','这个结论太绝对。合成分数是否合理，需要根据构念、工具及其测量证据判断。']},
+ sampling:{q:'研究者联系到两所愿意合作的幼儿园，再把参加研究的班级随机分到两种课程条件。下列判断最恰当的是？',options:['既然随机分配了，样本就能代表上海所有幼儿园。','园所进入样本是便利选择，班级分到条件是随机分配，两者解决不同问题。','没有随机抽样，就不可能比较两种课程。'],correct:1,feedback:['随机分配改善的是条件间的可比性，不能自动带来总体代表性。','抽样回答“谁进入研究”，分配回答“进入后接受哪个条件”。推广范围仍受到园所和参与者选择的限制。','便利样本也可以开展有条件的比较，但必须说明设计质量和推广限制。']},
+ mechanism:{q:'假设“父母教育活动与儿童成绩的关系，随亲子关系不同而不同”，亲子关系在这个假设中是什么角色？',options:['中介变量：说明通过什么路径发生联系。','调节变量：说明在什么条件下关系不同。','只要出现第三个变量，就一定是控制变量。'],correct:1,feedback:['中介假设关注路径，例如X通过M与Y联系。这里关注的是关系随条件变化。','这是调节假设。识别模型不等于已经验证效应或因果机制，具体分析在模块五学习。','第三个变量的角色取决于研究问题和模型，不能仅按数量判断。']},
+ design0:{q:'只知道课程结束后的攻击行为记录，现在最稳妥的结论是？',options:['可以描述课程结束后的攻击行为情况。','攻击行为比课程开始前减少了。','社会交往课程有效。'],correct:0,feedback:['目前有结束时的状态，缺少前测或比较条件，不能判断变化或课程效果。','没有前测，尚不知道与课程开始前相比是否发生变化。','仅有课程后的观察，不能把状态归因于课程。']},
+ design1:{q:'同一班前后测显示攻击行为减少，可以支持什么？',options:['课程导致了攻击行为减少。','观察到了前后变化，但还不能排除自然发展、同期事件等解释。','前后测没有任何研究价值。'],correct:1,feedback:['时间上的先后和变化，还不足以排除其他解释。','前后测增加了变化证据。幼儿自然发展、同期活动、测量变化等仍可能影响结果。','前后测提供了变化信息，只是单独支持因果归因的能力有限。']},
+ design2:{q:'课程班比对照班下降更多。下一步最需要审查什么？',options:['只要下降更多，就已经证明课程有效。','两班原有差异、同期活动及观察方式是否可比。','只看课程班前后是否显著，不需要比较两组变化。'],correct:1,feedback:['使用现有两个班仍有选择偏差，教师和班级差异也可能与课程条件混在一起。','对照班增加了比较证据，但不是自动消除了偏差。还应比较两组变化并考虑不确定性；只用两个班尤其难以区分班级与课程差异。','“一组显著、另一组不显著”不等于两组变化显著不同。组别与时间的分析留到模块三。']},
+ design3:{q:'多个班级随机分配到课程条件，控制观察程序后，怎样表达更恰当？',options:['因果判断的基础增强，仍需检查实施、退出、测量与统计不确定性。','随机分配能保证所有特征完全相同。','现在可以推广到所有年龄和所有地区的幼儿。'],correct:0,feedback:['随机分配和一致程序增强因果判断的基础，但不能替代实际数据分析和实施检查。以班级分配时，还需考虑同班儿童资料的相关性。','随机分配在概率意义上改善可比性，不保证某次样本的所有特征完全相同。','样本来源、年龄、地区和课程情境仍限制推广范围。']}
+};
+function quiz(id){const q=quizzes[id],ans=state.answers[id],shown=state.feedback[id]&&Number.isInteger(ans)&&ans>=0&&ans<q.options.length;return `<div class="quiz" data-quiz="${id}"><fieldset><legend>${q.q}</legend>${q.options.map((o,i)=>`<label class="option"><input type="radio" name="${id}" value="${i}" ${ans===i?'checked':''}><span>${String.fromCharCode(65+i)}. ${o}</span></label>`).join('')}</fieldset><button class="primary" data-action="feedback" data-id="${id}">查看判断反馈</button><div id="feedback-${id}" aria-live="polite">${shown?feedbackHTML(id):''}</div></div>`;}
+function feedbackHTML(id){const q=quizzes[id],a=state.answers[id];return `<div class="feedback ${a===q.correct?'good':''}"><b>${a===q.correct?'这个判断有依据':'再检查一下证据'}</b><p>${q.feedback[a]}</p><p class="hint">讨论时请补充：你依据的是哪一条信息？</p></div>`;}
+function concept(title,html,source){return `<details><summary>${title}</summary>${html}${source?`<p class="source">原课对应：${source}。本页解释结合所提供的课程详案整理。</p>`:''}</details>`;}
+function transfer(html){return `<section class="card"><div class="section-label">带回自己的研究</div>${html}<p class="hint" style="margin-top:13px">这里填写的内容会进入最后的研究任务说明。</p></section>`;}
+function page0(){return `<section class="card case"><div class="eyebrow">本模块贯穿案例</div><h2>两周社会交往课程，能减少攻击行为吗？</h2><p>某幼儿园计划每天开展10—20分钟社会交往课程，持续两周。教师希望了解：参加课程的幼儿，攻击行为会发生怎样的变化？</p><div class="case-footer">沿用原课情境 · 后续情境变化均为教学设定，不是真实研究结果</div></section><section class="card"><div class="section-label">01 / 先独立判断</div>${quiz('question')}${concept('需要时查阅：差异取向与相关取向','<p><b>差异取向：</b>不同课程条件下，攻击行为的变化是否不同？</p><p><b>相关取向：</b>同一批幼儿中，社会交往能力得分与攻击行为频次有什么关系？这提出了相关但不同的问题，不能替代课程效果评价。</p><p>描述统计概括已有资料，推断统计在相应假设下讨论总体或比较中的不确定性。此处先判断需要什么证据，暂不计算。</p><p>原课的年龄与x1例提醒我们：把连续年龄人为分组，会丢失组内年龄差异。保留年龄取值与划分年龄组，回答的问题和保留的信息并不完全相同。</p>','P0，第2—7、336—339页')}</section>${transfer(field('question','我的研究问题','写清楚对象、结果变量，以及比较或关系。'))}<section class="card teacher-note"><h3>课堂组织建议</h3><p>独立判断 → 两人比较理由 → 全班改写一个宽泛问题。先听学生如何理解“变化”和“效果”。</p></section>`;}
+const variables=[['course','课程条件',['自变量／分组条件','因变量','控制变量'],['类别变量（无序）','等级变量','等比变量'],0,0],['aggression','相同观察时长内的攻击行为次数',['自变量／分组条件','因变量','控制变量'],['类别变量（无序）','等级变量','等比变量'],1,2],['age','年龄（月），计划在分析中调整',['自变量／分组条件','因变量','拟控制的变量'],['类别变量（无序）','等级变量','等比变量'],2,2]];
+function selectField(id,label,options){return `<label>${label}<select data-field="${id}" aria-label="${label}"><option value="">请选择</option>${options.map((s,i)=>`<option value="${i}" ${state.fields[id]===String(i)?'selected':''}>${s}</option>`).join('')}</select></label>`;}
+function page1(){return `<section class="card"><div class="section-label">01 / 怎样才算观察到了？</div>${quiz('definition')}${concept('概念性定义与操作性定义','<p>概念性定义说明概念的含义，操作性定义说明在特定情境中怎样观察、判断、记录或计分。</p><p>尝试让两位同学独立按规则记录同一片段。若经常不一致，先检查规则，而不是直接把差异归为观察者粗心。</p><p>原课“谦让糖果”例也需要说明：观察什么情境、一次机会如何界定、主动与被动谦让如何区分。行为分类同样是一种操作化。</p>','P0，第8—11页；P1，第6—8页')}</section><section class="card"><div class="section-label">02 / 同一个变量，两种分类</div><h2>变量角色 ≠ 测量类型</h2><p class="hint">在课程条件与攻击行为的比较中，按下列给定研究安排分类。“拟控制”还不表示已经控制。</p>${variables.map(v=>`<div class="var-row"><div class="var-name">${v[1]}</div>${selectField(v[0]+'Role',v[1]+'：变量角色',v[2])}${selectField(v[0]+'Type',v[1]+'：测量类型',v[3])}</div>`).join('')}<button class="primary" data-action="variables">核对分类</button><div id="variable-feedback" aria-live="polite"></div>${concept('测量类型与编码速查','<div class="table-wrap"><table><tr><th>类型</th><th>判断依据</th><th>例子</th></tr><tr><td>类别／定类</td><td>数字仅为标签</td><td>学号、课程条件编码</td></tr><tr><td>等级／顺序</td><td>有顺序，不保证等距</td><td>年级、学历、里克特单题</td></tr><tr><td>等距</td><td>相同差值意义相同，无绝对零点</td><td>原课以智商分数为例</td></tr><tr><td>等比</td><td>有绝对零点，可以解释比值</td><td>长度、固定时段内的事件次数</td></tr></table></div><p>编码1和2不意味着数量相差一倍。多题合成分数能否按近似连续变量处理，要结合共同构念、计分规则、测量证据和分析目的，不能随意合并题目。</p>','P0，第12—23、32页；P1，第9—12页')}</section>${transfer(field('variables','我的变量与测量','每个变量写一行：名称｜角色｜测量类型｜操作性定义｜编码与含义。')+field('control','可能的干扰与控制办法','例如原有水平、观察时长或教师差异。区分计划控制与实际已控制。'))}`;}
+function page2(){return `<div class="two-col" style="margin-bottom:20px"><section class="card"><div class="section-label">先问“需要什么信息”</div><h2>行为表现</h2><p>可以观察行为、安排测验任务，也可以询问知情者。不同来源反映的信息和误差可能不同。</p><p class="hint">攻击行为观察：定义行为、观察时段、计次规则及观察者一致性。</p></section><section class="card"><div class="section-label">再问“谁能够报告”</div><h2>主观感受与判断</h2><p>自陈、他评和访谈都有适用情境。先明确谁报告、报告什么、参考哪段时间。</p><p class="hint">教师报告与幼儿任务表现，不应未经说明就当作同一种测量。</p></section></div><section class="card">${quiz('measure')}${concept('问卷、量表与工具来源','<p>问卷可以收集多种背景、行为和态度信息。量表需要说明拟测构念、题目结构、计分及支持分数解释的证据。采用里克特选项不自动构成同一量表。</p><p>观察、访谈可经明确编码形成量化资料；测验依靠任务与施测规则；生理记录形成另一类资料，但不自动等于心理构念。</p><p>从论文、学位论文或作者处寻找工具时，核对对象、语言、用途、授权和测量证据。翻译、改编或换人群使用，需要重新检查适用性。</p>','P0，第24—25、33页')}</section><section class="card"><div class="section-label">题目修订练习</div><h2>这道题一次问了几件事？</h2><p>“你是否经常积极参加专业学习并且十分热爱幼儿教师职业？”</p>${field('itemRevision','我的修改','可以拆成题目，明确时间范围或回答选项，并写出修改理由。')}<details><summary>写完后查看检查思路</summary><p>“参加学习”与“热爱职业”不一定是同一内容。“经常”“积极”缺少统一参照。先说明需要测量哪一个变量，再决定拆分、措辞和选项。若需要专业认同量表，还应查找已有构念及工具依据。</p></details>${concept('问卷检查清单与编码','<ul><li>措辞具体，避免诱导、双重否定和一题多问。</li><li>选项完整且互斥，必要时提供“不适用”与过滤问题。</li><li>指导语说明目的和隐私安排，题目由一般到具体。</li><li>多选题通常拆成多个选择指示变量；排序题记录各选项名次；开放回答先明确分类规则再编码。</li></ul>','P0，第26—34页')}</section>${transfer(field('measurement','我的资料收集与测量工具','谁提供资料？采用什么工具或观察规则？怎样计分？未知的工具来源请标“待核实”。'))}`;}
+const stages=[
+{title:'先看课程结束后的状态',sub:'只有后测',text:'课程结束后，研究者在规定活动时段记录了幼儿的攻击行为次数。没有课程前的观察，也没有对照班。',rows:[['课程班','没有前测','社会交往课程','后测记录']],observation:'现有信息：课程结束时的攻击行为记录。',take:'可以描述后测状态，尚不能判断是否减少。'},
+{title:'增加前测，看到同一班的变化',sub:'增加前测',text:'同一班在课程前后接受相同规则的观察。假设后测记录的攻击行为次数低于前测。',rows:[['课程班','前测记录','社会交往课程','后测记录']],observation:'教学设定：同一班后测记录少于前测。',take:'有了变化证据，但“发生在课程之后”还不等于“由课程导致”。'},
+{title:'增加对照班，比较两组的变化',sub:'增加对照',text:'另选一个开展日常课程的班，两班均进行前后测。假设课程班的攻击行为下降更多。两班为现有班级，没有随机分配。',rows:[['课程班','前测记录','社会交往课程','后测记录'],['对照班','前测记录','日常课程','后测记录']],observation:'教学设定：课程班下降更多；尚未给出统计分析结果。',take:'比较证据增加了，但教师、班级和原有差异仍可能影响解释。'},
+{title:'改进分配与观察程序',sub:'改进控制',text:'在多个参与班级中，随机分配课程条件。统一观察时长、行为定义与观察者训练，尽可能让观察者不知道班级所属条件，并记录缺勤与退出。',rows:[['条件一','前测记录','社会交往课程','后测记录'],['条件二','前测记录','日常课程','后测记录']],observation:'设计设定：按班级随机分配，尚未提供实际结果。',take:'设计改善增强了因果判断基础，仍需核对实施、测量和分析。'}
+];
+function page3(){const s=stages[state.stage];return `<div class="stage-tabs" aria-label="比较四种研究设计">${stages.map((s,i)=>`<button data-stage="${i}" aria-pressed="${state.stage===i}"><small>设计 ${i+1}</small>${s.sub}</button>`).join('')}</div><section class="card"><div class="section-label">设计 ${state.stage+1} / 4</div><h2>${s.title}</h2><p>${s.text}</p><div class="diagram" aria-label="研究设计流程">${s.rows.map(r=>`<div class="diagram-row"><span class="diagram-label">${r[0]}</span><span class="node ${r[1]==='没有前测'?'empty':''}">${r[1]}</span><span class="arrow" aria-hidden="true">→</span><span class="node ${r[2]==='社会交往课程'?'treatment':''}">${r[2]}</span><span class="arrow" aria-hidden="true">→</span><span class="node">${r[3]}</span></div>`).join('')}</div><p class="hint">${s.observation}</p>${quiz('design'+state.stage)}${field('reason'+state.stage,'我的判断理由','先记录自己的理由，再与同学比较。')}<div class="actions">${state.stage>0?`<button class="secondary" data-stage="${state.stage-1}">上一个设计</button>`:''}${state.stage<3?`<button class="secondary" data-stage="${state.stage+1}">增加证据，继续判断 →</button>`:''}</div>${concept('研究设计术语速查','<p><b>实验与准实验：</b>是否操纵条件、能否随机分配，以及其他控制安排，都与解释有关。使用现有班级且未随机分配的比较，通常按准实验思路审查。</p><p><b>被试间与被试内：</b>不同儿童分别使用大、小积木是被试间设计；同一儿童先后使用两种积木是被试内设计，后者需考虑顺序和练习影响。</p><p><b>横断与纵向：</b>同一时期比较不同年龄儿童，与追踪同一批儿童随时间的变化，是另一种分类维度，不能简单等同于相关与实验。</p><p><b>提出假设：</b>先说明理论或经验依据，再写预期方向。假设、实际设计和数据支持的结论要分别报告。</p>','P0，第24、134—147、207—213页')}</section>${transfer(field('design','我的研究设计及选择理由','说明比较条件、测量时点、能否操纵和随机分配。')+field('limits','目前不能作出的结论','尝试写：即使观察到……，也不能仅据此断言……。'))}`;}
+function page4(){return `<section class="card case"><div class="eyebrow">先区分两个动作</div><h2>谁进入研究？进入后分到哪一组？</h2><p>抽样关注从目标总体中选择研究对象；分配关注研究参与者接受哪种条件。随机分配不等于随机抽样。</p></section><section class="card">${quiz('sampling')}${concept('总体、样本与抽样方法','<div class="table-wrap"><table><tr><th>方法</th><th>关键动作</th></tr><tr><td>简单随机抽样</td><td>从完整名单按随机机制抽取。</td></tr><tr><td>系统随机抽样</td><td>随机起点，按固定间距抽取，检查名单是否有周期规律。</td></tr><tr><td>分层随机抽样</td><td>先按重要类别分层，再在层内随机抽取。</td></tr><tr><td>整群随机抽样</td><td>随机抽取班级、园所等群组，组内对象并非彼此完全独立。</td></tr></table></div><p>原课分层抽样示例：三类园所比例设为10%、40%、50%，抽取50所时分配为5、20、25所。这是课堂设定，不代表当前上海实际分布。</p><p>样本量大并不会自动消除选择偏差。说明接触途径、纳入标准和未参与情况，有助于判断推广边界。</p>','P0，第68—73页')}</section>${transfer(field('population','我的目标总体','想把结论用于什么年龄、地区或情境中的对象？')+field('sample','实际可接触的样本与选择办法','资料来自哪里？谁可能没有进入样本？人数尚未确定可以注明。')+field('unit','记录单位与资料层级','一行代表一个儿童、一个班级还是一次观察？是否有同一儿童多次记录或儿童属于不同班级？'))}`;}
+const briefFields=[['group','小组代号'],['question','研究问题'],['variables','变量、操作性定义与编码'],['measurement','资料收集与测量工具'],['design','研究设计及选择理由'],['control','干扰来源与控制办法'],['population','目标总体'],['sample','实际样本与抽样'],['unit','记录单位与资料层级'],['limits','结论限制'],['aiDecision','AI建议及小组判断'],['pending','仍需核实的问题']];
+const gateTexts=['研究问题指出了对象、变量以及比较或关系。','设计、资料收集和测量能对应研究问题。','变量定义、记录单位与编码含义可以理解。','资料来源和对象可获得，未确定处已注明。','结论范围适当，AI建议经过小组核对。'];
+function aiPrompt(){return '我的研究问题是：'+(state.fields.question||'〔填写研究问题〕')+'\n研究设计：'+(state.fields.design||'〔待补充〕')+'\n变量与测量：'+(state.fields.variables||'〔待补充〕')+'\n资料收集：'+(state.fields.measurement||'〔待补充〕')+'\n样本：'+(state.fields.sample||'〔待补充〕')+'\n\n请使用自变量、因变量、控制变量、操作性定义、研究方法、研究设计等术语检查方案。先列出缺失信息，再比较可行设计。不要虚构工具、样本或研究依据。区分可支持的结论与不能支持的因果或推广判断。';}
+function page5(){return `<section class="card"><div class="section-label">先完成一个基础识别</div>${quiz('mechanism')}${concept('中介与调节：先识别假设，不急于计算','<p>中介关注“通过什么发生联系”，原课以城市经济水平、医疗水平与预期寿命为假设路径。调节关注“在什么条件下关系不同”。</p><p>这些例子用于辨认模型，不表示机制已经验证。不要为了增加模型而给小组项目强行加入中介或调节。</p>','P0，第17—18页')}</section><section class="card"><div class="section-label">我的研究任务说明 · 第一版</div><h2>让问题、设计与测量相互对应</h2><p class="hint">前面填写的内容已带入。可以在这里继续修订；留空处将在下载文件中标为“待补充”。使用小组代号即可，请勿填写儿童姓名等可识别信息。</p>${briefFields.slice(0,10).map(([id,label])=>field(id,label,'',id==='group')).join('')}</section><section class="card"><div class="section-label">用AI追问，再由自己判断</div><h2>带着自己的初稿去讨论</h2><p class="hint">页面不会自动连接AI。复制下方提示词到你使用的AI工具中，回来记录你采纳或拒绝了什么。</p><details><summary>展开本组的AI讨论提示词</summary><pre id="ai-prompt">${esc(aiPrompt())}</pre><button class="secondary" data-action="copy-ai">复制提示词</button></details>${field('aiDecision','AI建议及小组判断','建议是什么？我们采纳或拒绝了什么？为什么？')}${field('pending','仍需核实的问题','例如工具适用性、资料来源、观察规则。')}</section><section class="card"><div class="section-label">提交前自查</div><h2>这份说明还有哪里需要修改？</h2><div class="checklist">${gateTexts.map((t,i)=>`<label><input type="checkbox" data-check="${i}" ${state.checks[i]?'checked':''}><span>${t}</span></label>`).join('')}</div><div class="note">勾选代表小组自查，不代表教师已经评定或收到作业。请下载后通过教师指定渠道提交。</div><div class="actions"><button class="primary" data-action="download">下载研究任务说明</button><button class="secondary" data-action="print">打印 / 保存为PDF</button></div><p class="hint" style="margin-top:14px">下载为可编辑的Markdown文本，包含方案、练习回答和自查情况。</p></section>`;}
+const pages=[page0,page1,page2,page3,page4,page5];
+function updateProgress(){const n=Object.keys(quizzes).filter(k=>state.feedback[k]).length;$('progress').style.width=(n/Object.keys(quizzes).length*100)+'%';$('progress-text').textContent=`已查看 ${n} / ${Object.keys(quizzes).length} 道判断题反馈`;}
+function render(focus=false){$('nav').innerHTML=titles.map((t,i)=>`<button data-page="${i}" ${state.page===i?'aria-current="step"':''}><span class="number">${String(i+1).padStart(2,'0')}</span>${shortTitles[i]}</button>`).join('');$('main').innerHTML=`<div class="breadcrumb"><span>课程学习 / 模块一</span><span class="pill">课堂学习原型 · v1</span></div><div class="heading"><div><div class="eyebrow">研究设计与测量</div><h1>${titles[state.page]}</h1><p class="lede">${intro[state.page]}</p></div><div class="step-count">0${state.page+1}<small> / 06</small></div></div><div class="flow"><span class="active">先独立判断</span><span>比较理由</span><span>查看反馈</span><span>修订自己的研究</span></div>${pages[state.page]()}<div class="bottom-nav"><button class="secondary" data-page="${state.page-1}" ${state.page===0?'disabled':''}>← 上一个任务</button>${state.page<5?`<button class="primary" data-page="${state.page+1}">下一个任务 →</button>`:`<button class="secondary" data-page="0">返回第一个任务</button>`}</div><p class="source">内容依据：魏威《量化研究方法》原课及2026-09-19五模块详案。P0为总PPT，P1为测量专题PPT。页面练习为教学改编。草稿仅在当前浏览器保存，请及时下载。</p>`;updateProgress();if(!storageAvailable)$('save-state').textContent='当前无法保存，请及时下载草稿';if(focus){window.scrollTo({top:0,behavior:'instant'});$('main').focus({preventScroll:true});}}
+function exportText(){let text='# 模块一：研究任务说明（第一版）\n\n导出时间：'+new Date().toLocaleString('zh-CN')+'\n\n';for(const [k,label] of briefFields)text+='## '+label+'\n\n'+(state.fields[k]?.trim()||'待补充')+'\n\n';text+='## 小组自查（非教师评定）\n\n'+gateTexts.map((t,i)=>'- ['+(state.checks[i]?'x':' ')+'] '+t).join('\n')+'\n\n## 学习过程记录\n\n';for(const [id,q] of Object.entries(quizzes)){const a=state.answers[id];text+='### '+q.q+'\n\n当前回答：'+(q.options[a]||'尚未作答')+'\n反馈状态：'+(state.feedback[id]?'已查看':'未查看')+'\n\n';if(id.startsWith('design'))text+='判断理由：'+(state.fields['reason'+id.slice(-1)]||'未填写')+'\n\n';}text+='### 变量分类练习\n\n';for(const v of variables)text+=v[1]+'：'+(v[2][state.fields[v[0]+'Role']]||'未选角色')+' / '+(v[3][state.fields[v[0]+'Type']]||'未选类型')+'\n';text+='\n### 题目修订练习\n\n'+(state.fields.itemRevision||'未填写')+'\n\n说明：案例中的设计变化为教学设定，不是真实研究结果。本文件需要通过教师指定渠道另行提交。\n';return text;}
+document.addEventListener('input',e=>{const k=e.target.dataset.field;if(k){state.fields[k]=e.target.value;save();if($('ai-prompt'))$('ai-prompt').textContent=aiPrompt();}});
+document.addEventListener('change',e=>{if(e.target.dataset.field){state.fields[e.target.dataset.field]=e.target.value;save();if($('variable-feedback'))$('variable-feedback').textContent='分类已修改，请重新核对。';}if(e.target.type==='radio'&&quizzes[e.target.name]){state.answers[e.target.name]=Number(e.target.value);delete state.feedback[e.target.name];$('feedback-'+e.target.name).innerHTML='';save();}if(e.target.dataset.check!==undefined){state.checks[e.target.dataset.check]=e.target.checked;save();}});
+document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||b.disabled)return;if(b.dataset.page!==undefined){const p=Number(b.dataset.page);if(p>=0&&p<6){state.page=p;save();render(true);}return;}if(b.dataset.stage!==undefined){state.stage=Number(b.dataset.stage);save();render(true);return;}const action=b.dataset.action;
+if(action==='feedback'){const id=b.dataset.id;if(!Number.isInteger(state.answers[id])){notify('请先选择一个判断，再查看反馈。');document.querySelector(`[name="${id}"]`).focus();return;}state.feedback[id]=true;$('feedback-'+id).innerHTML=feedbackHTML(id);save();}
+if(action==='variables'){const complete=variables.every(v=>[v[0]+'Role',v[0]+'Type'].every(k=>state.fields[k]!==undefined&&state.fields[k]!==''));if(!complete){$('variable-feedback').innerHTML='<div class="feedback">请先为三个变量分别选择角色和测量类型。</div>';return;}const lines=variables.map(v=>{const ok=state.fields[v[0]+'Role']===String(v[4])&&state.fields[v[0]+'Type']===String(v[5]);return `<p><b>${v[1]}：${ok?'判断一致':'请修订'}</b>${v[2][v[4]]}；${v[3][v[5]]}。</p>`;});$('variable-feedback').innerHTML='<div class="feedback">'+lines.join('')+'<p>这些角色依赖本题给定研究问题。把年龄填入变量表，不表示已在设计或分析中控制了它。</p></div>';}
+if(action==='download'){const blob=new Blob(['\uFEFF'+exportText()],{type:'text/markdown;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='模块一_研究任务说明_'+new Date().toISOString().slice(0,10)+'.md';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notify('已生成下载文件；请通过指定渠道另行提交。');}
+if(action==='print'){$('print-output').textContent=exportText();window.print();}
+if(action==='copy-ai'){try{await navigator.clipboard.writeText(aiPrompt());notify('提示词已复制。');}catch(err){notify('无法自动复制，请手动选择上方提示词复制。');}}
+});
+$('projection').addEventListener('click',()=>{projector=!projector;document.body.classList.toggle('projector',projector);$('projection').setAttribute('aria-pressed',String(projector));$('projection').textContent=projector?'退出投影':'课堂投影';});
+window.addEventListener('beforeprint',()=>{$('print-output').textContent=exportText();});
+render();
+</script>
 </body>
 </html>
