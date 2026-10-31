@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="面向幼儿园教师的日本生成式AI实践手册中文导读：家园联系、活动构思、通知翻译、照片整理，以及人机分工、试用步骤和教研练习。">
+  <meta name="theme-color" content="#194b5b">
+  <title>幼儿园教师怎样与AI协作｜日本实践手册中文导读</title>
+  <style>
+    :root{--ink:#203b46;--muted:#536b74;--blue:#194b5b;--pale:#edf5f7;--line:#cbdde2;--green:#216752;--green-pale:#edf6f1;--amber:#865411;--amber-pale:#fff5df;--white:#fff;--page:#f7fafb}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:95px}
+    body{margin:0;background:var(--page);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:17px;line-height:1.85;-webkit-text-size-adjust:100%}
+    a{color:var(--blue);text-underline-offset:4px}
+    button,summary{font:inherit}
+    a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #c58227;outline-offset:5px}
+    button{cursor:pointer}
+    p{margin:0 0 1em}
+    h1,h2,h3,h4{line-height:1.45;color:var(--blue);text-wrap:balance}
+    h1,h2{font-family:"Songti SC","Noto Serif CJK SC","STSong",serif;font-weight:700}
+    h1{font-size:clamp(34px,4.5vw,56px);line-height:1.3;margin:18px 0 22px;letter-spacing:.015em}
+    h2{font-size:clamp(26px,3vw,34px);margin:0 0 14px}
+    h3{font-size:21px;margin:0 0 12px}
+    h4{font-size:16px;margin:0 0 9px}
+    ul,ol{padding-left:1.3em;margin:8px 0 0}
+    li{margin-bottom:8px}
+    strong{font-weight:650}
+    .wrap{width:min(1120px,calc(100% - 64px));margin:0 auto}
+    .skip{position:absolute;left:20px;top:-80px;padding:8px 15px;background:white;z-index:10}
+    .skip:focus{top:10px}
+    .top{background:var(--white);border-bottom:1px solid var(--line)}
+    .top-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:74px}
+    .brand{display:flex;gap:12px;align-items:center;font-size:15px;font-weight:650;letter-spacing:.04em}
+    .brand svg{width:30px;height:32px;flex:none}
+    .print-button{border:1px solid var(--line);background:white;padding:7px 16px;border-radius:6px;color:var(--blue);font-size:14px}
+    .print-button:hover{background:var(--pale)}
+    .hero{background:var(--white);padding:46px 0 48px}
+    .hero-grid{display:grid;grid-template-columns:1.18fr 1fr;gap:58px;align-items:center}
+    .edition{display:inline-block;color:var(--muted);font-size:14px;border-bottom:2px solid #94bdc8;padding-bottom:4px}
+    .subtitle{font-size:18px;line-height:1.8;margin-bottom:15px}
+    .hero-note{font-size:14px;line-height:1.8;color:var(--muted);max-width:36em}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+    .button-link{display:inline-flex;align-items:center;text-decoration:none;background:var(--blue);color:#fff;border:1px solid var(--blue);border-radius:6px;padding:10px 19px;font-size:15px}
+    .button-link.secondary{color:var(--blue);background:var(--white);border-color:var(--line)}
+    .workbook{position:relative;padding:26px 28px 22px 35px;background:var(--pale);border:1px solid var(--line);border-radius:6px 28px 6px 6px;box-shadow:9px 9px 0 #e2edef}
+    .workbook:before{content:"";position:absolute;left:17px;top:25px;bottom:25px;width:2px;background:#b5d0d8}
+    .workbook h2{font-family:inherit;font-size:20px;margin:0 0 17px}
+    .role-row{display:grid;grid-template-columns:52px 1fr;gap:13px;align-items:start;padding:13px 0}
+    .role-row+.role-row{border-top:1px solid #cadde3}
+    .role-label{background:var(--white);color:var(--blue);border:1px solid #bfd5dc;border-radius:5px;text-align:center;padding:3px 0;font-size:14px;font-weight:650}
+    .role-label.ai{background:var(--blue);color:white;border-color:var(--blue)}
+    .role-row strong{font-size:17px;display:block;margin-bottom:3px}
+    .role-row p{font-size:14px;color:var(--muted);line-height:1.7;margin:0}
+    .workbook-foot{font-size:12px;color:var(--muted);margin:17px 0 0;line-height:1.7}
+    .nav{position:sticky;top:0;z-index:5;background:#ffffffee;backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .nav-inner{display:flex;gap:28px;align-items:center;overflow-x:auto;scrollbar-width:thin;min-height:58px;white-space:nowrap}
+    .nav a{text-decoration:none;font-size:14px;padding:14px 0;color:var(--muted)}
+    .nav a:hover{color:var(--blue);text-decoration:underline}
+    .section{padding:60px 0;border-bottom:1px solid var(--line)}
+    .section-intro{color:var(--muted);max-width:45em;margin-bottom:25px}
+    .intro-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:45px;align-items:start}
+    .plain-note{border-left:4px solid #7da9b5;padding:15px 20px;background:white;font-size:15px;line-height:1.85}
+    .plain-note p:last-child{margin-bottom:0}
+    .small{font-size:14px;color:var(--muted);line-height:1.8}
+    .source-ref{font-size:13px;color:var(--muted);margin:13px 0 0}
+    .source-ref a{color:var(--muted)}
+    .case-jumps{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:23px}
+    .case-jumps a{border:1px solid var(--line);background:white;border-radius:30px;padding:5px 15px;font-size:14px;text-decoration:none}
+    .case-jumps a:hover{background:var(--pale)}
+    details.case{background:white;border:1px solid var(--line);margin-top:15px;border-radius:8px;scroll-margin-top:80px;overflow:hidden}
+    summary{list-style:none;cursor:pointer}
+    summary::-webkit-details-marker{display:none}
+    .case>summary{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:23px 26px}
+    .case>summary h3{font-size:22px;margin:0 0 3px}
+    .case>summary p{font-size:14px;margin:0;color:var(--muted)}
+    .disclosure{display:flex;gap:9px;align-items:center;font-size:13px;color:var(--muted)}
+    .chevron{display:inline-block;width:9px;height:9px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);transition:transform .15s;margin:0 3px 5px}
+    details[open]>summary .chevron{transform:rotate(225deg);margin:5px 3px 0}
+    .case[open]>summary{background:var(--pale);border-bottom:1px solid var(--line)}
+    .case-body{padding:25px 28px 27px}
+    .division{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:20px}
+    .division article{min-width:0}
+    .division p{font-size:16px;line-height:1.9;margin:0}
+    .division h4{font-size:15px;color:var(--green);display:inline-block;border-bottom:2px solid #bcdace;padding-bottom:3px}
+    .division article:last-child{border-left:1px solid var(--line);padding-left:28px}
+    .division article:last-child h4{color:var(--blue);border-color:#b5d0db}
+    .finding{background:#f5f8f9;padding:16px 19px;font-size:15px;line-height:1.85;border-radius:5px}
+    .finding strong{display:block;color:var(--ink);margin-bottom:4px;font-size:14px}
+    .finding p{margin:0}
+    .ask{margin:18px 0 0;padding-left:15px;border-left:3px solid #a3c6d0;font-size:15px}
+    .ask span{display:block;font-size:12px;color:var(--muted);margin-bottom:2px}
+    .case-foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:17px;font-size:12px;color:var(--muted)}
+    .practice{background:#eaf3f5}
+    .exercise-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:22px 0}
+    .exercise-block{background:white;padding:24px;border-top:3px solid #98bdc7;border-radius:0 0 6px 6px}
+    .exercise-block.draft{border-top-color:#caab70}
+    .exercise-block h3{font-size:16px;margin-bottom:13px}
+    .exercise-block p{font-size:17px;margin:0;line-height:2}
+    .exercise-block.draft p{line-height:2.2}
+    .unsupported{border-bottom:0}
+    #practice:has(#practice-analysis[open]) .unsupported{background:#ffe8bf;text-decoration:line-through;text-decoration-thickness:1px;border-bottom-color:transparent;color:#805016}
+    .analysis{background:white;border:1px solid #b8d3dc;border-radius:7px}
+    .analysis>summary{padding:15px 21px;font-size:16px;display:flex;justify-content:space-between;align-items:center;color:var(--blue);font-weight:600}
+    .analysis-content{padding:2px 22px 22px;font-size:15px}
+    .analysis-content ul{margin-bottom:17px}
+    .revision{background:var(--green-pale);border-left:3px solid #72a48c;padding:15px 18px;margin-top:14px}
+    .revision p{margin:5px 0 0}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:25px 0 20px;background:white;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+    .step{padding:25px 24px}
+    .step+.step{border-left:1px solid var(--line)}
+    .step-number{font-size:14px;color:var(--muted);display:block;margin-bottom:9px}
+    .step h3{font-size:20px;margin-bottom:14px}
+    .step ul{font-size:15px;line-height:1.9;padding-left:1.2em}
+    .step-result{font-size:14px;border-top:1px solid var(--line);padding-top:13px;margin:17px 0 0;color:var(--blue)}
+    .caution{padding:18px 21px;border-left:4px solid #bf9347;background:var(--amber-pale);color:#674c23;font-size:15px;line-height:1.85}
+    .caution p{margin:0}
+    .questions{display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px;margin-top:20px}
+    .question{padding:21px 0;border-top:1px solid var(--line)}
+    .question h3{font-size:18px;margin-bottom:9px}
+    .question p{font-size:15px;color:var(--muted);margin:0}
+    .deep{margin-top:24px;background:white;border:1px solid var(--line);border-radius:7px}
+    .deep>summary{padding:17px 21px;display:flex;justify-content:space-between;gap:20px;align-items:center;font-size:16px;font-weight:600;color:var(--blue)}
+    .deep-content{padding:0 24px 25px;font-size:15px}
+    .deep-content p:last-child{margin-bottom:0}
+    .evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px}
+    .evidence-grid h3{font-size:18px}
+    .evidence-grid ul{font-size:15px;line-height:1.9}
+    .source-list{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:23px}
+    .source-item{background:white;border:1px solid var(--line);padding:21px 23px;border-radius:6px}
+    .source-item h3{font-size:18px;margin-bottom:8px}
+    .source-item p{font-size:14px;color:var(--muted);margin:6px 0 12px}
+    .source-item a{font-size:15px;overflow-wrap:anywhere}
+    .source-item small{display:block;font-size:12px;line-height:1.75;color:var(--muted);margin-top:12px;overflow-wrap:anywhere}
+    .source-item small a{font-size:12px}
+    .workshop{border-top:1px solid var(--line);margin-top:30px;padding-top:25px}
+    .workshop ol{font-size:15px;line-height:1.9}
+    .workshop strong{color:var(--blue)}
+    .doc-meta{display:flex;gap:10px 22px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:15px}
+    table{width:100%;border-collapse:collapse;margin-top:13px;font-size:14px}
+    th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+    th{background:var(--pale);font-weight:600;color:var(--blue)}
+    td:last-child{white-space:nowrap}
+    .footer{padding:29px 0 38px;color:var(--muted);font-size:12px;line-height:1.9}
+    .footer p{margin:0 0 8px}
+    .footer strong{font-weight:600}
+    [hidden]{display:none!important}
+    @media(max-width:850px){.hero-grid{gap:30px;grid-template-columns:1fr 1fr}.wrap{width:calc(100% - 44px)}.intro-grid{gap:25px}.step{padding:21px 18px}.nav-inner{gap:22px}.hero{padding-top:33px}.workbook{padding:24px 21px 20px 30px}}
+    @media(max-width:650px){body{font-size:16px}.wrap{width:calc(100% - 36px)}.top-inner{min-height:63px}.brand{font-size:13px;gap:8px}.brand svg{width:25px;height:27px}.print-button{font-size:12px;padding:6px 10px}.hero{padding:27px 0 35px}.hero-grid,.intro-grid{grid-template-columns:1fr;gap:23px}h1{font-size:36px;margin-top:13px;margin-bottom:17px}.subtitle{font-size:17px}.hero-note{font-size:13px}.hero-actions{margin-top:20px}.workbook{box-shadow:5px 5px 0 #e2edef;margin-right:5px}.workbook h2{font-size:18px}.role-row{padding:10px 0}.nav-inner{min-height:51px;gap:22px}.nav a{font-size:13px;padding:11px 0}.section{padding:37px 0}.section-intro{font-size:15px;margin-bottom:20px}h2{font-size:28px}.plain-note{padding:13px 16px;font-size:14px}.case-jumps{gap:7px}.case-jumps a{font-size:12px;padding:5px 11px}.case>summary{padding:18px 17px;gap:12px}.case>summary h3{font-size:19px}.case>summary p{font-size:12px}.disclosure .disclosure-label{display:none}.case-body{padding:20px 18px}.division{grid-template-columns:1fr;gap:17px;margin-bottom:17px}.division article:last-child{padding:17px 0 0;border-left:0;border-top:1px solid var(--line)}.division p{font-size:15px}.finding{padding:13px 15px;font-size:14px}.ask{font-size:14px;margin-top:16px}.exercise-grid{grid-template-columns:1fr;gap:15px}.exercise-block{padding:19px}.exercise-block p{font-size:16px}.analysis>summary{padding:14px 16px;font-size:15px}.analysis-content{padding:0 17px 18px;font-size:14px}.steps{grid-template-columns:1fr;margin-top:20px}.step{padding:21px}.step+.step{border-left:0;border-top:1px solid var(--line)}.step h3{font-size:19px}.step ul{font-size:14px}.questions,.evidence-grid,.source-list{grid-template-columns:1fr}.question{padding:18px 0}.evidence-grid{gap:21px}.deep>summary{font-size:15px;padding:15px 17px}.deep-content{padding:0 17px 20px;font-size:14px}.source-item{padding:19px}.caution{font-size:14px;padding:15px 17px}.workshop ol{font-size:14px}.doc-meta{font-size:12px;gap:5px 15px}.source-ref{font-size:12px}th,td{padding:9px 7px;font-size:12px}.footer{font-size:11px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chevron{transition:none}}
+    @media print{
+      @page{size:A4;margin:16mm}
+      body{font-size:11pt;line-height:1.65;background:white;color:#222}
+      .wrap{width:100%;max-width:none}.nav,.print-button,.hero-actions,.case-jumps,.skip{display:none!important}
+      .top-inner{min-height:35px}.hero{padding:22px 0}.hero-grid{grid-template-columns:1.1fr 1fr;gap:23px}h1{font-size:29pt}h2{font-size:20pt}
+      .section{padding:23px 0}.workbook{box-shadow:none}.case,.source-item,.step,.exercise-block{break-inside:avoid}
+      .case>summary{padding:13px 15px}.case-body{padding:15px}.division{gap:18px}.division p,.finding,.ask{font-size:10pt}
+      .exercise-grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}.step+.step{border-left:0;border-top:1px solid var(--line)}
+      .source-list{grid-template-columns:1fr 1fr}.source-item a{font-size:10pt}.source-item small{font-size:9pt}
+      .disclosure{display:none}.footer{font-size:9pt}.practice,.finding,.workbook{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到正文</a>
+  <header class="top">
+    <div class="wrap top-inner">
+      <div class="brand"><svg viewBox="0 0 30 32" aria-hidden="true"><path d="M4 3h16l6 6v20H4z" fill="#edf5f7" stroke="#194b5b" stroke-width="1.5"/><path d="M20 3v7h6M9 15h12M9 20h12M9 25h7" fill="none" stroke="#194b5b" stroke-width="1.5"/></svg>教师AI实践参考</div>
+      <button class="print-button" type="button" id="print-page">打印本页</button>
+    </div>
+  </header>
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="edition">日本儿童家庭厅实践手册中文导读</span>
+        <h1>幼儿园教师<br>怎样与AI协作</h1>
+        <p class="subtitle">从记录、活动构思和家园沟通出发，看看AI能帮哪一步，教师需要判断什么。</p>
+        <p class="hero-note">依据日本2025年版《生成式AI导入与应用实践手册》整理。供教师自读与园本教研使用，约需8—12分钟。内容为中文解读，非官方译文。</p>
+        <div class="hero-actions"><a class="button-link" href="#cases">从四个工作场景开始</a><a class="button-link secondary" href="#sources">查看原文与页码</a></div>
+      </div>
+      <aside class="workbook" aria-label="人机分工概览">
+        <h2>先有真实观察，再让AI协助</h2>
+        <div class="role-row"><span class="role-label">教师</span><div><strong>留下事实，说明情境</strong><p>发生了什么？儿童说了什么？本班有哪些条件？</p></div></div>
+        <div class="role-row"><span class="role-label ai">AI</span><div><strong>整理信息，起草，提供备选</strong><p>帮助表达、校对和拓展思路，输出交给教师检查。</p></div></div>
+        <div class="role-row"><span class="role-label">教师</span><div><strong>核对、调整，决定怎样使用</strong><p>确认事实与适宜性，结合儿童和家庭作出判断。</p></div></div>
+        <p class="workbook-foot">根据本编第4、24—26页与案例编第13—15页整理；这张中文分工图为导读归纳。</p>
+      </aside>
+    </div>
+  </div>
+  <nav class="nav" aria-label="本页目录"><div class="wrap nav-inner"><a href="#about">文件是什么</a><a href="#cases">四个场景</a><a href="#practice">试着核对一段文字</a><a href="#start">园所怎样开始</a><a href="#evidence">怎样理解试点结果</a><a href="#sources">原文与教研</a></div></nav>
+  <main id="main">
+    <section class="section" id="about"><div class="wrap intro-grid">
+      <div><h2>一份帮助机构把AI用进工作的手册</h2><p>日本儿童家庭厅将地方政府、保育设施和育儿机构的试点经验整理成手册，关注怎样减轻工作人员负担、改善服务，并为人与儿童、家庭的交往留出时间。</p><p class="small">本编讲引入流程与风险管理；案例编把相近试点归并为12类应用。本文重点选取与教师日常工作密切相关的四类。</p><p class="source-ref">依据：<a href="#source-main">本编第4—5页</a>、<a href="#source-cases">案例编第2—6页</a>。</p></div>
+      <aside class="plain-note"><p><strong>阅读时保留两个区别</strong></p><p>这是供机构借鉴的实践参考，具体使用仍需符合本园规则。教师借助AI处理工作，与幼儿直接使用AI，需要分别判断。</p><p>它提供实施经验和使用反馈；“记录更快”或“教师觉得方便”，不能直接等同于儿童发展或保教质量得到提升。</p></aside>
+    </div></section>
+
+    <section class="section" id="cases"><div class="wrap">
+      <h2>从四个熟悉的工作场景看起</h2><p class="section-intro">下面的分工和核对提示根据原文整理。展开一个与您工作相关的场景，再想一想：哪些步骤适合交给AI，哪些需要自己继续做？</p>
+      <div class="case-jumps" aria-label="场景快捷入口"><a href="#case-writing">家园联系</a><a href="#case-planning">活动构思</a><a href="#case-translation">通知翻译</a><a href="#case-photos">照片整理</a></div>
+
+      <details class="case" id="case-writing" open>
+        <summary><div><h3>家园联系：从真实观察到清楚表达</h3><p>园讯、家园联系簿与日常沟通文案</p></div><span class="disclosure"><span class="disclosure-label">查看分工与试点反馈</span><span class="chevron" aria-hidden="true"></span></span></summary>
+        <div class="case-body"><div class="division"><article><h4>AI可以协助</h4><p>根据教师提供的活动信息、观察要点起草文案，检查错别字、调整语句，帮助寻找清楚、得体的表达。</p></article><article><h4>教师仍需完成</h4><p>亲自观察，选择值得沟通的事实；核对动作、原话、次数和人物，删去无依据的扩写，结合本班与家庭情况修改后再使用。</p></article></div>
+        <div class="finding"><strong>试点也遇到了什么</strong><p>部分文案措辞不自然、出现意料外内容，修改仍需时间。有教师觉得组织提示语很费力，自己写反而更快。手册提出先了解工作人员需要，再调整功能、模板并提供使用支持。</p></div>
+        <p class="ask"><span>一起讨论</span>一段写得很顺畅的AI文案，哪些内容仍要逐句回到原始观察中核对？</p><div class="case-foot"><span>文字生成与辅助校对</span><a href="#source-cases">原文：案例编第13—15页</a></div></div>
+      </details>
+
+      <details class="case" id="case-planning">
+        <summary><div><h3>活动构思：把点子放回本班条件中检验</h3><p>活动备选、材料设想与后续探究方向</p></div><span class="disclosure"><span class="disclosure-label">查看分工与试点反馈</span><span class="chevron" aria-hidden="true"></span></span></summary>
+        <div class="case-body"><div class="division"><article><h4>AI可以协助</h4><p>围绕教师确定的主题，结合已有活动与儿童表现信息，提出活动、材料或计划的备选点子，帮助从不同角度继续思考。</p></article><article><h4>教师仍需完成</h4><p>判断建议是否接得上儿童的兴趣与经验，核对场地、人数、时间、材料和安全条件；选择、调整并实施，继续观察儿童的实际表现。</p></article></div>
+        <div class="finding"><strong>试点也遇到了什么</strong><p>AI曾把错误答案放进问答活动，也给小型园所提出需要宽阔空间的方案。文件还明确说明：受试点期限限制，尚未完成“输入活动反馈，再改进后续建议质量”的验证。</p></div>
+        <p class="ask"><span>一起讨论</span>一个活动看起来很有趣，还需要补充哪些本班信息，才能决定是否值得尝试？</p><div class="case-foot"><span>初步方案需要现场条件和教育判断</span><a href="#source-cases">原文：案例编第25—27页</a></div></div>
+      </details>
+
+      <details class="case" id="case-translation">
+        <summary><div><h3>通知翻译：有人能检查，才有条件使用</h3><p>面向不同语言家庭的通知、问卷与活动介绍</p></div><span class="disclosure"><span class="disclosure-label">查看分工与试点反馈</span><span class="chevron" aria-hidden="true"></span></span></summary>
+        <div class="case-body"><div class="division"><article><h4>AI可以协助</h4><p>把通知、问卷或沟通文案译成目标语言，按读者需要尝试调整词语，减少从头组织外语文稿的负担。</p></article><article><h4>教师与园所仍需完成</h4><p>先把原稿写清楚，说明对象和用途；安排具备相应语言能力的人核对，尤其检查时间、地点、行动要求与人物指代，再决定怎样发给家庭。</p></article></div>
+        <div class="finding"><strong>试点也遇到了什么</strong><p>译文可能过于直译，省略主语时还会用错代词。人工审查仍然费时，满意度并不都高。有项目因无人能够核对某一种语言，最后只完成两种，少于原来的三种。</p></div>
+        <p class="ask"><span>一起讨论</span>如果园里没人能核对一种语言，哪些通知需要另找可靠的语言支持？</p><div class="case-foot"><span>生成译文不等于完成核验</span><a href="#source-cases">原文：案例编第31—33页</a></div></div>
+      </details>
+
+      <details class="case" id="case-photos">
+        <summary><div><h3>照片整理：AI先找线索，教师决定怎样保留</h3><p>照片质量、人物归属与不同儿童的照片数量</p></div><span class="disclosure"><span class="disclosure-label">查看分工与试点反馈</span><span class="chevron" aria-hidden="true"></span></span></summary>
+        <div class="case-body"><div class="division"><article><h4>AI可以协助</h4><p>检查模糊、失焦等照片，尝试按儿童整理，显示照片数量差异，帮助教师更快找到需要检查的地方。本例使用图像识别AI，与生成式AI不同。</p></article><article><h4>教师仍需完成</h4><p>先由园所确认可用系统及照片使用范围。上传前检查画面是否适宜，排除敏感照片；整理后核对人物归属，判断教育记录价值，再选择用于园讯、联系簿或家长分享的图片。</p></article></div>
+        <div class="finding"><strong>试点也遇到了什么</strong><p>AI偶尔把照片分给错误的儿童。有些照片虽然模糊，教师仍希望保留。最终复核也需要时间，因此筛选结果要允许修改，不能仅凭清晰度自动删除。</p></div>
+        <p class="ask"><span>一起讨论</span>一张模糊、却记录了儿童重要尝试的照片，应该怎样保留和说明？</p><div class="case-foot"><span>图像识别；不等同于自动生成成长评价</span><a href="#source-cases">原文：案例编第40—42页</a></div></div>
+      </details>
+    </div></section>
+
+    <section class="section practice" id="practice"><div class="wrap">
+      <h2>试着核对：这段拟稿多写了什么？</h2><p class="section-intro">先对照两段文字，找出原始观察没有提供的内容，再展开解析。下面全部是为教研编写的虚构材料，拟稿为模拟文本。</p>
+      <div class="exercise-grid"><article class="exercise-block"><h3>原始观察｜虚构</h3><p>中班活动中，幼儿01把木片放入水中，说“在上面”。他用手把木片按下，松手后木片回到水面。我问还想试什么，他取来一个塑料瓶盖。</p></article><article class="exercise-block draft"><h3>AI拟稿｜模拟</h3><p>幼儿01连续进行了<span class="unsupported">五次实验</span>，<span class="unsupported">比较木片与塑料的浮沉</span>，<span class="unsupported">已理解浮力原理</span>，并表现出<span class="unsupported">稳定的科学探究能力</span>。</p></article></div>
+      <details class="analysis" id="practice-analysis"><summary>展开核对与修改示例<span class="chevron" aria-hidden="true"></span></summary><div class="analysis-content"><ul><li><strong>“五次”</strong>：原始观察没有记录次数。</li><li><strong>“比较木片与塑料”</strong>：只记录了取来瓶盖，还没有记录后续比较。</li><li><strong>“理解浮力原理”</strong>：动作与一句原话不足以支持这一概念判断。</li><li><strong>“稳定的科学探究能力”</strong>：不能由单次事件直接概括稳定能力。</li></ul><div class="revision"><strong>一种更忠于材料的写法</strong><p><b>已经发生：</b>幼儿01把木片放入水中，说“在上面”。他用手把木片按下，松手后木片回到水面。教师询问后，他取来一个塑料瓶盖。</p><p><b>后续观察建议：</b>可以继续观察，他会怎样尝试和比较不同材料在水中的表现。</p></div><p class="small" style="margin-top:13px">重点是检查事实和判断的依据。上面的后续观察方向属于教师可考虑的建议，应与已经发生的事实分开。此练习由导读编写，非日本试点原始案例。</p></div></details>
+    </div></section>
+
+    <section class="section" id="start"><div class="wrap">
+      <h2>园所怎样开始一次小试用</h2><p class="section-intro">手册把引入分为规划、准备、运行三个阶段。下面按教师与园所容易执行的方式整理，先从一件范围清楚的工作开始。</p>
+      <div class="steps"><article class="step"><span class="step-number">第一阶段</span><h3>先选一件值得改善的工作</h3><ul><li>说清现在费时或反复修改的地方。</li><li>确定AI协助哪一步，教师判断哪一步。</li><li>商定什么结果算有帮助。</li></ul><p class="step-result">留下：任务、目标、人机分工。</p></article><article class="step"><span class="step-number">第二阶段</span><h3>准备好材料、规则和支持</h3><ul><li>园所确认可用工具与资料范围。</li><li>用脱敏或模拟材料练习。</li><li>明确核对人、出错处理和求助渠道。</li></ul><p class="step-result">留下：输入规则、检查要点、负责人。</p></article><article class="step"><span class="step-number">第三阶段</span><h3>小范围使用，再共同复盘</h3><ul><li>检查生成内容能否用于实际工作。</li><li>把输入、核对、修改的总时间一起算。</li><li>决定继续、缩小范围、修改或停用。</li></ul><p class="step-result">留下：实际效果、问题和调整决定。</p></article></div>
+      <div class="caution"><p><strong>如果更费时，可以调整分工。</strong>原文承认，AI直接叠加到旧流程上可能增加重复劳动。可以只让它参与构思，其他环节由人完成；成本效益不佳时，也应考虑是否继续。</p></div><p class="source-ref">依据：<a href="#source-main">本编第22—37页</a>。上述阶段标题与行动提示为中文整理，不是原文逐字翻译。</p>
+      <h3 style="margin-top:33px">使用真实资料前，共同问四个问题</h3><div class="questions"><article class="question"><h3>可以输入什么？</h3><p>按机构规则判断儿童姓名、照片、声音和家庭情况能否处理；不要因为资料已经有电子版，就直接交给外部AI。</p></article><article class="question"><h3>资料会怎样被处理？</h3><p>园所核查谁可访问、在哪里保存和运算、日志留多久、是否用于训练，并按实际用途做好必要说明与同意。</p></article><article class="question"><h3>谁能发现错误？</h3><p>明确核对人和核对依据；专业判断、外语或特殊需要超出个人能力时，安排相应支持。</p></article><article class="question"><h3>出错后怎样处理？</h3><p>保留草稿与原始依据，允许修改、拒绝与退回。未经检查的输出先不用于家长发布或正式记录。</p></article></div><p class="source-ref">依据：<a href="#source-main">本编第24—33、38—40页</a>。这些是重点问题，不能替代完整的机构安全评估，也不能直接当作中国园所的法律要求。</p>
+    </div></section>
+
+    <section class="section" id="evidence"><div class="wrap">
+      <h2>怎样理解这些试点结果</h2><p class="section-intro">有教师感到减负，也有人觉得输入和修改更费时。阅读时，要把“做法可参考”“使用者觉得方便”与“已经证明教育效果”分开。</p>
+      <div class="evidence-grid"><article><h3>这套材料能帮助我们了解</h3><ul><li>AI可以接入哪些具体工作。</li><li>教师和机构怎样安排分工与支持。</li><li>试用会遇到哪些错误与额外负担。</li><li>系统、流程和培训可以怎样调整。</li></ul></article><article><h3>这些材料尚不能直接说明</h3><ul><li>所有幼儿园使用后都会节省时间。</li><li>生成记录更完整，就代表观察更准确。</li><li>教师觉得方便，就代表专业能力提升。</li><li>AI已经改善了幼儿学习与发展。</li></ul></article></div>
+      <details class="deep"><summary>想进一步核查：加贺市做了什么？<span class="chevron" aria-hidden="true"></span></summary><div class="deep-content"><p>这个试点从教师描述的儿童表现出发，尝试生成家园联系簿、班级日志、支持探究学习的下一日活动建议，以及教育过程记录文案。它与“同一份观察支持多种工作”的思路很接近。</p><p><strong>实际输入有明确限制：</strong>本次试点按当地安全方针不处理个人信息，因此使用教师描述的文字，未使用真实幼儿照片；图像能力只用可商用免费图片作技术测试，不能说已在真实幼儿图像上普遍验证。</p><p><strong>使用人数与评价回答人数要分开：</strong>报告中一项推荐意愿评分只有4份；“全部回答者愿意继续使用”不等于全部使用者，更不等于所有幼儿园教师都认可。这个项目主要验证业务可行性与使用反馈。</p><p class="source-ref">依据：<a href="#source-report">试点报告文内第96—111页，尤其第97、99—101页</a>。这里的“教育过程记录”是对日文术语的中文整理，不特指某一种学习故事方法。</p></div></details>
+      <details class="deep"><summary>想进一步核查：怎样读百分比和省时数字？<span class="chevron" aria-hidden="true"></span></summary><div class="deep-content"><p>园讯、联系簿案例的部分百分比是<strong>自报减负感或便利性评价</strong>，不能读成客观工时减少率。照片整理的便利性百分比也不是识别准确率。</p><p>翻译案例的时间缩短，部分来自外包改为内部处理后减少委托协调，不能全部归因于AI翻译速度。案例编有些汇总页未给完整样本分母，正式引用数字时应返回配套报告。</p><p>总体项目覆盖14个自治体、45项应用，归为34种用例；这不是14所幼儿园的教学效果实验。总体项目期为2024年6月至2025年3月，各项目实际试用期并不相同。</p><p class="source-ref">依据：<a href="#source-cases">案例编第15、33、42页</a>；<a href="#source-report">试点报告文内第4、6—7页</a>。</p></div></details>
+    </div></section>
+
+    <section class="section" id="sources"><div class="wrap">
+      <h2>原文从哪里读起</h2><div class="doc-meta"><span>发布机构：日本儿童家庭厅（こども家庭庁）</span><span>初版标注：2025年3月31日</span><span>网上公开：2025年7月9日</span></div><p class="section-intro">先看案例编了解做法，再按需要回到本编查实施步骤。各文件以下方所列原文为准；本页保留原文含义，重新组织中文表达与图示。</p>
+      <div class="source-list"><article class="source-item" id="source-main"><h3>本编｜日文42页</h3><p>第4—5页：定位与用途；第22—37页：引入、培训、评价与改进；第38—40页：信息处理。</p><a href="https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/c1890510-04d4-497b-9e23-a7f514016c7d/04f2c133/20250709_councils_kodomo_seisaku_DX_40.pdf" target="_blank" rel="noopener noreferrer">打开官方本编PDF</a><small>原题：生成AIの導入・活用に向けた実践ハンドブック 本編</small></article><article class="source-item" id="source-cases"><h3>案例编｜日文51页</h3><p>第13—15页：家园联系；第25—27页：活动构思；第31—33页：翻译；第40—42页：照片。</p><a href="https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/c1890510-04d4-497b-9e23-a7f514016c7d/7ba11196/20250709_councils_kodomo_seisaku_DX_41.pdf" target="_blank" rel="noopener noreferrer">打开官方案例编PDF</a><small>相近试点归并为12类案例，不是一类对应一所园。</small></article><article class="source-item" id="source-report"><h3>试点结果报告｜日文301页</h3><p>文内第4、6—7页：总体情况；第96—111页：加贺市。报告文内页码比PDF序号少1页。</p><a href="https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/c1890510-04d4-497b-9e23-a7f514016c7d/5d4c0283/20250813_councils_kodomo_seisaku_DX_43.pdf" target="_blank" rel="noopener noreferrer">打开官方试点报告PDF</a><small>本页重点核读总体方法和相关保育章节，未逐页审查全部301页。</small></article><article class="source-item" id="source-summary"><h3>概要版｜日文4页</h3><p>适合快速查看手册的定位、内容和整体结构。</p><a href="https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/c1890510-04d4-497b-9e23-a7f514016c7d/70d8b930/20250731_councils_kodomo_seisaku_DX_42.pdf" target="_blank" rel="noopener noreferrer">打开官方概要PDF</a><small>公开日期另见<a href="https://aisi.go.jp/activity/activity_information/250819/" target="_blank" rel="noopener noreferrer">日本AISI官方记录</a>；文件路径日期不代表另有一次修订。</small></article></div>
+      <details class="deep"><summary>查看案例编全部12类用途<span class="chevron" aria-hidden="true"></span></summary><div class="deep-content"><table><thead><tr><th scope="col">用途</th><th scope="col">文内页码</th></tr></thead><tbody><tr><td>内部文字资料撰写、修订</td><td>7—9</td></tr><tr><td>含插图的宣传材料制作</td><td>10—12</td></tr><tr><td>园讯、家园联系簿撰写</td><td>13—15</td></tr><tr><td>会议记录与摘要</td><td>16—18</td></tr><tr><td>咨询联系记录</td><td>19—21</td></tr><tr><td>内部数据加工、分析</td><td>22—24</td></tr><tr><td>儿童、育儿活动及计划构思</td><td>25—27</td></tr><tr><td>保育设施工作人员咨询支持</td><td>28—30</td></tr><tr><td>面向居民、家长的通知翻译</td><td>31—33</td></tr><tr><td>儿童、育儿信息搜集</td><td>34—36</td></tr><tr><td>保育设施异常事件检测</td><td>37—39</td></tr><tr><td>儿童照片整理</td><td>40—42</td></tr></tbody></table></div></details>
+      <div class="workshop"><h3>用这页开展一次15分钟教研</h3><p class="small">3—4人一组，准备纸笔即可，无需登录AI或输入真实儿童资料。以下安排为导读建议。</p><ol><li><strong>前3分钟：</strong>每组选一个与本园相关的场景，说清AI能协助哪一步。</li><li><strong>接着5分钟：</strong>完成上面的拟稿核对练习，说明删去的内容缺少什么依据。</li><li><strong>再用5分钟：</strong>商定一个小试用的任务、材料、核对人、复盘时间和一项判断依据，例如总耗时是否减少、是否出现无依据内容。</li><li><strong>最后2分钟：</strong>任选2—3组，每组用30秒说明：“我们准备试什么；重点核对什么；出现什么情况就调整。”</li></ol></div>
+    </div></section>
+  </main>
+  <footer class="footer"><div class="wrap"><p><strong>中文教师导读，整理日期：2026年10月31日。</strong>依据日本儿童家庭厅公开资料，经AI辅助整理并对照相关原文核查；不是日本政府发布的中文版本。练习材料全部虚构，图示和版式为本页重新设计。</p><p>来源内容按儿童家庭厅的<a href="https://www.cfa.go.jp/copyright-policy/" target="_blank" rel="noopener noreferrer">版权政策及公共数据利用规则</a>注明出处并作中文整理。链接保留官方PDF；本页不采集或上传儿童及教师资料。</p></div></footer>
+  <script>
+    (()=>{
+      'use strict';
+      const details=Array.from(document.querySelectorAll('details'));
+      let openBeforePrint=[];
+      window.addEventListener('beforeprint',()=>{openBeforePrint=details.filter(item=>item.open);details.forEach(item=>{item.open=true;});});
+      window.addEventListener('afterprint',()=>{details.forEach(item=>{item.open=openBeforePrint.includes(item);});});
+      document.getElementById('print-page').addEventListener('click',()=>window.print());
+      document.querySelectorAll('.case-jumps a').forEach(link=>{
+        link.addEventListener('click',()=>{const item=document.querySelector(link.getAttribute('href'));if(item instanceof HTMLDetailsElement)item.open=true;});
+      });
+    })();
+  </script>
+</body>
+</html>
