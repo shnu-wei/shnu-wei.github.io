@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#245b78">
+  <meta name="description" content="按固定随机顺序现场确认性别与出勤，每班选出3名男孩和3名女孩。">
+  <title>班级随机抽样｜3男3女</title>
+  <style>
+    :root{--paper:#f0f5f8;--white:#fff;--ink:#20384a;--muted:#586e7d;--blue:#245b78;--blue-light:#e7f0f6;--green:#216454;--green-light:#e9f3ef;--line:#cddbe3;--warn:#834915;--warn-light:#fff4e5;--radius:16px}
+    *{box-sizing:border-box} [hidden]{display:none!important}
+    body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 "PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+    button,input,select,textarea{font:inherit} button,input,select{min-height:48px}
+    button{cursor:pointer;border:1px solid var(--line);border-radius:10px;background:var(--white);color:var(--ink);padding:10px 17px;font-weight:600;touch-action:manipulation}
+    button:disabled{cursor:default;opacity:.45} button:hover:not(:disabled){border-color:var(--blue);background:var(--blue-light)}
+    button.primary{background:var(--blue);color:white;border-color:var(--blue)} button.primary:hover:not(:disabled){background:#18465f}
+    :focus-visible{outline:3px solid #c18b28;outline-offset:3px}
+    input[type=text],input[type=number],select,textarea{border:1px solid #9db3c1;border-radius:8px;background:white;color:var(--ink);padding:10px 12px;max-width:100%}
+    input[type=checkbox]{accent-color:var(--green);width:23px;height:23px;min-height:0;flex:none}
+    h1,h2,h3,p{margin:0} h1{font-size:28px;line-height:1.3;letter-spacing:.025em} h2{font-size:20px} h3{font-size:17px}
+    .shell{max-width:1000px;margin:0 auto;padding:30px 24px max(30px,env(safe-area-inset-bottom))}
+    .masthead{display:flex;gap:16px;align-items:center;margin-bottom:26px}
+    .mark{width:46px;height:46px;display:grid;grid-template-columns:repeat(3,6px);grid-template-rows:repeat(2,6px);place-content:center;gap:5px;background:var(--blue);border-radius:13px;flex:none}
+    .mark i{background:white;border-radius:50%} .masthead p{margin-top:5px;color:var(--muted);font-size:14px}
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--white);padding:24px}
+    .setup{max-width:540px;margin:36px auto 0} .setup h2{margin-bottom:22px}
+    .class-info{padding:6px 20px;margin:0 auto 16px;max-width:540px}.has-session .class-info{max-width:none}.class-fields{display:grid;grid-template-columns:1.25fr 1fr;gap:14px}.class-fields .field{min-width:0;margin:8px 0 15px}.class-info summary span{min-width:0;overflow-wrap:anywhere}.toolbar>div{min-width:0}.toolbar h2{overflow-wrap:anywhere}.toolbar>button{flex:none}
+    .field{display:block;margin:18px 0}.field>span{display:block;margin-bottom:7px;font-weight:600}.field input{width:100%}
+    #total{font-size:26px;font-variant-numeric:tabular-nums;min-height:64px} .hint{font-size:14px;color:var(--muted)}
+    details>summary{cursor:pointer;min-height:48px;display:flex;align-items:center;gap:9px;font-weight:600;list-style:none}
+    details>summary::-webkit-details-marker{display:none}details>summary:before{content:'＋';font-weight:400;font-size:20px;color:var(--blue)}details[open]>summary:before{content:'−'}
+    .setup .primary{width:100%;margin-top:18px}.setup .hint:last-child{margin-top:14px}
+    .banner{font-size:14px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:white;margin:12px 0}
+    .banner.warn{color:var(--warn);border-color:#dec397;background:var(--warn-light)} .banner.error{color:#923725;border-color:#dcb3a9;background:#fff0ec}
+    .error-text{color:#923725;font-size:14px;min-height:22px}
+    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.toolbar p{font-size:14px;color:var(--muted)}
+    .toolbar button{font-size:14px;min-height:44px;padding:8px 12px}.workspace{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+    .progress{display:grid;grid-template-columns:1fr 1fr;gap:24px;border-bottom:1px solid var(--line);padding-bottom:19px;margin-bottom:20px}
+    .progress-label{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:15px}.progress-label b{font-variant-numeric:tabular-nums;font-size:18px}
+    .ticks{display:flex;gap:5px;margin-top:8px}.tick{height:5px;background:#dce6ec;border-radius:2px;flex:1}.tick.filled{background:var(--green)}
+    .candidate{text-align:center} .candidate .small-label{font-size:14px;color:var(--muted)}
+    .code{font-size:clamp(54px,8vw,76px);font-weight:650;line-height:1.3;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;letter-spacing:.045em;margin:12px 0}
+    .attendance{display:flex;justify-content:center;align-items:center;gap:10px;min-height:48px;cursor:pointer;margin:2px 0 18px}.attendance small{font-size:13px;color:var(--muted)}
+    .gender-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.gender-actions button{min-height:72px;font-size:20px;color:var(--blue);border-color:#97b6c9;background:#f5f9fc}
+    .gender-actions button small{display:block;font-size:12px;font-weight:400;color:var(--muted)}
+    .candidate .hint{margin-top:13px}.history-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px}.history-tools p{font-size:13px;color:var(--muted)}
+    .history-tools button{font-size:14px;padding:8px 12px;flex:none}
+    .result-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.result-header span{font-size:14px;color:var(--muted)}
+    .selection{display:grid;grid-template-columns:1fr 1fr;gap:16px}.selection h3{font-size:14px;color:var(--muted);font-weight:500;margin-bottom:9px}
+    .slot{display:flex;width:100%;align-items:center;justify-content:center;min-height:58px;border-radius:8px;border:1px dashed #b7cbd6;background:#f6f9fb;color:#718794;margin:8px 0;font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;word-break:break-all;padding:8px}
+    button.slot{border-style:solid;border-color:#a2c4b7;background:var(--green-light);color:var(--green)}.result-note{margin-top:15px;font-size:13px;color:var(--muted)}
+    .result-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.result-tools button{flex:1;font-size:14px;white-space:nowrap}
+    .terminal{text-align:center;padding:28px 4px 18px}.terminal .symbol{display:grid;place-items:center;width:56px;height:56px;margin:0 auto 16px;border-radius:50%;background:var(--green-light);color:var(--green);font-size:29px}
+    .terminal h2{margin-bottom:8px}.terminal p{color:var(--muted);font-size:14px}.terminal.warn .symbol{background:var(--warn-light);color:var(--warn)}
+    .records-panel{margin-top:20px;padding:8px 20px}.records-intro{margin:6px 0 14px;font-size:13px;color:var(--muted)}
+    .record{display:grid;grid-template-columns:30px minmax(60px,1fr) minmax(82px,1.15fr) 84px 106px;gap:10px;align-items:center;border-top:1px solid #e1e9ee;padding:10px 0;font-size:14px}
+    .record-number{color:var(--muted);font-size:12px}.record-code{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.record-status{color:var(--muted);font-size:13px}
+    .record[data-status=selected] .record-status{color:var(--green)}.record[data-status=candidate] .record-status{color:var(--blue);font-weight:600}
+    .record-attendance{display:flex;gap:6px;align-items:center;min-height:48px;cursor:pointer}.record select{width:100%;font-size:14px;padding:7px 5px}
+    .record:focus-within{background:#f0f6fa}.record.flash{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+    .footnote{font-size:12px;color:var(--muted);margin:20px 0 0;text-align:center}.explanation{margin-top:12px;font-size:13px;color:var(--muted);max-width:540px;margin-left:auto;margin-right:auto}.explanation p{margin:7px 0}
+    .copy-area{margin-top:15px}.copy-area textarea{width:100%;min-height:100px}.copy-area p{font-size:13px;color:var(--muted);margin-bottom:6px}
+    #notice{font-size:14px;min-height:26px;margin-top:12px;color:var(--blue)}
+    dialog{max-width:440px;width:calc(100% - 40px);border:1px solid var(--line);border-radius:16px;padding:25px;color:var(--ink)}dialog::backdrop{background:rgba(21,43,59,.4)}dialog p{margin:12px 0 20px;color:var(--muted);font-size:14px}.dialog-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+    @media(max-width:700px){.shell{padding:20px 16px max(24px,env(safe-area-inset-bottom))}.masthead{margin-bottom:20px;gap:12px}h1{font-size:24px}.masthead p{font-size:13px}.setup{margin-top:20px}.panel{padding:20px}.workspace{grid-template-columns:1fr;gap:16px}.workspace.is-complete .result-panel{order:-1}.workspace.is-complete .progress{display:none}.workspace.is-complete .terminal{padding:12px 4px}.toolbar{align-items:flex-start}.progress{gap:22px}.code{font-size:68px}.result-panel{padding-top:19px}.selection .slot{min-height:52px}.records-panel{padding:6px 12px}.record{grid-template-columns:22px minmax(38px,1fr) minmax(55px,1fr) 62px 83px;gap:6px}.record-code{font-size:16px}.record-status{font-size:11px}.record-attendance{font-size:13px;gap:4px}.record select{font-size:13px}.history-tools p{font-size:12px}.result-tools button{min-height:48px}.footnote{text-align:left}}
+    @media(max-width:350px){.shell{padding-left:10px;padding-right:10px}.panel{padding:16px}.record{grid-template-columns:18px minmax(32px,1fr) 50px 58px 76px;gap:4px}.records-panel{padding:6px 9px}.mark{display:none}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+    @media print{body{background:white}.shell{max-width:none}.candidate-panel,.toolbar button,.result-tools,.history-tools,.footnote,details,.banner,#notice{display:none!important}.workspace{display:block}.result-panel{border:0}.slot{border:1px solid #aaa!important;color:black!important}.masthead{margin-bottom:10px}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header class="masthead">
+    <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <div><h1>班级随机抽样</h1><p>每班6名，男孩3名、女孩3名</p></div>
+  </header>
+  <noscript><p class="banner error">请在浏览器中启用 JavaScript 后使用。</p></noscript>
+  <div id="storageWarning" class="banner warn" role="status" hidden></div>
+  <div id="corruptWarning" class="banner error" hidden><p>上次记录无法读取，已保留原始内容，没有重新抽签。请先下载原始记录，再清除后开始。</p><div class="result-tools"><button id="downloadCorrupt" type="button">下载原始记录</button><button id="clearCorrupt" type="button">清除后重新开始</button></div></div>
+  <details id="classInfo" class="panel class-info" open><summary><span id="classInfoSummary">幼儿园与班级（选填）</span></summary><div class="class-fields"><label class="field" for="schoolName"><span>幼儿园名称</span><input id="schoolName" type="text" maxlength="80" placeholder="填写幼儿园名称" autocomplete="off"></label><label class="field" for="className"><span>班级</span><input id="className" type="text" maxlength="80" placeholder="例如：中一班" autocomplete="off"></label></div></details>
+  <section id="setup" class="panel setup" aria-labelledby="setupTitle">
+    <h2 id="setupTitle">这个班有多少名儿童？</h2>
+    <form id="setupForm" novalidate>
+      <label class="field" for="total"><span>班级人数</span><input id="total" type="number" inputmode="numeric" min="6" max="200" step="1" required placeholder="例如 30" autocomplete="off" aria-describedby="formError totalHint"></label>
+      <p id="totalHint" class="hint">按全班总人数填写，缺勤儿童也包含在内。</p>
+      <details id="numberOptions"><summary>调整起始编号</summary><label class="field" for="startCode"><span>第一名儿童的编码</span><input id="startCode" type="text" inputmode="numeric" value="01" maxlength="9" pattern="[0-9]+" autocomplete="off" aria-describedby="startHint"></label><p id="startHint" class="hint">默认01、02……；如从001或101开始，在这里修改。编号须连续。</p></details>
+      <p id="formError" class="error-text" role="alert"></p>
+      <button class="primary" id="generate" type="submit">生成随机顺序</button>
+    </form>
+    <p class="hint">出勤默认勾选。候选儿童未到园时，取消勾选即可继续。</p>
+  </section>
+  <div id="app" hidden>
+    <div class="toolbar"><div><h2 id="sessionTitle">本班抽样</h2><p id="sessionMeta"></p></div><button id="newClass" type="button">换一个班级</button></div>
+    <div class="workspace">
+      <section class="panel candidate-panel" aria-label="现场确认">
+        <div class="progress">
+          <div><div class="progress-label"><span>男孩</span><b id="boyCount">0 / 3</b></div><div id="boyTicks" class="ticks" aria-hidden="true"></div></div>
+          <div><div class="progress-label"><span>女孩</span><b id="girlCount">0 / 3</b></div><div id="girlTicks" class="ticks" aria-hidden="true"></div></div>
+        </div>
+        <div id="candidate" class="candidate">
+          <p id="candidatePosition" class="small-label"></p><p class="small-label">请确认这名儿童</p>
+          <div id="candidateCode" class="code" aria-live="polite" aria-atomic="true"></div>
+          <label class="attendance"><input id="candidatePresent" type="checkbox" checked><span>出勤 <small>未到园请取消勾选</small></span></label>
+          <div class="gender-actions"><button id="chooseBoy" type="button">男孩<small id="boyActionHint">确认并继续</small></button><button id="chooseGirl" type="button">女孩<small id="girlActionHint">确认并继续</small></button></div>
+          <p class="hint">点击性别后自动继续，直到选满3男3女。</p>
+        </div>
+        <div id="terminal" class="terminal" hidden><div id="terminalSymbol" class="symbol" aria-hidden="true">✓</div><h2 id="terminalTitle"></h2><p id="terminalMessage"></p></div>
+        <div class="history-tools"><p id="checkedCount"></p><button id="undo" type="button" disabled>撤销上一步</button></div>
+        <p id="notice" role="status" aria-live="polite"></p>
+      </section>
+      <section class="panel result-panel" aria-labelledby="resultTitle">
+        <div class="result-header"><h2 id="resultTitle">已选名单</h2><span id="resultCount">0 / 6</span></div>
+        <div class="selection"><div><h3>男孩3名</h3><div id="boySlots"></div></div><div><h3>女孩3名</h3><div id="girlSlots"></div></div></div>
+        <p id="resultNote" class="result-note">名单随现场确认更新，选满6名后确定。</p>
+        <div class="result-tools"><button id="copyList" type="button" disabled>复制6人名单</button><button id="downloadCsv" type="button">下载抽样记录</button></div>
+        <div id="copyFallback" class="copy-area" hidden><p>请长按或全选下方文字复制。</p><textarea id="copyText" readonly aria-label="可复制的名单"></textarea></div>
+      </section>
+    </div>
+    <details id="recordsPanel" class="panel records-panel"><summary>查看随机顺序与更正记录</summary><p class="records-intro">顺序生成后固定。可更正性别或取消出勤，名单将按同一顺序重新计算。尚未确认的候选会优先处理。</p><div id="recordsList"></div></details>
+    <p id="saveStatus" class="footnote" role="status"></p>
+  </div>
+  <details class="explanation"><summary>抽样规则与保存说明</summary><p>全班编码先随机排列，不重复抽取。依序确认性别，男孩和女孩各取前3名；缺勤或该性别已满时继续下一位。未满额会明确提示。</p><p>默认勾选出勤是一项初始设置，不代表已经逐人核实到园。只有现场确认并纳入的6名儿童构成已选名单。</p><p>不需要姓名，也不会上传抽样记录。刷新会尝试恢复当前浏览器中的同一份顺序；不跨设备同步，清理浏览器数据会删除记录。请结束后下载记录。</p><p>本地打开无需联网。手机通过 GitHub Pages 打开时，首次加载网页需要联网；本页面不提供离线缓存。</p></details>
+</main>
+<dialog id="resetDialog" aria-labelledby="resetTitle"><h2 id="resetTitle">开始另一个班级？</h2><p>当前顺序和记录将被替换。建议先下载抽样记录；新班级会生成新的随机顺序。</p><div class="dialog-actions"><button id="cancelReset" type="button">继续当前班级</button><button id="downloadBeforeReset" type="button">先下载记录</button><button id="confirmReset" class="primary" type="button">开始新班级</button></div></dialog>
+<script id="sampler-core">
+'use strict';
+const Sampling = (() => {
+  const genders = ['boy', 'girl'];
+  function validateInputs(total, startCode) {
+    if (!Number.isInteger(total) || total < 6 || total > 200) throw new Error('班级人数请填写6到200之间的整数。');
+    if (typeof startCode !== 'string' || !/^\d{1,9}$/.test(startCode)) throw new Error('起始编号请填写1到9位数字，可保留前导零。');
+    if (Number(startCode) + total - 1 > 999999999) throw new Error('末位编号不能超过9位数字，请检查人数与起始编号。');
+  }
+  function codesFor(total, startCode) {
+    validateInputs(total, startCode);
+    return Array.from({length: total}, (_, i) => String(Number(startCode) + i).padStart(startCode.length, '0'));
+  }
+  function randomInt(maxExclusive) {
+    if (!globalThis.crypto || !globalThis.crypto.getRandomValues) throw new Error('当前浏览器不支持安全随机抽样，请换用新版 Safari、Chrome 或 Edge。');
+    const cell = new Uint32Array(1), limit = Math.floor(4294967296 / maxExclusive) * maxExclusive;
+    do { globalThis.crypto.getRandomValues(cell); } while (cell[0] >= limit);
+    return cell[0] % maxExclusive;
+  }
+  function shuffle(items, draw = randomInt) {
+    const result = [...items];
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = draw(i + 1);
+      if (!Number.isInteger(j) || j < 0 || j > i) throw new Error('随机数超出范围。');
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
+  function createState(total, startCode = '01') {
+    const codes = codesFor(total, startCode), now = new Date().toISOString();
+    return {version: 1, total, startCode, schoolName: '', className: '', order: shuffle(codes), records: Object.fromEntries(codes.map(code => [code, {gender: null, present: true}])), history: [], createdAt: now, updatedAt: now};
+  }
+  function derive(state) {
+    const selected = {boy: [], girl: []}, statuses = {};
+    let current = null;
+    for (const code of state.order) {
+      const record = state.records[code];
+      if (!record.present) { statuses[code] = 'absent'; continue; }
+      const complete = selected.boy.length === 3 && selected.girl.length === 3;
+      if (complete) { statuses[code] = record.gender ? 'quota' : 'pending'; continue; }
+      // An unknown earlier candidate must be resolved before later records can enter the sample.
+      if (current !== null) { statuses[code] = 'waiting'; continue; }
+      if (record.gender === null) { current = code; statuses[code] = 'candidate'; continue; }
+      if (selected[record.gender].length < 3) { selected[record.gender].push(code); statuses[code] = 'selected'; }
+      else statuses[code] = 'quota';
+    }
+    const complete = selected.boy.length === 3 && selected.girl.length === 3;
+    return {selected, current, complete, exhausted: !complete && current === null, statuses};
+  }
+  function validateState(raw) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== 1) throw new Error('记录版本不受支持。');
+    const codes = codesFor(raw.total, raw.startCode), expected = new Set(codes);
+    if (!Array.isArray(raw.order) || raw.order.length !== codes.length || new Set(raw.order).size !== codes.length || raw.order.some(code => typeof code !== 'string' || !expected.has(code))) throw new Error('随机顺序不完整或含重复编号。');
+    if (!raw.records || typeof raw.records !== 'object' || Array.isArray(raw.records) || Object.keys(raw.records).length !== codes.length || codes.some(code => !Object.prototype.hasOwnProperty.call(raw.records, code))) throw new Error('儿童记录不完整。');
+    const validRecord = record => record && typeof record === 'object' && !Array.isArray(record) && (record.gender === null || genders.includes(record.gender)) && typeof record.present === 'boolean';
+    if (codes.some(code => !validRecord(raw.records[code]))) throw new Error('性别或出勤记录格式不正确。');
+    if (!Array.isArray(raw.history) || raw.history.length > 20000 || raw.history.some(item => !item || !expected.has(item.code) || !validRecord(item.before))) throw new Error('撤销记录格式不正确。');
+    if (['createdAt', 'updatedAt'].some(key => typeof raw[key] !== 'string' || !Number.isFinite(Date.parse(raw[key])))) throw new Error('记录时间不正确。');
+    const info = {};
+    for (const key of ['schoolName', 'className']) {
+      const value = raw[key] === undefined ? '' : raw[key];
+      if (typeof value !== 'string' || value.length > 80) throw new Error('幼儿园或班级名称格式不正确。');
+      info[key] = value.trim();
+    }
+    return {version: 1, total: raw.total, startCode: raw.startCode, ...info, order: [...raw.order], records: Object.fromEntries(codes.map(code => [code, {gender: raw.records[code].gender, present: raw.records[code].present}])), history: raw.history.map(item => ({code: item.code, before: {gender: item.before.gender, present: item.before.present}})), createdAt: raw.createdAt, updatedAt: raw.updatedAt};
+  }
+  return {shuffle, createState, derive, validateState};
+})();
+</script>
+<script>
+'use strict';
+(() => {
+  const $ = id => document.getElementById(id);
+  const storageKey = 'class-sampler:v1:' + location.pathname;
+  const statusText = {selected: '已选中', absent: '缺勤', quota: '该性别已满', pending: '后续候补', candidate: '当前候选', waiting: '等待前位确认'};
+  let state = null, derived = null, blockedRaw = null, storageOK = true, saveFailure = '';
+  function notice(message) { $('notice').textContent = message; }
+  function storageWarning(message) { $('storageWarning').hidden = !message; $('storageWarning').textContent = message; }
+  function readClassInfo() { return {schoolName: $('schoolName').value.trim(), className: $('className').value.trim()}; }
+  function syncClassInfo() {
+    const info = readClassInfo();
+    if (state && (state.schoolName !== info.schoolName || state.className !== info.className)) {
+      Object.assign(state, info); state.updatedAt = new Date().toISOString(); persist(); render(); $('copyFallback').hidden = true;
+    } else renderClassInfo();
+    return info;
+  }
+  function renderClassInfo() {
+    const info = readClassInfo();
+    $('classInfoSummary').textContent = info.schoolName || info.className ? (info.schoolName || '幼儿园未填写') + ' / ' + (info.className || '班级未填写') : '幼儿园与班级（选填）';
+  }
+  function persist() {
+    try { localStorage.setItem(storageKey, JSON.stringify(state)); storageOK = true; saveFailure = ''; storageWarning(''); }
+    catch (_) { storageOK = false; saveFailure = '浏览器未能保存记录。当前操作仍有效；关闭或刷新前请下载抽样记录。'; storageWarning(saveFailure); }
+  }
+  function downloadFile(name, content, type) {
+    const url = URL.createObjectURL(new Blob([content], {type})), link = document.createElement('a');
+    link.href = url; link.download = name; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 30000);
+  }
+  function stamp() { return state.createdAt.replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z'); }
+  function downloadCsv() {
+    if (!state) return;
+    syncClassInfo();
+    const quote = value => '"' + String(value).replace(/"/g, '""') + '"';
+    const safeText = value => /^[=+\-@\t\r\n]/.test(value) ? "'" + value : value;
+    const rows = [['创建时间UTC','最近修改UTC','班级人数','起始编号','随机顺序','儿童编码','性别','出勤设置','当前状态','是否已满3男3女','幼儿园名称','班级']];
+    state.order.forEach((code, i) => {
+      const record = state.records[code];
+      rows.push([state.createdAt,state.updatedAt,state.total,state.startCode,i + 1,code,record.gender === 'boy' ? '男孩' : record.gender === 'girl' ? '女孩' : '未确认',record.present ? '默认出勤（未单独核实）' : '已标记缺勤',statusText[derived.statuses[code]],derived.complete ? '是' : '否',safeText(state.schoolName),safeText(state.className)]);
+    });
+    downloadFile('班级抽样_' + stamp() + '.csv', '\ufeff' + rows.map(row => row.map(quote).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
+    notice('已生成抽样记录，请在浏览器下载列表中查看。');
+  }
+  function renderSlots(gender) {
+    const host = $(gender + 'Slots'); host.replaceChildren();
+    for (let i = 0; i < 3; i++) {
+      const code = derived.selected[gender][i], slot = document.createElement(code ? 'button' : 'div');
+      slot.className = 'slot'; slot.textContent = code || '待选';
+      if (code) { slot.type = 'button'; slot.setAttribute('aria-label', '修改' + (gender === 'boy' ? '男孩' : '女孩') + '学号' + code); slot.addEventListener('click', () => editRecord(code)); }
+      else slot.setAttribute('aria-label', (gender === 'boy' ? '男孩' : '女孩') + '第' + (i + 1) + '名待选');
+      host.append(slot);
+    }
+    $(gender + 'Count').textContent = derived.selected[gender].length + ' / 3';
+    $(gender + 'Ticks').replaceChildren(...Array.from({length: 3}, (_, i) => { const tick = document.createElement('span'); tick.className = 'tick' + (i < derived.selected[gender].length ? ' filled' : ''); return tick; }));
+  }
+  function renderRecords() {
+    const host = $('recordsList'); host.replaceChildren();
+    state.order.forEach((code, i) => {
+      const record = state.records[code], row = document.createElement('div'); row.className = 'record'; row.id = 'record-' + code; row.dataset.status = derived.statuses[code];
+      const number = document.createElement('span'); number.className = 'record-number'; number.textContent = i + 1;
+      const codeLabel = document.createElement('span'); codeLabel.className = 'record-code'; codeLabel.textContent = code;
+      const status = document.createElement('span'); status.className = 'record-status'; status.textContent = statusText[derived.statuses[code]];
+      const attendance = document.createElement('label'); attendance.className = 'record-attendance';
+      const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = record.present; checkbox.dataset.code = code; checkbox.setAttribute('aria-label', '学号' + code + '出勤');
+      checkbox.addEventListener('change', () => updateRecord(code, {present: checkbox.checked}, '已更新学号' + code + '的出勤设置。', {code, control: 'input'}));
+      attendance.append(checkbox, document.createTextNode('出勤'));
+      const select = document.createElement('select'); select.dataset.code = code; select.setAttribute('aria-label', '学号' + code + '性别');
+      for (const [value, label] of [['','未确认'],['boy','男孩'],['girl','女孩']]) { const option = document.createElement('option'); option.value = value; option.textContent = label; select.append(option); }
+      select.value = record.gender || ''; select.addEventListener('change', () => updateRecord(code, {gender: select.value || null}, '已更新学号' + code + '的性别。', {code, control: 'select'}));
+      row.append(number, codeLabel, status, attendance, select); host.append(row);
+    });
+  }
+  function render() {
+    document.body.classList.toggle('has-session', state !== null); renderClassInfo();
+    if (!state) { $('setup').hidden = false; $('app').hidden = true; return; }
+    derived = Sampling.derive(state);
+    $('setup').hidden = true; $('app').hidden = false;
+    const codes = Object.keys(state.records).sort((a, b) => Number(a) - Number(b));
+    $('sessionMeta').textContent = '全班' + state.total + '人，编号' + codes[0] + '—' + codes[codes.length - 1];
+    $('sessionTitle').textContent = state.className ? state.className + '抽样' : '本班抽样';
+    renderSlots('boy'); renderSlots('girl');
+    const count = derived.selected.boy.length + derived.selected.girl.length;
+    $('resultCount').textContent = count + ' / 6'; $('copyList').disabled = !derived.complete; document.querySelector('.workspace').classList.toggle('is-complete', derived.complete);
+    $('resultNote').textContent = derived.complete ? '已选满3男3女。点击上方学号可更正记录。' : '名单随现场确认更新，选满6名后确定。';
+    $('candidate').hidden = derived.current === null; $('terminal').hidden = derived.current !== null;
+    if (derived.current !== null) {
+      $('candidateCode').textContent = derived.current; $('candidatePresent').checked = state.records[derived.current].present;
+      $('candidatePosition').textContent = '随机第' + (state.order.indexOf(derived.current) + 1) + '位';
+      $('boyActionHint').textContent = derived.selected.boy.length === 3 ? '已满3名，确认后顺延' : '确认并继续';
+      $('girlActionHint').textContent = derived.selected.girl.length === 3 ? '已满3名，确认后顺延' : '确认并继续';
+    } else {
+      $('terminal').classList.toggle('warn', !derived.complete); $('terminalSymbol').textContent = derived.complete ? '✓' : '!';
+      $('terminalTitle').textContent = derived.complete ? '已选满6名' : '本班尚未选满';
+      $('terminalMessage').textContent = derived.complete ? '男孩3名、女孩3名。请保存本班名单。' : '所有编码均已处理，还缺男孩' + (3 - derived.selected.boy.length) + '名、女孩' + (3 - derived.selected.girl.length) + '名。请核对缺勤与性别记录，不自动凑数。';
+    }
+    $('checkedCount').textContent = '已记录' + state.order.filter(code => state.records[code].gender !== null || !state.records[code].present).length + '人 / 全班' + state.total + '人';
+    $('undo').disabled = state.history.length === 0;
+    $('saveStatus').textContent = storageOK ? '已保存到当前浏览器，可刷新继续。结束后请下载记录；换班级会替换当前记录。' : saveFailure;
+    renderRecords();
+  }
+  function updateRecord(code, patch, message, refocus) {
+    const before = {...state.records[code]}, next = {...before, ...patch};
+    if (before.gender === next.gender && before.present === next.present) return;
+    state.history.push({code, before}); state.records[code] = next; state.updatedAt = new Date().toISOString();
+    persist(); render(); $('copyFallback').hidden = true;
+    notice(derived.exhausted ? '已更新学号' + code + '的记录。本班尚未选满，请核对上方缺口。' : message);
+    if (refocus) document.querySelector('#record-' + refocus.code + ' ' + refocus.control)?.focus({preventScroll: true});
+  }
+  function editRecord(code) {
+    $('recordsPanel').open = true; const row = $('record-' + code);
+    row.scrollIntoView({behavior: 'auto', block: 'center'}); row.querySelector('select').focus({preventScroll: true}); row.classList.add('flash'); setTimeout(() => row.classList.remove('flash'), 1500);
+  }
+  function confirmGender(gender) {
+    if (!derived || derived.current === null) return;
+    const code = derived.current, full = derived.selected[gender].length === 3;
+    updateRecord(code, {gender}, '学号' + code + '已记为' + (gender === 'boy' ? '男孩' : '女孩') + (full ? '，该性别已满，继续下一位。' : '，已纳入名单。'));
+  }
+  $('setupForm').addEventListener('submit', event => {
+    event.preventDefault(); if (blockedRaw !== null) return;
+    try {
+      state = Sampling.createState(Number($('total').value), $('startCode').value.trim()); $('formError').textContent = '';
+      Object.assign(state, readClassInfo()); $('classInfo').open = false;
+      persist(); render(); notice('随机顺序已固定，请按顺序确认。'); window.scrollTo(0, 0); $('chooseBoy').focus({preventScroll: true});
+    } catch (error) { $('formError').textContent = error.message; if (/编号/.test(error.message)) $('numberOptions').open = true; }
+  });
+  $('chooseBoy').addEventListener('click', () => confirmGender('boy')); $('chooseGirl').addEventListener('click', () => confirmGender('girl'));
+  $('candidatePresent').addEventListener('change', () => {
+    if (derived.current !== null) { const code = derived.current; updateRecord(code, {present: $('candidatePresent').checked}, '学号' + code + '已标记缺勤，继续下一位。'); }
+  });
+  $('undo').addEventListener('click', () => {
+    const action = state.history.pop(); if (!action) return;
+    state.records[action.code] = action.before; state.updatedAt = new Date().toISOString(); persist(); render(); $('copyFallback').hidden = true; notice('已撤销对学号' + action.code + '的上一步操作。');
+  });
+  $('downloadCsv').addEventListener('click', downloadCsv);
+  $('schoolName').addEventListener('change', syncClassInfo); $('className').addEventListener('change', syncClassInfo);
+  $('copyList').addEventListener('click', async () => {
+    if (!derived.complete) return;
+    syncClassInfo();
+    const text = '本班抽样（3男3女）\n幼儿园：' + (state.schoolName || '未填写') + '\n班级：' + (state.className || '未填写') + '\n男孩：' + derived.selected.boy.join('、') + '\n女孩：' + derived.selected.girl.join('、') + '\n全班人数：' + state.total + '\n生成时间：' + new Date(state.createdAt).toLocaleString();
+    try { if (!navigator.clipboard) throw new Error('clipboard'); await navigator.clipboard.writeText(text); notice('已复制6人名单。'); }
+    catch (_) { $('copyText').value = text; $('copyFallback').hidden = false; $('copyText').focus(); $('copyText').select(); notice('请手动复制下方名单。'); }
+  });
+  $('newClass').addEventListener('click', () => $('resetDialog').showModal());
+  $('cancelReset').addEventListener('click', () => $('resetDialog').close()); $('downloadBeforeReset').addEventListener('click', downloadCsv);
+  $('confirmReset').addEventListener('click', () => {
+    try { localStorage.removeItem(storageKey); }
+    catch (_) { storageWarning('浏览器未能清除旧记录，请勿刷新；新一轮生成后将尝试覆盖。'); }
+    state = null; derived = null; $('resetDialog').close(); $('copyFallback').hidden = true; $('total').value = ''; $('className').value = ''; $('classInfo').open = true; render(); window.scrollTo(0, 0); $('className').focus({preventScroll: true});
+  });
+  $('downloadCorrupt').addEventListener('click', () => downloadFile('班级抽样_无法读取的原始记录.txt', blockedRaw, 'text/plain;charset=utf-8'));
+  $('clearCorrupt').addEventListener('click', () => {
+    if (!confirm('确认已下载需要保留的原始记录？清除后无法从当前浏览器恢复。')) return;
+    try { localStorage.removeItem(storageKey); } catch (_) { storageWarning('浏览器未能清除旧记录；本次可使用，生成后将再次尝试保存。'); }
+    blockedRaw = null; $('corruptWarning').hidden = true; $('generate').disabled = false;
+  });
+  try {
+    const raw = localStorage.getItem(storageKey);
+    if (raw !== null) {
+      try { state = Sampling.validateState(JSON.parse(raw)); }
+      catch (_) { blockedRaw = raw; $('corruptWarning').hidden = false; $('generate').disabled = true; }
+    }
+  } catch (_) { storageOK = false; saveFailure = '当前浏览器无法读取本地保存。可以继续抽样，关闭或刷新前请下载记录。'; storageWarning(saveFailure); }
+  if (state) { $('schoolName').value = state.schoolName; $('className').value = state.className; $('classInfo').open = false; }
+  render();
+})();
+</script>
+</body>
+</html>
