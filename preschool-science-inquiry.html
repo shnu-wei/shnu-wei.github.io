@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>学前科学探究｜目标、分龄表现与核心经验</title>
+<style>
+:root {
+  --ink: #173347;
+  --copy: #293f4b;
+  --muted: #4d6874;
+  --teal: #165f71;
+  --line: #c8d9df;
+  --wash: #eaf3f5;
+  --paper: #fbfdfd;
+  --white: #fff;
+  --ochre: #ad6b25;
+  --focus: #a45408;
+  --body: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  --title: "Songti SC", "Noto Serif CJK SC", "SimSun", var(--body);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: 1.25rem; }
+body { margin: 0; background: var(--paper); color: var(--copy); font: 1rem/1.78 var(--body); }
+a { color: var(--teal); text-underline-offset: .21em; }
+a:hover { text-decoration-thickness: .14em; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+button { font: inherit; }
+[hidden] { display: none !important; }
+.skip { position: fixed; z-index: 10; inset: .5rem auto auto .5rem; padding: .4rem .75rem; background: var(--white); transform: translateY(-180%); }
+.skip:focus { transform: none; }
+.hero { background: var(--ink); color: var(--white); border-bottom: 6px solid #83b8c1; }
+.hero-inner, .layout, .foot-inner { width: min(100% - 3rem, 79rem); margin-inline: auto; }
+.hero-inner { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(17rem, 1fr); align-items: center; gap: clamp(1.5rem, 5vw, 5rem); padding: clamp(2.75rem, 6vw, 5.5rem) 0 clamp(2.4rem, 5vw, 4.3rem); }
+.hero h1 { margin: 0 0 .85rem; color: var(--white); font: 750 clamp(2.45rem, 5.5vw, 4.55rem)/1.08 var(--title); letter-spacing: -.035em; }
+.hero .subtitle { margin: 0 0 1.15rem; font-size: clamp(1.16rem, 2.45vw, 1.72rem); line-height: 1.48; color: #e2f2f4; }
+.hero .intro { max-width: 34em; margin: 0; color: #d6e7ea; }
+.hero a { display: inline-block; color: #fff; margin-top: 1.15rem; font-weight: 650; }
+.hero figure { margin: 0; min-width: 0; }
+.hero svg { display: block; width: 100%; height: auto; }
+.hero figcaption { color: #c9e1e5; font-size: .86rem; line-height: 1.58; margin: .65rem 0 0; }
+.layout { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: clamp(1.25rem, 4vw, 4rem); align-items: start; padding-top: 2.2rem; }
+.toc { position: sticky; top: 1.35rem; align-self: start; border-top: 2px solid var(--ink); padding-top: .6rem; }
+.toc h2 { font: 680 .94rem/1.4 var(--body); margin: .1rem 0 .55rem; }
+.toc ol { list-style: none; padding: 0; margin: 0; }
+.toc li { margin: 0; }
+.toc a { display: grid; grid-template-columns: 1.9rem 1fr; color: var(--copy); padding: .55rem .35rem .55rem 0; gap: .32rem; text-decoration: none; border-bottom: 1px solid var(--line); font-size: .89rem; line-height: 1.43; }
+.toc a span:first-child { color: var(--teal); font-variant-numeric: tabular-nums; }
+.toc a:hover, .toc a[aria-current="location"] { color: var(--teal); background: var(--wash); }
+main { min-width: 0; padding-bottom: 3rem; }
+h2, h3, h4 { color: var(--ink); line-height: 1.35; overflow-wrap: anywhere; }
+main h2 { font: 740 clamp(1.82rem, 4vw, 2.85rem)/1.2 var(--title); margin: 0 0 .65rem; }
+main h3 { margin: 2rem 0 .72rem; font-size: clamp(1.23rem, 2.7vw, 1.53rem); }
+main h4 { margin: 1.25rem 0 .4rem; font-size: 1.06rem; }
+p { margin: .6rem 0 1rem; }
+main p, main > section > ul, main > section > ol, .chapter li { max-width: 55em; }
+.chapter { padding-top: 2.25rem; margin-top: 2.7rem; border-top: 1px solid var(--line); }
+.chapter:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+.chapter-head { margin-bottom: 1.4rem; }
+.chapter-head > p { color: var(--muted); margin: .4rem 0 .2rem; }
+.chapter > section, .chapter > article { margin: 1.65rem 0 0; }
+ul, ol { margin: .6rem 0 1.05rem; padding-inline-start: 1.5rem; }
+li + li { margin-top: .34rem; }
+li > p { margin: .2rem 0 .55rem; }
+li > ul, li > ol { margin: .28rem 0 .55rem; }
+strong { color: var(--ink); }
+a > strong { color: inherit; }
+.ribbon { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1.3rem 0; padding: 0; list-style: none; border: 1px solid var(--line); border-top: 3px solid var(--teal); }
+.ribbon li { margin: 0; padding: .88rem .9rem; }
+.ribbon li + li { border-left: 1px solid var(--line); }
+.ribbon strong { display: block; margin-bottom: .2rem; font-size: 1.02rem; }
+.ribbon p { margin: 0; font-size: .94rem; }
+.callout { margin: 1.2rem 0; border-inline-start: 3px solid var(--ochre); background: #f8f5ee; padding: .6rem .9rem; }
+.callout p { margin: .3rem 0; }
+.table-wrap { max-width: 100%; overflow-x: auto; margin: .9rem 0 1.25rem; }
+table { width: 100%; border-collapse: collapse; table-layout: auto; font-size: .95rem; line-height: 1.66; }
+.table-wrap:has(tr > :nth-child(4)) table { min-width: 43rem; }
+caption { text-align: start; color: var(--muted); font-size: .86rem; font-weight: 650; margin: 0 0 .35rem; }
+th, td { padding: .64rem .73rem; border-bottom: 1px solid var(--line); text-align: start; vertical-align: top; }
+th { color: var(--ink); }
+thead th { background: var(--wash); border-top: 2px solid var(--teal); }
+tbody th { background: #f2f7f8; font-weight: 680; }
+td p, td ul, td ol { margin-block: .05rem .3rem; }
+td :last-child { margin-bottom: 0; }
+#guide th[scope="row"] { width: 6.1em; white-space: nowrap; }
+.source-note { display: block; color: var(--muted); font-size: .84rem; line-height: 1.55; margin: .85rem 0 1.2rem; }
+.age-control { display: flex; align-items: center; gap: .55rem 1rem; flex-wrap: wrap; padding: .6rem .8rem; background: var(--wash); border-inline-start: 3px solid var(--teal); margin: .9rem 0 1.45rem; }
+.age-control span { color: var(--ink); font-size: .92rem; font-weight: 700; }
+.age-buttons { display: flex; flex-wrap: wrap; gap: .32rem; }
+.age-buttons button { background: var(--white); color: var(--teal); padding: .28rem .7rem; min-height: 2.4rem; border: 1px solid #a9c8d0; border-radius: .25rem; cursor: pointer; line-height: 1.15; }
+.age-buttons button:hover { border-color: var(--teal); }
+.age-buttons button[aria-pressed="true"] { background: var(--teal); color: var(--white); border-color: var(--teal); font-weight: 680; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.chapter-jumps { display: flex; gap: .3rem 1.15rem; flex-wrap: wrap; list-style: none; padding: 0; margin: .8rem 0 1.2rem; }
+.chapter-jumps li { margin: 0; font-size: .9rem; }
+.case { border-top: 2px solid var(--ink); margin-top: 2rem !important; }
+.case > header h3 { margin-top: .82rem; }
+.case-meta { margin-top: -.35rem; color: var(--muted); font-size: .9rem; }
+.steps { padding-left: 1.6rem; }
+.steps li { padding-left: .24rem; margin-bottom: .55rem; }
+.case dl { margin: .85rem 0; display: grid; grid-template-columns: 7em 1fr; border-top: 1px solid var(--line); }
+.case dt, .case dd { margin: 0; padding: .58rem .6rem; border-bottom: 1px solid var(--line); }
+.case dt { font-weight: 680; color: var(--ink); background: var(--wash); }
+.references { padding-left: 1.6rem; }
+.references li { padding-left: .2rem; margin-bottom: 1.1rem; }
+.references p { margin: .15rem 0 .35rem; }
+.references a + a { margin-left: .7rem; }
+footer { background: var(--wash); border-top: 1px solid var(--line); }
+.foot-inner { display: flex; justify-content: space-between; align-items: baseline; gap: .65rem 1rem; padding: .8rem 0; font-size: .88rem; }
+@media (max-width: 820px) {
+  .hero-inner, .layout, .foot-inner { width: min(100% - 2rem, 47rem); }
+  .layout { display: block; padding-top: 1.1rem; }
+  .toc { position: static; border-top: none; padding: .1rem 0 .75rem; margin-bottom: .75rem; border-bottom: 1px solid var(--line); }
+  .toc ol { display: flex; flex-wrap: wrap; gap: .35rem .65rem; }
+  .toc a { display: flex; gap: .28rem; padding: .4rem .25rem; border-bottom: none; }
+  .hero-inner { gap: 1.15rem; }
+}
+@media (max-width: 600px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr); padding-block: 2.15rem 1.55rem; }
+  .hero figure { width: min(100%, 22rem); }
+  .hero h1 { margin-bottom: .55rem; }
+  .hero .subtitle { margin-bottom: .7rem; }
+  .ribbon { grid-template-columns: 1fr; }
+  .ribbon li + li { border-left: none; border-top: 1px solid var(--line); }
+  .chapter { padding-top: 1.6rem; margin-top: 1.95rem; }
+  #guide th[scope="row"] { width: 4.9em; }
+  th, td { padding: .55rem .5rem; }
+  .case dl { grid-template-columns: 5.4em 1fr; }
+  .references a { display: inline-block; }
+}
+@media print {
+  @page { margin: 14mm; }
+  html { scroll-padding-top: 0; }
+  body { color: #000; background: #fff; font-size: 10pt; line-height: 1.55; }
+  .skip, .toc, .age-control, .chapter-jumps, .hero figure, .hero a, footer { display: none !important; }
+  .hero { background: #fff; border-bottom: 2px solid #555; }
+  .hero-inner, .layout { width: 100%; display: block; padding: .1rem 0 .4rem; }
+  .hero h1, .hero .intro, .hero .subtitle { color: #111; }
+  .hero h1 { font-size: 26pt; }
+  main { padding: 0; }
+  main h2 { font-size: 19pt; }
+  main h3 { font-size: 13pt; }
+  .chapter { margin-top: 1.3rem; padding-top: .85rem; }
+  .chapter-head, h3, h4 { break-after: avoid; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
+  #guide tr[data-age][hidden] { display: table-row !important; }
+  .table-wrap { overflow: visible; }
+  .table-wrap table { min-width: 0 !important; }
+  a { color: #222; }
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">跳到正文</a>
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>学前科学探究</h1>
+      <p class="subtitle">从发展目标到幼儿可以经历的探究</p>
+      <p class="intro">对照《指南》《指南》解读和《学前儿童科学学习与发展核心经验》，查阅分龄表现、活动目标、教师支持及观察线索。</p>
+      <a href="#guide">查《指南》分龄目标</a>
+    </div>
+    <figure>
+      <svg viewBox="0 0 438 205" role="img" aria-labelledby="seed-title seed-desc" xmlns="http://www.w3.org/2000/svg">
+        <title id="seed-title">连续观察中的种子萌发</title>
+        <desc id="seed-desc">三幅记录示意图依次画出一颗豆子、豆子露出根以及幼芽伸展。</desc>
+        <path d="M8 143h422M8 151h422" stroke="#9ecbd1" stroke-opacity=".28"/>
+        <path d="M21 48v96m133-96v96m132-96v96m132-96v96" stroke="#a2cbd2" stroke-opacity=".3" stroke-dasharray="2 5"/>
+        <g fill="none" stroke="#d5ecec" stroke-width="2.2">
+          <path d="M56 109c-10-12-2-34 16-42 10-5 25-4 32 5 7 10 4 25-7 31-8 4-13-3-19-1-6 2-6 15-15 13-3-1-5-3-7-6Z"/>
+          <path d="M187 100c-6-13 2-32 15-38 12-5 25-2 30 7 6 11 0 25-12 28-9 2-10-4-15-2-6 2-8 14-15 11l-3-6Z"/>
+          <path d="M317 99c-5-12 1-22 12-27 11-5 22-2 26 5 4 8-1 19-9 22-8 3-9-3-14-1-4 1-5 10-11 7l-4-6Z"/>
+        </g>
+        <g stroke="#ecc681" stroke-width="2.4" fill="none" stroke-linecap="round">
+          <path d="M68 110c4-9 10-13 19-12"/>
+          <path d="M202 98c-5 10-6 24 2 30 3 2 8 1 10 6"/>
+          <path d="M330 100c-6 12-8 24 2 32 4 3 9 3 11 8M329 122l-8 6m13 7-3 8"/>
+          <path d="M343 96c3-17 4-37 18-49"/>
+          <path d="M351 62c-9-1-15-7-17-15 9 0 17 5 17 15ZM357 53c1-10 9-15 18-16-2 8-9 17-18 16Z"/>
+        </g>
+        <g fill="#d9eff0" font-family="PingFang SC, sans-serif" font-size="15" text-anchor="middle">
+          <text x="86" y="176">先看种子</text>
+          <text x="219" y="176">发现露根</text>
+          <text x="352" y="176">再看幼芽</text>
+        </g>
+        <g fill="#a9ccd2" font-family="PingFang SC, sans-serif" font-size="12" text-anchor="middle">
+          <text x="86" y="196">记录起点</text>
+          <text x="219" y="196">比较变化</text>
+          <text x="352" y="196">回看先前的猜想</text>
+        </g>
+      </svg>
+      <figcaption>种子萌发示意。图中阶段用于说明连续观察，发生时间随种子和条件而异。</figcaption>
+    </figure>
+  </div>
+</header>
+<div class="layout">
+  <nav class="toc" aria-label="页面目录">
+    <h2>目录</h2>
+    <ol>
+      <li><a href="#overview"><span>01</span><span>三份资料怎么读</span></a></li>
+      <li><a href="#guide"><span>02</span><span>《指南》分龄目标</span></a></li>
+      <li><a href="#interpretation"><span>03</span><span>《解读》具体方面</span></a></li>
+      <li><a href="#core"><span>04</span><span>五类核心经验</span></a></li>
+      <li><a href="#practice"><span>05</span><span>活动设计与案例</span></a></li>
+      <li><a href="#sources"><span>06</span><span>来源与页码</span></a></li>
+    </ol>
+  </nav>
+  <main id="main">
+    <section id="overview" class="chapter">
+      <header class="chapter-head">
+        <h2>三份资料怎么读</h2>
+        <p>这里聚焦《指南》科学领域中的<strong>科学探究</strong>。数学认知属于同一领域的另一子领域，在需要计数、测量或图表时可与探究结合。</p>
+      </header>
+      <ol class="ribbon">
+        <li><strong><a href="#guide">《指南》看发展方向</a></strong><p>看各年龄段末期可能出现的典型表现。先观察本班幼儿，再决定从哪里开始。</p></li>
+        <li><strong><a href="#interpretation">《解读》看目标内涵</a></strong><p>辨认当前情境涉及哪种探究动力、哪个过程、哪一类事物或现象。</p></li>
+        <li><strong><a href="#core">《核心经验》看下一步</a></strong><p>选出值得发展的经验，决定给幼儿什么材料、操作和交流机会。</p></li>
+      </ol>
+      <div class="table-wrap">
+        <table>
+          <caption>三个发展目标在活动中的作用</caption>
+          <thead><tr><th scope="col">《指南》目标</th><th scope="col">《解读》的性质定位</th><th scope="col">设计时要想清的问题</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">亲近自然，喜欢探究</th><td>情感态度，首要和前提性目标</td><td>什么会引起幼儿的兴趣？幼儿有没有机会提出自己的问题并继续试？</td></tr>
+            <tr><th scope="row">具有初步的探究能力</th><td>方法能力，重要和关键性目标</td><td>幼儿要用什么方式找答案？可以从哪些具体行为看出他们正在发展这种方法？</td></tr>
+            <tr><th scope="row">在探究中认识周围事物和现象</th><td>知识经验，载体和产物性目标</td><td>幼儿可以通过亲手探究发现什么特征、变化或联系？这个发现能怎样用到下一次探究？</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><p>一次活动可以突出一两项经验。三个发展目标可在一系列活动中共同体现。分龄表现用于观察和判断下一步支持，单次表现还需结合情境、材料及成人帮助来理解。</p></div>
+      <small class="source-note">出处见《指南》说明第1–2页、科学探究第32–37页，《指南》解读第114、120、273–279页，《核心经验》第17–21、32–37页。页面所列正文页码均为印刷页。</small>
+    </section>
+
+    <section id="guide" class="chapter" aria-labelledby="guide-title">
+  <header class="chapter-head">
+    <h2 id="guide-title">《指南》的科学探究目标</h2>
+    <p>科学领域分为科学探究和数学认知两方面。以下聚焦科学探究。三个目标分别关注幼儿愿不愿意探究、会怎样探究，以及在探究中逐步认识什么。</p>
+  </header>
+<div class="age-control" id="age-control" hidden>
+    <span id="age-label">筛选分龄表现</span>
+    <div class="age-buttons" role="group" aria-labelledby="age-label">
+      <button type="button" data-show-age="all" aria-pressed="true">全部年龄</button>
+      <button type="button" data-show-age="3-4" aria-pressed="false">3–4岁</button>
+      <button type="button" data-show-age="4-5" aria-pressed="false">4–5岁</button>
+      <button type="button" data-show-age="5-6" aria-pressed="false">5–6岁</button>
+    </div>
+    <p class="visually-hidden" id="age-status" role="status" aria-live="polite">已显示全部年龄段。</p>
+  </div>
+  <ul class="chapter-jumps" aria-label="科学探究三个目标">
+    <li><a href="#guide-goal-1">亲近自然，喜欢探究</a></li>
+    <li><a href="#guide-goal-2">初步的探究能力</a></li>
+    <li><a href="#guide-goal-3">认识周围事物和现象</a></li>
+  </ul>
+
+  <p>《指南》把激发探究兴趣、体验探究过程和发展初步探究能力作为幼儿科学学习的核心。幼儿在生活和自然情境中直接感知、亲身体验、实际操作，借助观察、比较、操作或实验发现问题，并积累可以在新情境中运用的经验。</p>
+  <small class="source-note">《指南》“说明”第1–2页及“四、科学”第32页。以下为正文排印版的页码。</small>
+
+  <section id="guide-goal-1" aria-labelledby="guide-goal-1-title">
+    <h3 id="guide-goal-1-title">目标 1　亲近自然，喜欢探究</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>目标 1 的分龄表现（全部年龄共7条，依原文顺序转述）</caption>
+        <thead>
+          <tr><th scope="col">年龄</th><th scope="col">典型表现</th></tr>
+        </thead>
+        <tbody>
+          <tr data-age="3-4">
+            <th scope="row">3–4岁</th>
+            <td>
+              <ol>
+                <li>喜欢接触大自然，对周围许多事物和现象感兴趣。</li>
+                <li>经常问各种问题，或出于好奇摆弄物品。</li>
+              </ol>
+            </td>
+          </tr>
+          <tr data-age="4-5">
+            <th scope="row">4–5岁</th>
+            <td>
+              <ol>
+                <li>喜欢接触新事物，经常问与新事物有关的问题。</li>
+                <li>常主动动手动脑探索物体和材料，并享受探索过程。</li>
+              </ol>
+            </td>
+          </tr>
+          <tr data-age="5-6">
+            <th scope="row">5–6岁</th>
+            <td>
+              <ol>
+                <li>对自己感兴趣的问题愿意追问到底。</li>
+                <li>经常动手动脑寻找问题的答案。</li>
+                <li>探索中有所发现时感到兴奋和满足。</li>
+              </ol>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <small class="source-note">《指南》第32页。</small>
+
+    <h4>教育建议</h4>
+    <ol>
+      <li><strong>经常接触大自然，激发好奇心与探究愿望。</strong>提供有趣的探究工具，教师以自己的好奇和积极参与带动幼儿。一起发现并分享周围新奇的事物或现象，共同寻找答案，也可以用照片、图画保留发现。</li>
+      <li><strong>接纳、支持和鼓励探索行为。</strong>认真对待幼儿的问题，鼓励他们猜想，有条件时一起做简易调查或小实验。允许探索中出现弄脏、弄乱或物品损坏等情况，事后引导幼儿整理。提供可操作、多变化的材料，支持安全地拆装或自制玩具。</li>
+    </ol>
+    <small class="source-note">《指南》第33页。</small>
+
+    <h4>用于设计活动时</h4>
+    <p>把幼儿主动靠近、摆弄、发问、持续尝试或分享发现，视为兴趣可能出现的不同表现。小班幼儿反复摆弄材料本身就可能体现好奇。观察时可以结合他是否改变动作、留意结果或再次返回材料区来判断。</p>
+  </section>
+
+  <section id="guide-goal-2" aria-labelledby="guide-goal-2-title">
+    <h3 id="guide-goal-2-title">目标 2　具有初步的探究能力</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>目标 2 的分龄表现（全部年龄共11条，依原文顺序转述）</caption>
+        <thead>
+          <tr><th scope="col">年龄</th><th scope="col">典型表现</th></tr>
+        </thead>
+        <tbody>
+          <tr data-age="3-4">
+            <th scope="row">3–4岁</th>
+            <td>
+              <ol>
+                <li>能仔细观察感兴趣的事物，发现其明显特征。</li>
+                <li>能用多种感官或动作探索物体，留意动作带来的结果。</li>
+              </ol>
+            </td>
+          </tr>
+          <tr data-age="4-5">
+            <th scope="row">4–5岁</th>
+            <td>
+              <ol>
+                <li>能观察、比较事物或现象，发现相同与不同。</li>
+                <li>能根据观察结果提出问题，并大胆猜测答案。</li>
+                <li>能通过简单调查收集信息。</li>
+                <li>能用图画或其他符号记录。</li>
+              </ol>
+            </td>
+          </tr>
+          <tr data-age="5-6">
+            <th scope="row">5–6岁</th>
+            <td>
+              <ol>
+                <li>能通过观察、比较与分析，发现并描述不同种类物体的特征，或一个事物前后的变化。</li>
+                <li>能用一定的方法验证自己的猜测。</li>
+                <li>在成人帮助下，能制定并执行简单的调查计划。</li>
+                <li>能用数字、图画、图表或其他符号记录。</li>
+                <li>能在探究中与他人合作、交流。</li>
+              </ol>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <small class="source-note">《指南》第33–34页。</small>
+
+    <h4>教育建议</h4>
+    <ol>
+      <li><strong>帮助幼儿学习观察与分类。</strong>支持幼儿自发观察，通过提问帮助他们做比较观察或连续观察。鼓励在观察和探索之后尝试分类、概括。例如，按运动方式给动物分类，或按外部特征给物体分类。</li>
+      <li><strong>支持幼儿动手动脑解决问题。</strong>鼓励从观察或发现中提出值得探究的问题，猜想可能的答案，选择适宜的方法验证和收集证据。例如，实地调查院子里有几种植物，动手比较球在平地和斜坡上滚动的情况，或通过小实验探索影子方向与太阳位置的关系。</li>
+      <li><strong>共同计划、记录和分享。</strong>商量调查对象、步骤和方法，必要时用图画、箭头表示计划。根据问题采用绘画、照相或做标本等方式记录。支持幼儿和同伴分享发现，一起整理证据和探究结果。</li>
+      <li><strong>回顾探究过程。</strong>和幼儿讨论做了什么、怎样做的、结果与原先计划是否一致，以及接下来可以怎样做。</li>
+    </ol>
+    <small class="source-note">《指南》第34–35页。</small>
+
+    <h4>用于设计活动时</h4>
+    <p>根据问题和班级的已有经验，确定本次重点是观察、比较、提问、验证，还是记录与交流。例如，幼儿已注意到同一物体有前后变化，可以请他们在两次观察后用图画留下差异，再指着自己的画描述变化。记录方式服务于幼儿后续比较、回顾或分享。</p>
+  </section>
+
+  <section id="guide-goal-3" aria-labelledby="guide-goal-3-title">
+    <h3 id="guide-goal-3-title">目标 3　在探究中认识周围事物和现象</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>目标 3 的分龄表现（全部年龄共14条，依原文顺序转述）</caption>
+        <thead>
+          <tr><th scope="col">年龄</th><th scope="col">典型表现</th></tr>
+        </thead>
+        <tbody>
+          <tr data-age="3-4">
+            <th scope="row">3–4岁</th>
+            <td>
+              <ol>
+                <li>认识常见动植物，留意并发现周围动植物的多样性。</li>
+                <li>能感知物体和材料的软硬、光滑或粗糙等特性。</li>
+                <li>能感知和体验天气对自己的生活与活动的影响。</li>
+                <li>初步了解、体会动植物与人们生活的关系。</li>
+              </ol>
+            </td>
+          </tr>
+          <tr data-age="4-5">
+            <th scope="row">4–5岁</th>
+            <td>
+              <ol>
+                <li>能感知和发现动植物的生长变化及基本生长条件。</li>
+                <li>能感知和发现常见材料的溶解、传热等性质或用途。</li>
+                <li>能发现物体形态或位置变化等简单物理现象。</li>
+                <li>能发现不同季节的特点，体验季节对动植物和人的影响。</li>
+                <li>初步感知常用科技产品与自己生活的关系，知道科技产品有利也有弊。</li>
+              </ol>
+            </td>
+          </tr>
+          <tr data-age="5-6">
+            <th scope="row">5–6岁</th>
+            <td>
+              <ol>
+                <li>能察觉动植物外形特征、习性与生存环境的适应关系。</li>
+                <li>能发现常见物体的结构与功能之间的关系。</li>
+                <li>能探索并发现影子、沉浮等常见物理现象产生的条件或影响因素。</li>
+                <li>感知并了解季节变化的周期性，知道变化的顺序。</li>
+                <li>初步了解人的生活与自然环境的密切关系，知道尊重和珍惜生命、保护环境。</li>
+              </ol>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <small class="source-note">《指南》第35–36页。</small>
+
+    <h4>教育建议</h4>
+    <ol>
+      <li><strong>在自然和生活情境中积累直接经验。</strong>通过户外活动、参观考察、种植和饲养，让幼儿接触不同生物，了解生长发育、繁殖和死亡等过程。提供丰富材料与适宜工具，在游戏中探索材料的特性和物体的结构。</li>
+      <li><strong>在探究中尝试推理和分析，发现事物间的联系。</strong>例如，引导5岁以上幼儿思考植物种子的形状与传播的关系，也可以根据物体的结构推测并验证用途，如带轮子的物体是否更便于移动。</li>
+      <li><strong>关注自然、科技产品与人们生活的关系。</strong>从幼儿的生活需要出发，体会季节、动植物和天气怎样影响人的生活。讨论熟悉的科技产品带来的便利和影响，例如汽车便于出行，也可能带来环境污染。</li>
+    </ol>
+    <small class="source-note">《指南》第36–37页。</small>
+
+    <h4>用于设计活动时</h4>
+    <p>把要获得的认识写到具体对象及其特征、变化或关系上。例如，开展种植活动时，可以围绕“幼儿能根据几次观察，说出幼苗哪里发生了变化”安排活动。若进一步探究光照等条件，则需给幼儿持续观察和比较的机会。</p>
+  </section>
+
+  <section aria-labelledby="guide-use-title">
+    <h3 id="guide-use-title">怎样把分龄表现用于单次活动</h3>
+    <p>《指南》的分龄表现是对各年龄段末期发展的合理期望。编写单次活动目标时，根据本班幼儿已有经验，从发展方向中选取本次最相关的表现，写清幼儿将围绕什么问题做什么，以及可能获得什么具体经验。对需要反复操作或连续观察的表现，可以在多次活动和一日生活中持续留意。</p>
+    <small class="source-note">本节的活动目标写法为据《指南》“说明”第1–2页与科学探究第32–37页所作的应用归纳。</small>
+  </section>
+</section>
+    <section id="interpretation" class="chapter" aria-labelledby="interpretation-title">
+  <header class="chapter-head">
+    <h2 id="interpretation-title">《指南》解读怎样解释三项目标</h2>
+    <p>李季湄、冯晓霞主编，人民教育出版社，2013年。第五章由刘占兰、周欣撰写，科学探究部分说明目标的含义、活动的实施和成人的支持。第十章由冯晓霞撰写，讨论怎样参照分龄表现确定集体活动的目标。</p>
+    <small class="source-note">本节页码为印刷页码。</small>
+  </header>
+
+  <h3>三项目标在同一探究中怎样发生</h3>
+  <p>《解读》把三个目标分别归入情感态度、方法能力和知识经验。幼儿因好奇而参与，在寻找答案时运用和发展探究方法，并在操作、感知和交流中获得对事物或现象的认识。三方面可以在一次或一系列活动中逐步发展。</p>
+  <div class="table-wrap">
+    <table>
+      <caption>《解读》第114页表2的目标与性质</caption>
+      <thead>
+        <tr><th scope="col">《指南》科学探究目标</th><th scope="col">对应维度</th><th scope="col">《解读》对目标性质的表述</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>亲近自然，喜欢探究</td><td>情感态度</td><td>首要目标／前提性目标</td></tr>
+        <tr><td>具有初步的探究能力</td><td>方法能力</td><td>重要目标／关键性目标</td></tr>
+        <tr><td>在探究中认识周围事物和现象</td><td>知识经验</td><td>载体目标／产物性目标</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <small class="source-note">原书归纳见第114、120页。第三项目标按《指南》正式表述列出。</small>
+
+  <h3>目标1 · 好奇、好问、好探究</h3>
+  <ul>
+    <li><strong>好奇。</strong>喜欢接触自然和新鲜事物，被身边的现象吸引，愿意停下来仔细看。好奇心为持续探索提供动力。</li>
+    <li><strong>好问。</strong>对亲历的现象提出问题，对感兴趣的问题继续追问。教师可倾听并记录这些问题，再和幼儿一起选择适合通过观察或操作寻找答案的问题。</li>
+    <li><strong>好探究。</strong>愿意摆弄材料、动手动脑找答案，发现有趣现象时感到兴奋或满足，并愿意与他人分享。</li>
+  </ul>
+  <p>教师可以让幼儿经常接触大自然，提供有探索空间的材料和工具，认真回应幼儿的问题。身边熟悉的事物和现象适合作为探究起点。</p>
+  <small class="source-note">原书归纳见第115–116页。</small>
+
+  <h3>目标2 · 在解决问题的过程中发展探究能力</h3>
+  <p>《解读》把经历探究过程与发展探究能力放在一起讨论。观察比较、实验验证、调查测量是基本方法。分类、概括、分析、计划和实施调查、收集与记录信息，也可随问题和年龄特点进入活动。</p>
+  <div class="table-wrap">
+    <table>
+      <caption>探究环节与教师可提供的支持</caption>
+      <thead>
+        <tr><th scope="col">探究环节</th><th scope="col">幼儿做什么</th><th scope="col">教师怎样支持</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">提出问题</th><td>从亲历的事物中发现疑问，提出想弄清楚的问题。</td><td>给幼儿时间和机会提出问题，认真倾听并选择可探究的问题。</td></tr>
+        <tr><th scope="row">观察探索</th><td>根据任务观察特征、比较异同，或连续追踪变化。</td><td>根据问题提供观察条件、工具和时间。</td></tr>
+        <tr><th scope="row">思考猜测</th><td>依据已有经验预测可能的结果、解释自己的猜想，或考虑怎样寻找答案。</td><td>邀请幼儿说出理由，保留不同想法以便后续检验。</td></tr>
+        <tr><th scope="row">调查验证</th><td>选择观察、实验或测量等方法，尝试按计划开展，根据实际情况调整。</td><td>提供材料和重复操作的机会，引导幼儿比较猜想与观察所得。</td></tr>
+        <tr><th scope="row">收集信息</th><td>关注对回答问题有帮助的现象，用图画、数字、图表或其他符号记录。</td><td>支持简单、便捷且适龄的记录，让记录服务于比较和回顾。</td></tr>
+        <tr><th scope="row">得出结论</th><td>回顾观察、实验或调查结果，对发现作出初步解释。</td><td>引导幼儿说清楚看到了什么、这些发现支持什么解释。</td></tr>
+        <tr><th scope="row">合作交流</th><td>和同伴分工、分享发现、倾听不同意见，围绕事实讨论。</td><td>给幼儿表达和质疑的机会，帮助他们用听得懂的语言整理发现。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>问题、方法和年龄不同，幼儿经历的环节、深度和自主程度也会不同。教师可在有意义的问题中支持幼儿运用方法，并通过简短回顾帮助幼儿看到自己的发现和进步。</p>
+  <small class="source-note">据第116–118页对目标2的分析及第121–122页对探究实施的说明归纳。</small>
+
+  <h3>目标3 · 在探究中认识什么</h3>
+  <p>幼儿通过直接感知、操作和探究逐渐认识身边的事物与现象。书中列举的对象可作为探究的载体，幼儿在寻找答案过程中获得的新认识则是探究的结果。</p>
+  <div class="table-wrap">
+    <table>
+      <caption>六类探究内容与可积累的典型经验</caption>
+      <thead>
+        <tr><th scope="col">内容</th><th scope="col">典型经验</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">常见动植物</th><td>认识多样性，发现生存和生长变化的基本条件，关注动植物对环境的适应、生长周期与繁殖。</td></tr>
+        <tr><th scope="row">常见物体和材料</th><td>比较颜色、硬度、光滑度、纹理和质地，探究溶解、传热等性质与用途，发现常见物体的结构与功能关系。</td></tr>
+        <tr><th scope="row">常见物理现象</th><td>关注物体形态或位置的变化及条件，探究斜面上的运动、沉浮、磁力、光与影子的影响因素。</td></tr>
+        <tr><th scope="row">天气与季节变化</th><td>感受常见天气和季节的特点、季节变化的周期，发现这些变化对动植物和人的生活产生的影响。</td></tr>
+        <tr><th scope="row">科技产品与生活</th><td>联系家电、交通工具和通讯工具等，体会常用科技产品带来的便利及可能的不利影响。</td></tr>
+        <tr><th scope="row">生活与自然环境</th><td>体会人对动植物和自然环境的依存，关注人类活动对环境的影响，珍惜生命并尝试力所能及的保护行动。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <small class="source-note">原书归纳见第118–120页。活动可选用当地常见且有代表性的动植物、物体和材料。</small>
+
+  <h3>在哪些情境中支持探究</h3>
+  <ul>
+    <li><strong>教师组织的探究。</strong>围绕幼儿感兴趣的、可操作的问题组织小组或集体活动，为幼儿从猜想到验证、解释与交流提供条件。可围绕一个主题或关键经验，从不同角度逐步深入。</li>
+    <li><strong>区域中的自主探究。</strong>在科学发现区、自然角、种植园及沙水区、建构区、美工区等提供适宜材料，让幼儿自主选材和操作。发现日志可以保存观察结果，也能引出后续探究。</li>
+    <li><strong>一日生活中的科学发现。</strong>在户外活动、天气观察与报告、照料动植物、实地考察等情境中留意幼儿的疑问，支持他们继续观察、比较和讨论。</li>
+  </ul>
+  <p>教师提供支持性的心理氛围，认真回应提问和暂时的错误。内容应符合年龄特点并贴近幼儿生活，材料应能帮助幼儿看清目标现象。活动形式可随问题和儿童经验选择，工具、材料、动植物及外出场所均须考虑安全。</p>
+  <small class="source-note">原书归纳见第120–126页（实施情境）和第126–129页（支持要点）。</small>
+
+  <h3>怎样由分龄表现推定本班的活动目标</h3>
+  <ol>
+    <li><strong>先用分龄表现判断发展方向。</strong>书中以观察为例，幼儿逐步从发现单一事物的明显特征，发展到比较两个事物的异同，再到比较不同类别或持续观察同一事物的变化。</li>
+    <li><strong>观察本班幼儿已经能做什么。</strong>留意他们在游戏和日常生活中关注什么、怎样操作、怎样表达发现。参照年龄段的典型表现，判断他们接下来可能获得的经验。</li>
+    <li><strong>选择一个有教育价值的具体问题。</strong>把目标写成幼儿在当前情境中可做的探究行为和可积累的经验。一个发展目标可以通过多次、多种活动逐步形成，一个活动也可能支持多个方面的发展。</li>
+  </ol>
+  <p><strong>活动转化示例。</strong>如果本班幼儿已经注意到纸沾水后会变湿，可以把下一步定为比较两种纸的吸水表现。让幼儿用同一个滴管在两种纸上各滴一滴水，比较水珠或水痕的变化，并向同伴说出自己是根据什么作出判断的。教师可选择吸水表现差异明显的纸，方便幼儿看见变化。</p>
+  <small class="source-note">制定目标的依据见第273–275、277–279页。示例依据第128页的纸张材料示例改写，具体操作和目标表述为本稿转化。</small>
+</section>
+    <section id="core" class="chapter" aria-labelledby="core-title">
+  <header class="chapter-head">
+    <h2 id="core-title">五类科学核心经验怎样进入活动目标</h2>
+    <p>《学前儿童科学学习与发展核心经验》把观察、分类、预测与推断、记录与交流作为四类基本探究过程，把事物与现象作为探究对象及儿童由此获得认识的内容。活动设计可以先确定儿童要弄清的一个问题，再判断哪一种探究经验最能帮助他们推进这个问题。</p>
+  </header>
+<ul class="chapter-jumps" aria-label="五类核心经验">
+    <li><a href="#core-observe">观察</a></li>
+    <li><a href="#core-classify">分类</a></li>
+    <li><a href="#core-infer">预测与推断</a></li>
+    <li><a href="#core-record">记录与交流</a></li>
+    <li><a href="#core-phenomena">事物与现象</a></li>
+  </ul>
+  <p>下文的“经验与发展”转述原书。“教师支持”中的具体提问、“可观察表现”和“容易误判”是根据原书改写的教研示例。发展描述用于判断下一步可以怎样支持。尤其在记录与交流方面，原书指出几个发展阶段相互交叉，同一班级的表现也可能有很大差异。</p>
+  <p><small class="source-note">出处　施燕、何敏、张婕主编（2021），第一章第4节，第32–37页。关于阶段交叉，见第五章第233页。以下均标原书印刷页码。</small></p>
+
+  <h3 id="core-observe">观察｜围绕问题获得可描述的信息</h3>
+  <h4>经验与发展</h4>
+  <p>观察是幼儿运用感官或工具，有目的地感知和探索事物与现象的过程。观察目的让儿童知道要关注什么。多种感官或工具使儿童从不同方面获取信息，比较、分析、概括等认知活动帮助儿童从信息中发现特征或关系。直接观察可以看形状、听声音、触摸质地。借助放大镜时，工具的价值在于让原先看不清的细节变得可辨认。</p>
+  <p>观察可能从偶然注意到显眼特征，发展到围绕一个问题选择观察对象、方法和顺序。内容也可能从某一时刻的外在特征，延伸到两个对象的同异、同一对象前后的变化。一次仔细比较和多次回到同一对象，都能体现观察的目的性。</p>
+  <h4>活动中怎样支持、怎样观察</h4>
+  <ul>
+    <li><strong>教师支持。</strong>提供可反复接触的材料，并把问题落到可以观察的地方。例如幼儿说两块石头不一样，可邀请他们并排看、用手摸，再选用放大镜确认某处纹理。遇到生长等缓慢变化，安排再次回来看，并保留前一次可以比较的参照。原书“观察石头”案例让幼儿从颜色、质地、相对轻重等方面寻找差别，同时允许幼儿发现教师提示之外的特征。</li>
+    <li><strong>可观察表现。</strong>幼儿能指认差别发生在哪里，说明看、摸或使用工具得到了什么信息，或者回到前一次标记指出哪里变了。目标可写为“比较两块石头，能指出一种差别，并用自己的方式说明是怎样发现的”。</li>
+    <li><strong>容易误判。</strong>儿童看得久、轮流拿过放大镜，能够说明参与过活动。判断观察经验时，还要看他们聚焦了什么、辨认出什么，以及是否根据问题调整了观察位置或方法。</li>
+  </ul>
+  <p><small class="source-note">第二章“观察”。概念和要点见第41–47页，目的、方法与内容的发展参见第51–56、71页，活动中的过程支持见第71–74页。案例2-1“观察石头”见第43页。</small></p>
+
+  <h3 id="core-classify">分类｜发现共同属性并按依据组织材料</h3>
+  <h4>经验与发展</h4>
+  <p>分类包含辨别异同和概括共同属性。儿童可以用不同标准对同一批材料重新分类，也可以逐步理解类别之间的上下位关系。原书从分类标准、分类维度和概括水平三个方面描述进阶。分类标准由明显特征逐步涉及功能或较内在的属性，分类维度从一次用一个特征到先后换两个标准、再到同时顾及两个特征，概括水平从常见的基本类别逐步走向较上位的类别，并开始理解类的包含关系。</p>
+  <p>先按叶缘分完，再换成按大小重分，是先后换用标准。把“叶缘平滑并且较大”的叶子放在一起，需要同时用两个条件。两次单独分类与一次同时用两个条件，是两种可分辨的表现。</p>
+  <h4>活动中怎样支持、怎样观察</h4>
+  <ul>
+    <li><strong>教师支持。</strong>先让幼儿摸、看、比较多种材料，确保每一类都有可辨认的共同属性。用“这一组哪里一样”“换个分法可以吗”“新来这片放在哪，为什么”邀请幼儿说明和应用自己的标准。原书“各种各样的纽扣”让幼儿按自己发现的属性分类，随后用新增纽扣检验同一分法，再在活动区尝试别的标准。</li>
+    <li><strong>可观察表现。</strong>幼儿能把多个材料按同一依据放在一起，用指认、动作或语言说明它们的相同之处，或将一个新材料放入适合的一组。对已有经验的儿童，可以观察他是否能换一个有意义的标准重分。</li>
+    <li><strong>容易误判。</strong>按老师演示把所有材料放对，提供的是在既定提示下完成的证据。要了解儿童是否抓住了分类依据，可以撤去样板、加入一个新物品，请他指给同伴看它为什么放在这里。</li>
+  </ul>
+  <p><small class="source-note">第三章“分类”。定义、标准与概括层次见第97–104页，三条发展线索见第111、115–124页，材料特征经验及比较支持见第124–128页。案例3-3“各种各样的纽扣”见第103–104页。</small></p>
+
+  <h3 id="core-infer">预测与推断｜把先前经验、当下线索和结果联系起来</h3>
+  <h4>经验与发展</h4>
+  <p><strong>预测</strong>着眼于在某种条件下接下来可能发生什么，<strong>推断</strong>着眼于从看得到的线索判断未能直接观察的情况或可能原因。原书把找线索、连接条件与结果、和事实核对等作为重要经验。儿童的依据可能从个人愿望或某一显眼特征，逐步转向可观察的事实和多个可能因素。遇到反例时，儿童有机会调整原来的判断。</p>
+  <p>例如“我猜这辆车能滑得更远，因为上次它在这块斜板上滑得远”是预测。“它刚才没滑那么远，可能是下面铺了粗布”是根据结果提出的推断。后者还可以成为下一轮探究的问题。</p>
+  <h4>活动中怎样支持、怎样观察</h4>
+  <ul>
+    <li><strong>教师支持。</strong>操作前停一下，让儿童有时间选择、指认或说出可能发生的结果与理由。操作后请儿童回看原来的判断，比较实际发生了什么。若有不同解释，可邀请幼儿想一个还能怎样试的办法。对于已经会比较的儿童，可在同一位置松手让同一辆车滑下，只换斜板表面材料，以便把注意力集中到要探究的差别。</li>
+    <li><strong>可观察表现。</strong>在结果出现前表明自己的预想，说出或指出一项作为依据的既有经验，试过后能说预想与结果是否一致，或者提出还想比较的条件。选择图片、放标记、演示动作，也可以帮助儿童先表达想法。</li>
+    <li><strong>容易误判。</strong>猜中一次说明这次预想与结果一致。关注儿童有没有事先表明想法、有没有依据、是否愿意根据观察重新考虑。原书“有趣的吸力”指出，即使让儿童自由玩，泛问能发现什么，仍需要为预测留出具体机会。</li>
+  </ul>
+  <p><small class="source-note">第四章“预测与推断”。概念与要点见第153–160页，发展方向见第164、167–171页，关注并支持儿童预测与推断见第171–174页。案例4-5“有趣的吸力”见第172–173页。</small></p>
+
+  <h3 id="core-record">记录与交流｜保存探究信息，并用它继续想和做</h3>
+  <h4>经验与发展</h4>
+  <p>儿童用语言或非语言方式表现、表达和记载探究，再和他人分享、讨论。原书分别讨论记录与交流的方式、信息内容，以及幼儿怎样呈现想法和参与讨论。可记录问题、预想、方法、结果或感受，重点取决于哪些信息值得稍后回看或与别人比较。</p>
+  <p>表现可以从当场用动作或口语表达，逐渐发展到选择图画、照片、符号或数字等方式。内容可以从显眼的结果扩展到方法、过程与联系，记录也会从偶然留下痕迹变为为了回看、提醒或让别人理解而主动保存信息。</p>
+  <h4>活动中怎样支持、怎样观察</h4>
+  <ul>
+    <li><strong>教师支持。</strong>先给记录一个儿童感受得到的用途，例如“明天怎样知道今天的芽有多长”。让儿童选一种保留方式，随后把记录带回同伴讨论，让儿童指着照片或标记解释。需要统一对照时，可给简明框架，例如两处分别保留“原先怎么想”和“后来看到什么”。</li>
+    <li><strong>可观察表现。</strong>儿童能指给别人看某个符号代表哪次尝试，借助前一次记录比较变化，或听完同伴的说法后补充自己的记录。教师代写儿童口述时，可以保留儿童选择了什么、解释了什么，以了解儿童实际参与的部分。</li>
+    <li><strong>容易误判。</strong>整齐的统一记录单只呈现了一张成品。可请幼儿用自己的记录回答一个探究中的问题，看看他能否读懂自己留下的符号、从中找回信息，或者借它向同伴解释。</li>
+  </ul>
+  <p><small class="source-note">第五章“记录与交流”。定义与三方面要点见第202、209、212–213页，发展与个体差异见第221、233页，记录用途和支持策略见第233–235、238页。</small></p>
+
+  <h3 id="core-phenomena">事物与现象｜在可感知的对象上形成初步科学认识</h3>
+  <h4>经验与发展</h4>
+  <p>原书所说的“事物与现象”经验，指幼儿通过自己的探究，对日常接触的事物与现象获得的认识。从儿童接触对象的方式看，书中把内容分成事物与现象的特性、物体的运动、事物与现象的变化、物品的搭建与制作四方面。这样的分类能帮助教师从宽泛主题缩小到儿童可接触的对象与可探究的问题。</p>
+  <p>认识可以从一件熟悉物品的突出特征，发展到在不同例子中发现共同点，从笼统感知发展到指出具体特征，再从看见静态特征逐步走向观察变化及其条件。这几种变化常交织在一起。即使是同一名幼儿，换了材料或情境，也需要再看他已有的经验和实际表现。</p>
+  <h4>活动中怎样支持、怎样观察</h4>
+  <ul>
+    <li><strong>教师支持。</strong>从熟悉、可安全操作的材料中选取能显现差异的组合，并留出重做和比较的机会。例如围绕“哪些材料沾水后会把水吸进去”，让幼儿用几种日常材料亲手尝试、观察前后，再说出本次看到的差异。书中“棉花”通过多种操作让同一材料的不同特性显现。</li>
+    <li><strong>可观察表现。</strong>儿童能把一种发现和相应操作联系起来，例如指着湿润部分说出水接触纸巾后的变化。后续可看他能否在新材料上用相似方法比较，或者在出现不同结果时调整先前的说法。</li>
+    <li><strong>容易误判。</strong>复述“会吸水”能表明儿童记得这个说法。若要了解他形成了什么认识，可以请他指出自己看到的变化，或用同样的方法检查另一种材料。只做过有限比较时，目标和交流都可以写成“在今天试过的材料中发现……”。</li>
+  </ul>
+  <p><small class="source-note">第一章第36–37页与第六章“事物与现象”。内容分类见第258–261页，发展见第267–273页，探究与材料支持见第273–274、281页。案例6-3“棉花”见第257–258页。</small></p>
+</section>
+    <section id="practice" class="chapter" aria-labelledby="practice-title">
+  <header class="chapter-head">
+    <h2 id="practice-title">把目标写进活动，回到幼儿的表现</h2>
+    <p>下面的案例按“已有经验—发展目标—探究机会—可观察表现—后续支持”展开。两则参考原书案例，沉浮为设计示例。</p>
+  </header>
+
+  <h3>定目标时依次想清四件事</h3>
+  <ol class="steps">
+    <li><strong>先看幼儿已经怎样想、怎样做。</strong> 从游戏、生活或上一次探究中找线索。记录幼儿的话、做过的动作和当时的支持。例如，幼儿说“纸喝水了”时，追问他看到了什么，可以了解他是注意到颜色变化，还是注意到水珠消失。</li>
+    <li><strong>把范围缩到一个可探究的问题。</strong> 用幼儿能接触、能操作的对象承载问题。“纸上的水后来怎样了？”比“学习材料的吸水性”更容易据此选材料、安排观察和判断活动是否给了幼儿探究机会。</li>
+    <li><strong>选一两项重点经验，把动作和发现写进目标。</strong> 写清幼儿会用哪种办法，观察、比较或解释什么。例如“在两种纸上各滴一滴水，比较水痕的变化，并指出自己根据什么作判断”。需要同伴或成人协助时，也把支持条件写进去。</li>
+    <li><strong>预想什么表现可以帮助判断下一步。</strong> 幼儿如果只说“这张纸更好”，请他指出看到的现象。如果他已经会以水痕变化作依据，可以让他换一种纸重试、回看记录，判断原先的想法是否仍适用。</li>
+  </ol>
+  <small class="source-note">以上为活动设计用的综合步骤。依据《指南》解读第121–122、273–275、277–279页和《核心经验》第32–37页。</small>
+
+  <article class="case" aria-labelledby="cotton-title">
+    <header>
+      <h3 id="cotton-title">案例一　棉花浸水后怎样了</h3>
+      <p class="case-meta">5–6岁 · 小组活动 · 据《核心经验》案例6-3聚焦改写</p>
+    </header>
+    <p>原书让幼儿通过撕、吹、捏、剪、塞瓶、入水等动作探索棉花的多种特性，并交流做法和发现。这里将问题缩到“浸水前后有什么变化”，以<strong>观察、交流和材料特性</strong>为重点。</p>
+    <dl>
+      <dt>先了解</dt><dd>出示干棉花和水，让幼儿说说或比画“你觉得放进水里会怎样”。留意幼儿能否描述干棉花，是否已经知道棉花能吸水，以及判断来自哪里。</dd>
+      <dt>活动目标</dt><dd>比较干棉花与浸过水的棉花，描述一种看见或摸到的变化。结合自己的操作，向同伴说明发现棉花吸水的依据。</dd>
+      <dt>材料和过程</dt><dd>棉花、浅水盘、接水杯和擦拭用的布。保留一份干棉花供对照，让幼儿依次放入、提起、比较，再试着在空杯上方轻挤浸过水的棉花。留出重复操作和相互展示的时间。</dd>
+      <dt>观察什么</dt><dd>只说“湿了”可以作为初步观察。能指着杯子说“从刚才浸过水的棉花里挤出了水”，可以看出幼儿把发现和操作结果联系起来。教师可追问“哪一次做法让你看出来的？”</dd>
+      <dt>下一次</dt><dd>如果幼儿已经能根据现象说明吸水，可以在区域里提供几种遇水表现可能有明显差别的纸，和幼儿商量用同一滴管、每种纸各一滴。比较水珠或水痕随时间怎样变化，将讨论限于本次比较的样品和条件。</dd>
+    </dl>
+    <small class="source-note">《核心经验》第257–258页，案例6-3“棉花”。纸张材料的选择参照《指南》解读第128页。本案例为活动改写，其中的幼儿话语为示意。</small>
+  </article>
+
+  <article class="case" aria-labelledby="sprout-title">
+    <header>
+      <h3 id="sprout-title">案例二　哪些东西会发芽</h3>
+      <p class="case-meta">4–5岁 · 区域连续观察 · 据《核心经验》案例4-6展开</p>
+    </header>
+    <p>原书让幼儿预测花生、黄豆、玉米以及糖果、回形针等哪些会发芽，按判断分组，交流理由，再放进种植盘里每天观察，最后对照预测。<strong>最初的判断要保留下来</strong>，最后才有东西可以对照。</p>
+    <dl>
+      <dt>先了解</dt><dd>看看幼儿是否把所有小而圆的东西都当成种子，或是否记得在菜园、家里见过的发芽情形。用“你怎么想的？”了解依据。</dd>
+      <dt>活动目标</dt><dd>对几件给定的物品作出是否会发芽的预测，能说明一种理由。在教师提供时间和材料的支持下，连续观察样品，把看到的变化与原先的预测相比较。</dd>
+      <dt>材料和过程</dt><dd>使用已预试、容易萌发的种子和有明显对照的非种子物品。操作时可用编号浅盘或照片保留样品身份。连续几天观察同一个对象，讨论有什么变化。可增加贴纸或小图记下最初的判断和观察结果。</dd>
+      <dt>观察什么</dt><dd>看幼儿是随别人分组，还是能说出自己的判断。再看他能否找回原来那一项预测，说出“我原来怎么想，后来看到什么”。给仍未萌发的种子更多时间，讨论这段时间、这些条件下的实际观察。</dd>
+      <dt>下一次</dt><dd>如果幼儿开始关注同种种子为什么长得不一样，可先让幼儿说说想比较什么。在保持其他安排尽量相近的情况下，选一个他们能观察的条件继续研究。</dd>
+    </dl>
+    <small class="source-note">《核心经验》第174页，案例4-6。预试、编号及图示记录是本页提出的支持方式，原书案例保留了分组、交流、每天观察和回看预测。</small>
+  </article>
+
+  <article class="case" aria-labelledby="water-title">
+    <header>
+      <h3 id="water-title">案例三　同样的水盆，怎样安排不同的下一步</h3>
+      <p class="case-meta">沉浮 · 对照三种起点 · 教学设计示例</p>
+    </header>
+    <p>《指南》把探索影子、沉浮等常见物理现象的条件或影响因素列在5–6岁的典型表现中。同一主题也可以按幼儿目前的经验选择不同难度的探究问题。下面三行是三种设计选择。</p>
+    <div class="table-wrap">
+      <table>
+        <caption>根据先前观察选择沉浮活动重点</caption>
+        <thead><tr><th scope="col">看到的已有表现</th><th scope="col">下一步目标与核心经验</th><th scope="col">怎样支持与观察</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">会把物品放入水中，描述时主要说“消失了”或“在上面”</th><td>留意物品松手后停在水面还是落到底，并用自己的话、手势或指认描述。重点是观察和事物与现象。</td><td>用透明水盆和少量预试过的材料，让幼儿重新放、在侧面看并指给同伴。看他能否把两种结果区分开。</td></tr>
+          <tr><th scope="row">会区分常见物品的沉浮，有时根据外观预测新物品</th><td>先预测，再按松手后的实际结果分类，并比较预测和结果。重点是预测、分类、记录与交流。</td><td>提供几件结果不易凭外观猜到的安全材料。把“我先猜的”和“我试到的”分栏记录。看幼儿能否找到一件使自己改变想法的材料。</td></tr>
+          <tr><th scope="row">已经会比较结果，开始问能否让原本下沉的材料浮在水面</th><td>用同一团不吸水的可塑材料，先做实心团，再尝试捏成中空形状，比较两次入水结果。重点是验证、观察和事物与现象。</td><td>先预试材料。请幼儿指出两次哪里相同、哪里改变。用照片保留两次形状和水中结果，交流“这次这样捏时，我看到了什么”。若尝试未成功，支持幼儿检查形状、边沿和进水情况后再试。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <small class="source-note">设计示例，依据《指南》第33–36页的探究方法与沉浮目标，以及《核心经验》第32–37页的框架。表内儿童表现为假设起点。</small>
+  </article>
+
+  <h3>回看活动记录时，分清观察和判断</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>把观察证据用于后续支持</caption>
+      <thead><tr><th scope="col">可以先记下的表现</th><th scope="col">可据此追问或继续观察</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">幼儿主动拿回上次的材料再试，并问换一种会怎样</th><td>这次有持续探究的线索。提供可比较的另一种材料，观察幼儿是否能把问题变成一次操作。</td></tr>
+        <tr><th scope="row">幼儿把两种纸分成两组，说其中一张“水痕更大”</th><td>请幼儿指出两张纸的水痕，了解他如何判断。如果观察时间不同，可以再约定同一个观察时点。</td></tr>
+        <tr><th scope="row">在教师示范后，幼儿照着画了完整表格</th><td>记下成人提供了什么帮助。下一次看幼儿能否主动决定记什么，或在解释时用到自己的记录。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <small class="source-note">以上观察示意用于选择后续活动。相关依据见《指南》解读第273–275页与《核心经验》有关记录与交流的第233–235页。</small>
+</section>
+    <section id="sources" class="chapter" aria-labelledby="sources-title">
+  <header class="chapter-head">
+    <h2 id="sources-title">来源与页码</h2>
+    <p>正文按所引版本的印刷页码标注。《指南》正文排印版与教育部图文版的分页不同。</p>
+  </header>
+  <ol class="references">
+    <li>
+      <strong>中华人民共和国教育部（2012）</strong>，《3—6岁儿童学习与发展指南》。
+      <p>使用说明第1–2页。“四、科学”第32–42页，其中科学探究第32–37页。教育部图文版的科学探究另见第30–34页。</p>
+      <a href="https://www.moe.gov.cn/jyb_xwfb/xw_zt/moe_357/jyzt_2015nztzl/xueqianjiaoyu/yaowen/202104/W020210820338905908083.pdf" target="_blank" rel="noopener">教育部图文版</a>
+    </li>
+    <li>
+      <strong>李季湄、冯晓霞（主编，2013）</strong>，《〈3—6岁儿童学习与发展指南〉解读》。人民教育出版社。
+      <p>第109页为科学领域章节起点。刘占兰撰写的科学探究见第114–129页。冯晓霞撰写的集体活动目标及应用见第273–279页。</p>
+      <a href="https://www.pep.com.cn/products/jc/ptgdyxjc/qt/201707/t20170707_1895435.shtml" target="_blank" rel="noopener">人民教育出版社书目</a>
+    </li>
+    <li>
+      <strong>施燕、何敏、张婕（主编，2021）</strong>，《学前儿童科学学习与发展核心经验》。南京师范大学出版社。ISBN 978-7-5651-4985-6。
+      <p>目标解读见第17–21页，基本框架见第32–37页。第2至6章依次从第39、95、151、195、251页开始。案例4-6见第174页，案例6-3见第257–258页。</p>
+    </li>
+  </ol>
+</section>
+  </main>
+</div>
+<footer><div class="foot-inner"><span>学前科学探究参考页</span><a href="#top">回到页首</a></div></footer>
+<script>
+(() => {
+  const buttons = [...document.querySelectorAll('.age-buttons button')];
+  const rows = [...document.querySelectorAll('#guide tr[data-age]')];
+  const status = document.getElementById('age-status');
+  if (buttons.length && rows.length && status) {
+    document.getElementById('age-control').hidden = false;
+    buttons.forEach(button => button.addEventListener('click', () => {
+      const selected = button.dataset.showAge;
+      buttons.forEach(choice => choice.setAttribute('aria-pressed', String(choice === button)));
+      rows.forEach(row => { row.hidden = selected !== 'all' && row.dataset.age !== selected; });
+      const count = rows.filter(row => !row.hidden).reduce((total, row) => total + row.querySelectorAll('ol > li').length, 0);
+      status.textContent = selected === 'all' ? '已显示全部年龄段。' : '已显示' + button.textContent.trim() + '的三个目标。';
+      if (count) status.textContent += '共' + count + '条典型表现。';
+    }));
+  }
+  const menu = [...document.querySelectorAll('.toc a')];
+  function markCurrent() {
+    const id = location.hash || '#overview';
+    menu.forEach(link => {
+      if (link.getAttribute('href') === id) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  addEventListener('hashchange', markCurrent);
+  markCurrent();
+  const wrappers = [...document.querySelectorAll('.table-wrap')];
+  function markScrollable() {
+    wrappers.forEach(wrapper => {
+      if (wrapper.scrollWidth > wrapper.clientWidth + 1) {
+        wrapper.setAttribute('tabindex', '0');
+        wrapper.setAttribute('aria-label', wrapper.querySelector('caption')?.textContent.trim() || '可横向滚动的表格');
+        wrapper.setAttribute('role', 'region');
+      } else {
+        wrapper.removeAttribute('tabindex');
+        wrapper.removeAttribute('aria-label');
+        wrapper.removeAttribute('role');
+      }
+    });
+  }
+  addEventListener('resize', markScrollable);
+  markScrollable();
+})();
+</script>
+</body>
+</html>
