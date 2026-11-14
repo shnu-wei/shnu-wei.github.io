@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="围绕一个光影案例，详解COI探究循环，供幼儿园教师共同阅读、讨论和练习从观察走向下一步活动设计。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>从观察到下一步设计｜COI探究循环教师共读</title>
+<style>
+:root{--bg:#f5f8fc;--paper:#fff;--ink:#183249;--muted:#526678;--line:#d5e0eb;--blue:#285ea8;--teal:#12686c;--gold:#8b520f;--violet:#70539a;--soft-blue:#edf3fc;--soft-teal:#edf7f6;--soft-gold:#fff6e8;--soft-violet:#f5f0fa;--body-size:19px;--header-height:78px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--bg);color:var(--ink);font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:var(--body-size);line-height:1.85;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}button,summary,select{touch-action:manipulation}button,a,summary,select,textarea{outline-offset:5px}a{color:var(--blue);text-underline-offset:4px}button{cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--blue)}p{margin:0 0 1.05em}h1,h2,h3,h4{line-height:1.4;text-wrap:balance}h1,h2{font-family:"Songti SC","STSong","SimSun",serif}h1{font-size:clamp(35px,4.3vw,58px);font-weight:700;margin:12px 0 20px;letter-spacing:.015em}h2{font-size:clamp(29px,3vw,38px);margin:0 0 10px}h3{font-size:24px;margin:30px 0 13px}h4{font-size:20px;margin:21px 0 10px}strong{font-weight:650}ul,ol{padding-left:1.45em;margin:12px 0 22px}li{padding-left:.15em;margin:7px 0}small,.small{font-size:.84em;color:var(--muted)}.nowrap{white-space:nowrap}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip-link{position:fixed;top:-70px;left:16px;z-index:99;background:white;padding:10px 18px}.skip-link:focus{top:10px}
+.topbar{position:sticky;top:0;z-index:30;min-height:var(--header-height);background:#ffffffed;border-bottom:1px solid var(--line);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px max(24px,calc((100vw - 1420px)/2))}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-weight:650;font-size:17px;line-height:1.5}.brand-mark{display:grid;place-items:center;width:35px;height:35px;border:2px solid var(--teal);border-radius:50%;font-size:22px;color:var(--teal)}.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.button{border:1px solid #bdcbd9;background:white;color:var(--ink);border-radius:5px;padding:7px 13px;font-size:15px;line-height:1.6;font-weight:550}.button:hover{background:var(--soft-blue);border-color:var(--blue)}.button[aria-pressed=true],.button.primary{background:var(--blue);border-color:var(--blue);color:white}.button.quiet{border-color:transparent;background:transparent}.scroll-line{position:absolute;bottom:-1px;left:0;height:3px;width:0;background:var(--teal)}
+.layout{max-width:1420px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px;padding:40px 32px 0}.rail{position:sticky;top:110px;align-self:start;max-height:calc(100vh - 135px);overflow-y:auto;font-size:15px;line-height:1.6;padding-right:3px}.rail-title{font-size:14px;color:var(--muted);margin:0 0 14px}.rail ol{list-style:none;margin:0;padding:0}.rail li{padding:0;margin:3px 0}.rail a{display:flex;align-items:center;gap:11px;padding:10px 11px;color:var(--muted);text-decoration:none;border-left:3px solid transparent;border-radius:0 5px 5px 0}.rail a:hover{background:#eaf0f8;color:var(--ink)}.rail a[aria-current=location]{color:var(--blue);background:#e8f0fb;border-left-color:var(--blue);font-weight:650}.nav-num{flex:none;display:grid;place-items:center;width:25px;height:25px;border:1px solid currentColor;border-radius:50%;font-size:12px}.rail-extra{margin-top:24px;padding-top:14px;border-top:1px solid var(--line)}.rail-hint{margin:22px 9px 0;color:var(--muted);font-size:13px}.content{min-width:0;max-width:990px}.hero{padding:5px 0 38px}.hero-lead{font-size:23px;line-height:1.8;max-width:37em}.source-book{font-size:16px;color:var(--muted);line-height:1.8;border-left:3px solid var(--line);padding-left:16px;margin:26px 0}.key-question{background:var(--ink);color:white;padding:24px 30px;margin:28px 0;font-size:23px;line-height:1.75;border-radius:4px}.key-question span{font-size:14px;color:#c5d8e7;display:block;margin-bottom:6px}.reading-start{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;font-size:16px}
+.section{background:white;border:1px solid var(--line);border-radius:6px;margin:0 0 32px;padding:36px 40px;scroll-margin-top:100px}.section.intro{border-top:4px solid var(--teal)}.section.step{border-top:4px solid var(--blue)}.section-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:23px}.step-number{width:53px;height:53px;border-radius:50%;flex:none;background:var(--ink);color:white;display:grid;place-items:center;font-family:Georgia,serif;font-size:30px;line-height:1}.en-name{font-size:14px;color:var(--muted);line-height:1.6;margin:2px 0 0}.step-question{font-size:21px;line-height:1.75;color:var(--ink);margin:14px 0 22px}.source-ref{font-size:14px;color:var(--muted);margin:17px 0 0}.badge{display:inline-block;padding:2px 9px;margin-right:7px;border-radius:3px;font-size:13px;font-weight:650;line-height:1.8;vertical-align:middle;border:1px solid transparent;white-space:nowrap}.badge.source{color:var(--blue);background:var(--soft-blue);border-color:#c5d6f0}.badge.interpret{color:var(--teal);background:var(--soft-teal);border-color:#b9dcd8}.badge.demo{color:var(--gold);background:var(--soft-gold);border-color:#ebd0a4}.badge.pending{color:var(--violet);background:var(--soft-violet);border-color:#d7c8e7}.legend{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;margin:23px 0}.legend p{font-size:15px;line-height:1.7;margin:6px 0 0}
+.table-wrap{overflow-x:auto;margin:20px 0 25px;border:1px solid var(--line);border-radius:4px}table{border-collapse:collapse;width:100%;font-size:.91em;line-height:1.8;text-align:left}th{background:#eef3f8;font-weight:650;color:var(--ink)}th,td{padding:15px 17px;vertical-align:top;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}td+td,th+th{border-left:1px solid var(--line)}.flow-table td:first-child{white-space:nowrap;font-weight:650}.flow-table td:last-child{font-size:.92em}.loop-back{border:1px dashed #96b4bf;background:#f2f8f8;padding:16px 20px;color:var(--teal);font-size:17px;border-radius:4px}.case-text{font-size:23px;line-height:1.9;margin:15px 0 20px;padding:8px 0 8px 22px;border-left:4px solid var(--blue)}.callout{padding:19px 23px;margin:22px 0;background:var(--soft-blue);border-left:4px solid var(--blue);border-radius:0 4px 4px 0}.callout.interpret{background:var(--soft-teal);border-color:var(--teal)}.callout.demo{background:var(--soft-gold);border-color:var(--gold)}.callout.pending{background:var(--soft-violet);border-color:var(--violet)}.callout p:last-child{margin-bottom:0}.callout h3,.callout h4{margin:0 0 8px;font-size:19px}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}.definition{border-top:2px solid var(--teal);padding-top:12px}.definition h4{margin:0 0 8px}.definition p{font-size:17px}.output-line{padding-top:17px;margin-top:25px;border-top:1px solid var(--line);font-size:17px}.output-line strong{color:var(--blue)}
+.discussion{margin:29px 0 0;padding-top:24px;border-top:1px dashed #bccdda}.discussion-label{font-size:14px;color:var(--teal);font-weight:650;margin:0 0 7px}.discussion p{font-size:19px;margin:0 0 12px}.note-label{display:block;color:var(--muted);font-size:14px;margin:16px 0 7px}.note{display:block;width:100%;min-height:100px;padding:13px 15px;resize:vertical;border:1px solid #b7c7d6;border-radius:4px;background:#fcfdff;font-size:17px;line-height:1.8;color:var(--ink)}.note::placeholder{color:#738293}.print-note{display:none;white-space:pre-wrap;overflow-wrap:anywhere}.analysis{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:18px 0 0}.analysis summary{padding:14px 2px;color:var(--blue);font-size:16px;font-weight:600;cursor:pointer}.analysis[open] summary{border-bottom:1px solid var(--line)}.detail-body{padding:17px 0 5px;font-size:17px;line-height:1.85}.detail-body p:last-child{margin-bottom:12px}.detail-body li{margin:6px 0}
+.path-tabs{display:flex;gap:0;border-bottom:2px solid var(--blue);margin:23px 0 0}.path-tab{flex:1;border:1px solid var(--line);border-bottom:0;background:#f4f7fb;color:var(--ink);padding:14px 10px;font-size:17px;font-weight:600;min-height:60px}.path-tab+.path-tab{border-left:0}.path-tab[aria-selected=true]{background:var(--blue);color:white}.path-panel{padding:25px 25px 18px;background:#f4f7fc;border:1px solid var(--line);border-top:0}.path-panel h4{margin:0 0 12px;font-size:22px}.path-panel p{font-size:18px}.path-panel dt{font-size:14px;font-weight:650;color:var(--muted);margin:15px 0 4px}.path-panel dd{margin:0;font-size:17px}.path-panel[hidden]{display:none}.path-compare{margin-top:18px}
+.diagram{border:1px solid var(--line);background:#f0f4fa;border-radius:5px;margin:22px 0;padding:24px 25px}.diagram-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.diagram h4{margin:0 0 5px}.diagram svg{width:100%;height:auto;display:block;margin:12px 0 8px}.diagram .diagram-caption{font-size:15px;line-height:1.8;margin-bottom:0;color:var(--muted)}.diagram .light-beam,.diagram .shadow-region,.diagram .rays,.diagram .lamp-glow,.diagram .shadow-labels{transition:opacity .15s}.diagram.is-off .light-beam,.diagram.is-off .shadow-region,.diagram.is-off .rays,.diagram.is-off .lamp-glow,.diagram.is-off .shadow-labels{opacity:0}.diagram.is-off .screen-lit{fill:#3b4c61}.diagram.is-off .screen-shadow{opacity:0}.diagram.is-off .lamp-core{fill:#8a99a9}.diagram .lamp-core{fill:#f8c861}.diagram .screen-lit{fill:#fff9de}.diagram .screen-shadow{fill:#192d45}.diagram.is-off .diagram-caption{color:var(--ink)}.svg-label{font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:17px;fill:var(--ink)}.svg-small{font-size:13px;fill:#53677c}
+.procedure{counter-reset:procedure;list-style:none;padding:0;margin:20px 0}.procedure li{counter-increment:procedure;display:grid;grid-template-columns:32px 1fr;gap:14px;padding:17px 0;border-bottom:1px solid var(--line);margin:0}.procedure li:before{content:counter(procedure);font-family:Georgia,serif;font-size:23px;color:var(--teal)}.procedure li:last-child{border:0}.procedure strong{display:block;margin-bottom:3px}.procedure p{font-size:18px;margin:0}
+.quiz-list{list-style:none;padding:0;counter-reset:quiz}.quiz-item{counter-increment:quiz;padding:22px 0;margin:0;border-bottom:1px solid var(--line)}.quiz-statement{display:block;font-size:18px;margin-bottom:12px}.quiz-statement:before{content:counter(quiz) ". ";color:var(--blue);font-weight:650}.quiz-item select{font-size:16px;width:100%;max-width:285px;border:1px solid #acbfd1;border-radius:4px;background:white;padding:10px 12px;color:var(--ink)}.quiz-feedback{font-size:16px;margin:12px 0 0;padding:12px 15px;border-left:3px solid var(--teal);background:var(--soft-teal)}.quiz-feedback.recheck{border-color:var(--gold);background:var(--soft-gold)}.quiz-feedback[hidden]{display:none}.quiz-result{font-size:17px;margin:14px 0 0;color:var(--teal)}.action-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:20px}.note-status{font-size:14px;color:var(--muted);margin:0 0 18px}.record-summary{list-style:none;margin:0;padding:0}.record-summary li{margin:14px 0;padding:12px 16px;border-left:3px solid var(--line);font-size:17px}.record-summary strong{display:block;color:var(--teal)}.reference{font-size:16px;line-height:1.9;overflow-wrap:anywhere}.reference-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 25px;font-size:15px;line-height:1.8;margin-top:22px}.reference-grid p{margin:0}.footer{font-size:14px;line-height:1.8;color:var(--muted);padding:0 7px 50px}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;z-index:80;padding:11px 20px;border-radius:5px;font-size:16px;max-width:90vw;text-align:center}.toast[hidden]{display:none}.no-script{padding:16px;background:#fff0d9;border:1px solid #c7a16a;margin:10px}
+body.projector{--body-size:22px}body.projector .content{max-width:1050px}body.projector .section{padding:38px 40px}body.projector .small,body.projector .source-ref{font-size:17px}body.projector .detail-body,body.projector .path-panel p,body.projector .definition p{font-size:20px}
+@media(min-width:1600px){.layout{gap:70px}}
+@media(max-width:1100px){.layout{grid-template-columns:190px minmax(0,1fr);gap:25px;padding:30px 22px 0}.section{padding:30px 28px}.topbar{padding:12px 22px}.brand{font-size:16px}.button{font-size:14px;padding:7px 10px}.rail a{padding:9px 7px;gap:8px}.nav-num{width:23px;height:23px}}
+@media(max-width:820px){:root{--header-height:80px}.topbar{position:relative;padding:15px 18px;display:block;backdrop-filter:none}.brand{margin-bottom:13px}.toolbar{justify-content:flex-start}.layout{display:block;padding:0 16px}.rail{position:sticky;top:0;z-index:20;margin:0 -16px 24px;padding:9px 10px;background:#f5f8fcf5;border-bottom:1px solid var(--line);overflow:auto;max-height:none;backdrop-filter:blur(8px)}.rail-title,.rail-hint,.rail-extra{display:none}.rail ol{display:flex;min-width:max-content;gap:2px}.rail li{margin:0}.rail a{padding:7px 9px;border-left:0;border-bottom:3px solid transparent;border-radius:3px;gap:6px;font-size:14px}.rail a[aria-current=location]{border-bottom-color:var(--blue)}.nav-num{width:22px;height:22px;font-size:11px}.hero{padding:0 8px 25px}.hero-lead{font-size:21px}.section{padding:28px 24px;margin-bottom:24px;scroll-margin-top:80px}.two-col{grid-template-columns:1fr;gap:5px}.section-head{gap:12px}.step-number{width:45px;height:45px;font-size:26px}.key-question{padding:21px 23px;font-size:21px}.legend{gap:14px 18px}.path-tab{font-size:16px}.diagram{padding:18px 14px}.diagram-head{display:block}.diagram-head button{margin-top:10px}body.projector .section{padding:30px 24px}.reference-grid{grid-template-columns:1fr}.scroll-line{display:none}}
+@media(max-width:500px){body{--body-size:18px}.section{padding:25px 19px}.hero{padding-left:3px;padding-right:3px}.legend{grid-template-columns:1fr;gap:14px}.source-book{font-size:15px}.key-question{padding:20px;font-size:20px}.section-head{gap:10px}h2{font-size:28px}h3{font-size:22px}.case-text{font-size:21px;padding-left:17px}.table-wrap{margin-left:-6px;margin-right:-6px}th,td{padding:12px 11px;min-width:130px}.flow-table td:first-child{white-space:normal;min-width:100px}.path-tab{font-size:15px;padding:12px 5px}.path-panel{padding:20px 17px}.diagram{margin-left:-5px;margin-right:-5px}.diagram-caption{font-size:14px!important}.toolbar .button{font-size:13px}.discussion p{font-size:18px}.callout{padding:17px 18px}.reference{font-size:15px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+@page{size:A4;margin:17mm 16mm}
+@media print{
+ html{scroll-behavior:auto}body,body.projector{background:white;font-size:11pt;line-height:1.75;color:#162e43}.topbar,.rail,.toolbar,.skip-link,.action-row,.toast,.reading-start,.path-tabs,.light-control,.quiz-item select,.quiz-controls,.note-status,.screen-only{display:none!important}.layout{display:block;max-width:none;padding:0}.content{max-width:none!important}.hero{padding:0 0 15pt}.hero h1{font-size:30pt;margin:0 0 12pt}.hero-lead{font-size:15pt}.source-book{font-size:10pt}.key-question{background:#eef2f6;color:#162e43;font-size:14pt;padding:12pt;margin:15pt 0}.key-question span{color:#44586b}.section,body.projector .section{margin:0 0 18pt;padding:17pt 18pt;border-color:#aabccc;box-decoration-break:clone}.section-head{margin-bottom:12pt}.step-number{width:30pt;height:30pt;font-size:19pt}h2{font-size:21pt}h3{font-size:15pt;margin-top:18pt}h4{font-size:12pt}.step-question,.case-text,.discussion p{font-size:12pt}.source-ref,.small,.en-name,.legend p,.definition p,.path-panel p,.detail-body,.reference,.reference-grid,.procedure p,.record-summary li,.output-line{font-size:10pt!important}.badge{font-size:8pt}.note{display:none}.print-note{display:block;min-height:30pt;border-bottom:1px solid #c6d2dd;padding:7pt 0;font-size:11pt}.print-note:empty:before{content:"讨论记录：";color:#6c7e8e}.path-panel[hidden],.quiz-feedback[hidden]{display:block!important}.path-panel{padding:13pt;margin:8pt 0;background:white;border:1px solid #b9c9d8}.analysis summary{font-size:10pt;padding:9pt 0}.detail-body{padding:10pt 0}.table-wrap{overflow:visible;margin:12pt 0}table{font-size:10pt}th,td{padding:8pt;min-width:0!important}thead{display:table-header-group}tr,.callout,.discussion,.diagram,.quiz-item{break-inside:avoid}h2,h3,h4,.section-head{break-after:avoid}.legend{gap:10pt 18pt}.diagram{padding:12pt}.diagram svg{max-height:180pt}.diagram-caption{font-size:9pt!important}.diagram-head{display:block}.quiz-item{padding:12pt 0}.quiz-feedback{font-size:10pt}.quiz-statement{font-size:11pt}.footer{font-size:9pt;padding:0}.two-col{gap:15pt}.reference-grid{gap:10pt 18pt}a{color:inherit;text-decoration:none}.loop-back{font-size:10pt}.procedure li{padding:10pt 0}.quiz-result:empty{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="topbar">
+  <a class="brand" href="#start"><span class="brand-mark" aria-hidden="true">↻</span><span>COI 探究循环<br><small>教师共读与讨论</small></span></a>
+  <div class="toolbar" aria-label="阅读工具">
+    <button class="button" id="projector-toggle" type="button" aria-pressed="false">投屏字号</button>
+    <button class="button" id="expand-toggle" type="button" aria-expanded="false">展开全部分析</button>
+    <button class="button" id="print-button" type="button">打印本页</button>
+    <a class="button" href="#records" style="text-decoration:none">讨论记录</a>
+  </div>
+  <div class="scroll-line" id="scroll-progress" aria-hidden="true"></div>
+</header>
+<noscript><style>.path-panel[hidden]{display:block}.path-tabs,.quiz-controls,.light-control{display:none}</style><div class="no-script">正文、三条路径和折叠内容仍可阅读；分类反馈、光影示意开关和讨论记录导出需要浏览器启用 JavaScript。</div></noscript>
+<div class="layout">
+  <nav class="rail" aria-label="六环节导航">
+    <p class="rail-title">从一条观察开始，回到新的观察</p>
+    <ol>
+      <li><a href="#step1"><span class="nav-num">1</span>观察记录</a></li>
+      <li><a href="#step2"><span class="nav-num">2</span>解释儿童思维</a></li>
+      <li><a href="#step3"><span class="nav-num">3</span>提出多个方案</a></li>
+      <li><a href="#step4"><span class="nav-num">4</span>形成具体设计</a></li>
+      <li><a href="#step5"><span class="nav-num">5</span>布置与支持活动</a></li>
+      <li><a href="#step6"><span class="nav-num">6</span>反思与下一步</a></li>
+    </ol>
+    <div class="rail-extra">
+      <a href="#overview">先看整个循环</a>
+      <a href="#case">阅读案例起点</a>
+      <a href="#exercise">判断材料归属</a>
+      <a href="#records">汇总共读记录</a>
+      <a href="#sources">核对来源与页码</a>
+    </div>
+    <p class="rail-hint">每步先讨论，再展开参考分析。不同设计选择可以并存，理由需要连接儿童表现。</p>
+  </nav>
+  <main class="content" id="main">
+    <div class="hero" id="start">
+      <h1>从观察<br>到下一步设计</h1>
+      <p class="hero-lead">围绕一个光影案例，逐步看清：教师怎样理解儿童、形成备选、选择材料，再用新的观察调整设计。</p>
+      <div class="source-book">阅读依据：Jane Tingle Broderick 与 Seong Bock Hong<br><em>From Children’s Interests to Children’s Thinking: Using a Cycle of Inquiry to Plan Curriculum</em>（2020）</div>
+      <div class="key-question"><span>本次共读的核心问题</span>我们为什么决定下一步这样做？<br>儿童的哪些表现，支持这个决定？</div>
+      <div class="reading-start"><a href="#overview">先了解六个环节</a><a href="#case">从案例开始讨论</a><span class="small">单文件离线阅读，无需联网</span></div>
+    </div>
+
+    <section class="section intro" id="overview" aria-labelledby="overview-title">
+      <h2 id="overview-title">把教师的判断过程展开</h2>
+      <p>COI 首先是教师规划与改进课程的循环。教师一边支持儿童研究世界，一边持续核查自己对儿童的理解。儿童的动作、语言与作品，既影响本次设计，也会改变下一次设计。</p>
+      <p><strong>六个环节，配五张表。</strong>第5步是实施，没有另配新表。循环可以跨多日，已有记录也可以增补；不必把它变成每次活动机械填完五张表的任务。</p>
+      <div class="table-wrap">
+        <table class="flow-table">
+          <thead><tr><th scope="col">环节</th><th scope="col">教师在追问什么</th><th scope="col">留下什么</th></tr></thead>
+          <tbody>
+            <tr><td>1　观察</td><td>儿童具体做了、说了什么？</td><td>动作与语言记录，另栏保留初步备忘</td></tr>
+            <tr><td>2　解释</td><td>这些行动可能服务于什么目标和策略？</td><td>有证据支持、仍待核查的解释</td></tr>
+            <tr><td>3　发散</td><td>下一次还有哪些值得尝试的方向？</td><td>至少三个行动问题及其材料、支持方式</td></tr>
+            <tr><td>4　收束</td><td>现在先选什么，为什么？</td><td>理由、证据、概念联系与具体探究方案</td></tr>
+            <tr><td>5　实施</td><td>儿童真实回应了什么，需要怎样支持？</td><td>实际介入与新的观察记录</td></tr>
+            <tr><td>6　反思</td><td>学到了什么，怎样判断，下一步如何调整？</td><td>学习证据、设计反思和后续方向</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="loop-back"><strong>新的表现带回第1步。</strong>可以延续一个问题，也可以因新证据重新解释、改变方向。六个环节说明判断之间的联系，并不规定儿童课堂上的固定流程。</div>
+      <p class="source-ref">本书方法：导言 pp.3–4；具体用法见第4–8章。</p>
+      <h3>阅读时，始终辨认四类内容</h3>
+      <div class="legend">
+        <div><span class="badge source">原书记述</span><p>作者记载的儿童表现、原书做法或方法要求；页码可回查。</p></div>
+        <div><span class="badge interpret">教师解释</span><p>对儿童目标、策略和想法的理解；需要继续用证据核查。</p></div>
+        <div><span class="badge demo">示范补充</span><p>本导读为说明过程而拟定的备选、流程、支持语与讨论安排。</p></div>
+        <div><span class="badge pending">待收集证据</span><p>未来需要观察的表现，以及尚不能作出的学习结论。</p></div>
+      </div>
+      <details class="analysis"><summary>展开共读安排建议</summary><div class="detail-body">
+        <p><span class="badge demo">共读建议</span>可安排约50分钟，并按教研时间调整：用5分钟了解案例与来源；15分钟讨论观察与解释；15分钟提出并选择下一步；10分钟讨论实施支持和学习证据；5分钟汇总尚有分歧的问题。</p>
+        <p>先个人判断，再小组交换。每一步先回答讨论题，再展开参考分析。讨论的重点是理由与证据的连接，不评选谁最接近作者的方案。</p>
+      </div></details>
+    </section>
+
+    <section class="section" id="case" aria-labelledby="case-title">
+      <span class="badge source">原书记述</span>
+      <h2 id="case-title" style="margin-top:12px">一个孩子怎样解释影子？</h2>
+      <div class="case-text">作者记述：一名儿童画画时，把影子画在她称作肚子的地方。作者还转述，她向教师和同伴解释，关灯以后影子进入了身体。</div>
+      <p>这是作者的间接转述。原段没有给出逐字儿童对话，也没有交代她的年龄、活动人数和持续时间。本页不补写这些背景。</p>
+      <div class="callout interpret"><h3>书中怎样理解这件事</h3><p>作者分析，她可能正在协调两类经验：有光时，影子与身体相联系；房间很暗时，她看不到影子。把影子画进身体，可能是她对这种变化作出的解释。</p></div>
+      <div class="callout"><h3>原书实际给出的下一步</h3><p>教师设置了一个活动中心，提供儿童可以安全开关的<strong>固定灯</strong>、<strong>开窗的大纸箱</strong>、<strong>三块厚度不同的遮盖材料</strong>，让儿童操纵箱内外的光，探索影子位置。</p></div>
+      <div class="callout pending"><h3>这个案例尚未告诉我们什么</h3><p>书中没有在这里提供完整方案表、实施过程和儿童后续解释。下文的三个备选方向、详细设计、可能分支和观察指标，均为本导读补充；不能据此说儿童已经改变了理解。第8章的手电筒个案是另一则案例，不接作这名儿童的后续。</p></div>
+      <p class="source-ref">案例依据：第5章 pp.63–64。以下六步将沿着同一案例，展开教师可以怎样思考。</p>
+    </section>
+
+    <section class="section step" id="step1" aria-labelledby="s1-title">
+      <div class="section-head"><div class="step-number" aria-hidden="true">1</div><div><h2 id="s1-title">先留下具体事件</h2><p class="en-name">Observation Record　观察记录</p></div></div>
+      <p class="step-question">哪些信息是读到、看到的？哪些信息是我们推测出来的？</p>
+      <p>记录儿童怎样使用材料、做了什么调整、怎样表达，以及前后发生了什么。作者允许在观察时思考，并设置 <em>memos</em> 备忘栏保留初步解释；动作与语言和教师猜想需要有各自的位置。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">记录位置</th><th scope="col">据本例可以整理的内容</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge source">动作与作品</span></td><td>儿童在画中把影子放在身体内部、她称作肚子的地方。</td></tr>
+          <tr><td><span class="badge source">间接转述</span></td><td>作者转述：儿童将关灯与影子进入身体联系起来。不能加工成带引号的逐字原话。</td></tr>
+          <tr><td><span class="badge interpret">备忘与疑问</span></td><td>她是否把影子理解成能改变所在位置的东西？她是否在用一种绘画或故事方式表达看不见的经验？</td></tr>
+        </tbody>
+      </table></div>
+      <p>实际观察表还记录日期、观察者、区域、参与者、初始材料摆放等。视频可以只转写相关片段并保留时间点；一张照片不能代替完整的行动过程。</p>
+      <div class="callout pending"><h3>如果我们就在现场，还想补记什么？</h3><p>她之前怎样接触过影子？有没有亲自开关灯？她能否用动作重现自己的意思？同伴怎样回应？这些信息会影响解释。原案例目前没有交代的内容，应保留为空缺。</p></div>
+      <p class="output-line"><strong>这一步的产出：</strong>别人能够据此理解事件的具体记录，加上另栏标识的初步备忘。</p>
+      <p class="source-ref">本书方法：第4章 pp.43、47–50；本例描述：第5章 p.63。</p>
+      <div class="discussion"><p class="discussion-label">停下来讨论 1</p><p>请找出两条可以确认的信息，再列出一条尚需补充的信息。若把“她正在寻找影子”写入事实栏，依据够吗？</p>
+        <label class="note-label" for="note1">本组记录：已有事实／信息缺口</label><textarea class="note" id="note1" data-note="观察记录" placeholder="我们能确认……；还需要了解……"></textarea><div class="print-note" data-print-for="note1"></div>
+        <details class="analysis"><summary>展开参考分析</summary><div class="detail-body"><p>能够确认的是画中位置，以及作者转述的解释。她在现场是否寻找影子、如何寻找，尚无记录。把“寻找”写成事实，就会让后续设计建立在新增情节上。</p><p>观察的完整性不等于篇幅很长。优先保留对理解儿童的目标、策略和变化有用的过程信息。现场备忘可以很短，但要能追溯到具体事件。</p></div></details>
+      </div>
+    </section>
+
+    <section class="section step" id="step2" aria-labelledby="s2-title">
+      <div class="section-head"><div class="step-number" aria-hidden="true">2</div><div><h2 id="s2-title">形成可以再核查的解释</h2><p class="en-name">Interpreting Thinking　解释儿童思维</p></div></div>
+      <p class="step-question">儿童可能想达到什么目标？她为什么采用这种表达或操作？</p>
+      <p>从“她对影子感兴趣”继续追问：她在试图弄明白什么，运用了哪些已有经验，当前行动可能是什么策略。解释要与观察细节相连，也要为其他可能留出空间。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">怎样解释</th><th scope="col">目前依据与需要核查的地方</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge interpret">书中分析</span><br>她可能在协调有光时影子与身体相连、很暗时看不到影子的经验。</td><td>画中位置与“进入身体”的解释支持这种理解；还需通过操作与后续表达了解，她怎样联系光、身体和影子。</td></tr>
+          <tr><td><span class="badge demo">补充的替代假设</span><br>“进入肚子”可能是当时的绘画或故事表达，未必是稳定的现象解释。</td><td>可以邀请她重现情境，观察换成实际开关灯时，她是否仍采用同样解释。</td></tr>
+        </tbody>
+      </table></div>
+      <div class="two-col">
+        <div class="definition"><h4>儿童的暂时性理论</h4><p><em>Children’s working theories</em><br>儿童对世界如何运作的解释，可以通过动作、语言和图画表达，并随经验修订。</p></div>
+        <div class="definition"><h4>教师的工作假设</h4><p><em>Teachers’ working hypotheses</em><br>教师对儿童可能怎样想、为什么这样做的理解，需要新的证据支持或修正。</p></div>
+      </div>
+      <div class="callout interpret"><p>下一次活动有双重作用：给儿童提供新的探索经验，也让教师更了解自己的解释是否贴近儿童。</p></div>
+      <p>书中的解释表要求教师写叙事，并尝试从儿童立场拟写可能的内心思考。后者仍是成人的换位思考练习，需要明确标识，不能当成儿童真实说过的话。</p>
+      <p class="output-line"><strong>这一步的产出：</strong>说明儿童可能的目标、策略与已有认识，同时标明证据和待核查的问题。</p>
+      <p class="source-ref">本书方法：第4章 p.43；第5章 pp.66–74；本例分析：pp.63–64。</p>
+      <div class="discussion"><p class="discussion-label">停下来讨论 2</p><p>你目前更支持哪种解释？哪条记录支持它？还存在什么别的解释？用一句话说清怎样向儿童继续核实。</p>
+        <label class="note-label" for="note2">本组记录：暂时解释／支持证据／待核实问题</label><textarea class="note" id="note2" data-note="解释儿童思维" placeholder="我们暂时认为……，依据是……；还想核实……"></textarea><div class="print-note" data-print-for="note2"></div>
+        <details class="analysis"><summary>展开参考分析</summary><div class="detail-body"><p>可以暂时采纳书中解释，但不宜从一幅画直接推断儿童已形成稳定的错误概念。邀请儿童用材料、动作或画图说明，会比替她补出完整内心故事获得更多依据。</p><p>“她可能在协调……”描述教师的理解；“她已经理解光线传播……”则超过当前证据。每个判断都应能回答：我们凭什么这样说？</p></div></details>
+      </div>
+    </section>
+
+    <section class="section step" id="step3" aria-labelledby="s3-title">
+      <div class="section-head"><div class="step-number" aria-hidden="true">3</div><div><h2 id="s3-title">先提出多个可能方向</h2><p class="en-name">Curriculum Action Plan　课程行动方案</p></div></div>
+      <p class="step-question">如果不立即锁定第一个活动，还能怎样回应这个孩子？</p>
+      <p>本书表格要求至少提出三个行动问题，每项都考虑相应的材料、提问或陈述。<strong>每一项都是下一次活动的备选，不是预先排好的三个课时。</strong>这些问题可以来自儿童，也可以是教师想进一步了解儿童的问题。</p>
+      <div class="discussion"><p class="discussion-label">停下来讨论 3：先自己提出三个方向</p><p>先不要向下查看 A/B/C。每位教师写三种可能的下一步，交换后说明它们各自回应什么问题。看过示范后，再补写先选什么、暂缓什么，以及理由。</p>
+        <label class="note-label" for="note3">本组记录：三个备选／比较后先选与暂缓的理由</label><textarea class="note" id="note3" data-note="提出多个方案" style="min-height:170px" placeholder="候选1：……，回应……&#10;候选2：……，回应……&#10;候选3：……，回应……&#10;比较后先选……，暂缓……，理由是……"></textarea><div class="print-note" data-print-for="note3"></div>
+      </div>
+      <div class="callout demo"><p>以下 A、B、C 是本导读针对光影个案拟定的三个方向。它们没有作为这名儿童的三项行动问题列在原书中。请先比较每条路径能提供什么经验，再作选择。</p></div>
+      <div class="path-tabs" role="tablist" aria-label="比较三个行动方向">
+        <button type="button" class="path-tab" id="path-tab-a" role="tab" aria-selected="true" aria-controls="path-a" data-path="a">A　开关灯</button>
+        <button type="button" class="path-tab" id="path-tab-b" role="tab" aria-selected="false" aria-controls="path-b" data-path="b" tabindex="-1">B　改变位置</button>
+        <button type="button" class="path-tab" id="path-tab-c" role="tab" aria-selected="false" aria-controls="path-c" data-path="c" tabindex="-1">C　改变遮盖</button>
+      </div>
+      <div class="path-panel" id="path-a" role="tabpanel" aria-labelledby="path-tab-a" tabindex="0">
+        <h4>A　开关同一盏灯，儿童怎样解释影子的变化？</h4>
+        <p>保持光源、身体或物体、承影面的位置基本相同，反复开关灯，让儿童有机会预测、重现和解释。</p>
+        <dl><dt>支持材料</dt><dd>固定灯、白色承影面、儿童的手或一个不透明物体。</dd><dt>重点观察</dt><dd>儿童怎样让影子重新出现？开关前怎样预测，操作后怎样解释？</dd><dt>还要核查什么</dt><dd>儿童能重现开关与可见性的对应关系之后，怎样解释看不见影子时发生了什么？单独重现这种对应关系，还不足以判断原解释是否改变。</dd></dl>
+      </div>
+      <div class="path-panel" id="path-b" role="tabpanel" aria-labelledby="path-tab-b" tabindex="0" hidden>
+        <h4>B　灯不动，身体或物体换位置，会怎样？</h4>
+        <p>固定光源与承影面，逐次改变身体或物体的位置，让儿童比较影子的位置、大小或清晰程度。</p>
+        <dl><dt>支持材料</dt><dd>固定灯、白墙或白纸、可移动的不透明物体、位置标记。</dd><dt>重点观察</dt><dd>儿童跟随的是物体位置，还是影子位置？能否作出并检查预测？</dd><dt>何时值得优先选择</dt><dd>若新观察显示儿童持续调整站位或追踪影子的位置，这条路径可能更贴近当下问题。本例当前材料对这一点仍需补充。</dd></dl>
+      </div>
+      <div class="path-panel" id="path-c" role="tabpanel" aria-labelledby="path-tab-c" tabindex="0" hidden>
+        <h4>C　更换窗口遮盖材料，箱内会怎样？</h4>
+        <p>在光源与位置基本相同的条件下，换用经试照后确有不同透光表现的材料，比较箱内明暗与影子的可见情况。</p>
+        <dl><dt>支持材料</dt><dd>开窗纸箱、固定灯、若干遮盖材料。先试用，再按真实表现讨论透光差异。</dd><dt>重点观察</dt><dd>儿童怎样比较明暗，怎样选择材料，是否把变化与遮盖方式联系起来？</dd><dt>与原书的联系</dt><dd>原书提供三块厚度不同的材料，但没有写成透明、半透明、不透明三类。厚度不同本身不能保证透光表现不同。</dd></dl>
+      </div>
+      <details class="analysis path-compare"><summary>同时展开三条路径的选择依据</summary><div class="detail-body">
+        <p><strong>A</strong>侧重影子出现与照明条件的联系；<strong>B</strong>侧重光源、物体与影子的空间关系；<strong>C</strong>侧重材料遮盖、明暗与影子可见情况。三条都与光影有关，但不一定都贴近儿童眼下的问题。</p>
+        <p>选择时回到观察：哪个方向最有根据，儿童能否自主操作，哪些变化能观察和比较，怎样产生适度挑战？选择 B 或 C 也可以有理由；需要把补充依据说清楚。</p>
+      </div></details>
+      <p class="output-line"><strong>这一步的产出：</strong>多个有根据的备选，每项都说得出要提供什么经验、观察什么。</p>
+      <p class="source-ref">至少三个备选及行动问题的主体：第6章 pp.75–78、88。A/B/C 的具体内容为示范补充。</p>
+      <details class="analysis"><summary>讨论后，展开本导读的选择理由</summary><div class="detail-body"><p>本导读暂时优先选 A：它最直接贴近当前关于关灯后的解释，且容易重复。选择其他方向也可以有理由，需要说明依据了什么观察，或者准备先补充什么观察。</p><p>这一步先发散，再收束。目的在于避免教师被最熟悉的活动形式锁住，而不是要求每组作出同一个选择。下一步是否延续 A，还要由儿童的真实表现决定。</p></div></details>
+    </section>
+
+    <section class="section step" id="step4" aria-labelledby="s4-title">
+      <div class="section-head"><div class="step-number" aria-hidden="true">4</div><div><h2 id="s4-title">把理由落到具体设计</h2><p class="en-name">Inquiry Provocation Plan　探究引发情境方案</p></div></div>
+      <p class="step-question">什么材料、摆放和互动，能让儿童继续检验自己的想法？</p>
+      <p>本书在这一步收束方向。方案要分别写出 <strong>Evidence（证据）</strong>与 <strong>Rationale（理由）</strong>，建立 Big Idea（把若干探究线索联系起来的概念框架），再明确材料、摆放、可能使用的问题、流程与记录方法。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">方案字段</th><th scope="col">以 A 路径为例</th></tr></thead>
+        <tbody>
+          <tr><td>观察证据</td><td><span class="badge source">据作者转述整理</span>儿童将影子画在身体内部，并把关灯与影子进入身体联系起来。实际带班时，此栏应复制自己的具体观察记录。</td></tr>
+          <tr><td>设计理由</td><td><span class="badge interpret">教师工作假设</span>她可能在解释影子为何看不见。可重复开关灯的经验，有助于进一步了解并发展她对光、身体与影子的认识。</td></tr>
+          <tr><td>关注的问题</td><td><span class="badge demo">示范补充</span>开关固定光源时，儿童怎样预测、重现并解释清晰影子的变化？</td></tr>
+          <tr><td>概念联系</td><td><span class="badge demo">示范补充</span>光、物体与影子之间的关系。概念联系帮助选择经验，不要求儿童复述这个表述。</td></tr>
+          <tr><td>预期的经验</td><td><span class="badge pending">待观察</span>儿童有目的地重现和比较影子变化，进一步表达原先解释与新经验的关系。相较已有认识具体新增或调整了什么，需要比较前后表现。</td></tr>
+        </tbody>
+      </table></div>
+      <h3>把一次小组探索准备清楚</h3>
+      <p><span class="badge demo">示范补充</span>为方便说明，设为中大班4–6名感兴趣儿童，在可调明暗的区域内探索约20分钟，并保留以后再进入的机会。这些是本次设计参数，不能当作原案例的年龄、人数或时长。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">准备什么</th><th scope="col">为什么这样准备</th></tr></thead>
+        <tbody>
+          <tr><td>可安全开关的固定灯</td><td>儿童能够自己重复操作；固定光源减少首轮同时变化的条件。</td></tr>
+          <tr><td>白墙或白纸作承影面</td><td>先试用，找到容易看清影子的关系与位置；本项为示范补充。</td></tr>
+          <tr><td>儿童的手，或一个不透明小物体</td><td>先从身体相关经验进入，也可进一步观察儿童怎样联系物体与影子。</td></tr>
+          <tr><td>纸箱与遮盖材料暂时备用</td><td>保留原书材料方向，待问题发展到箱内明暗或遮盖差异时再引入，首轮不必全部使用。</td></tr>
+          <tr><td>记录用纸、笔，必要时拍摄关键片段</td><td>保留操作前的预测、实际动作和后来的解释，便于回看过程。</td></tr>
+        </tbody>
+      </table></div>
+      <div class="diagram" id="light-diagram">
+        <div class="diagram-head"><div><h4>先把关系看清楚</h4><p class="small" style="margin:0"><span class="badge demo">科学关系示意</span>光源、遮挡物与承影面</p></div><button type="button" class="button light-control" id="light-toggle" aria-pressed="true">关闭示意光源</button></div>
+        <svg viewBox="0 0 650 385" role="img" aria-labelledby="light-svg-title light-svg-desc">
+          <title id="light-svg-title">光被不透明物体遮挡，在承影面形成较暗区域</title>
+          <desc id="light-svg-desc">光源位于左侧，不透明挡板位于中间，承影面在右侧。图中扇形线表示光的行进，挡板后方相应区域获得的光较少。</desc>
+          <path class="light-beam" d="M80 175 L530 20 L530 330 Z" fill="#fff0b8"/>
+          <path class="shadow-region" d="M240 125 L530 34.4 L530 315.6 L240 225 Z" fill="#d5dfeb"/>
+          <g class="rays" fill="none" stroke="#c29b36" stroke-width="1.6"><path d="M80 175 L530 20"/><path d="M80 175 L240 125"/><path d="M80 175 L240 225"/><path d="M80 175 L530 330"/></g>
+          <circle class="lamp-glow" cx="80" cy="175" r="29" fill="#f4d77e" opacity=".45"/>
+          <path d="M48 190 L48 232 L105 232" stroke="#536c86" stroke-width="7" fill="none"/>
+          <path d="M50 146 L83 146 L105 175 L83 204 L50 204 Z" fill="#285ea8"/>
+          <circle class="lamp-core" cx="82" cy="175" r="14"/>
+          <rect x="232" y="125" width="16" height="100" rx="2" fill="#183249"/>
+          <rect class="screen-lit" x="530" y="20" width="24" height="310" stroke="#6c849c" stroke-width="2"/>
+          <rect class="screen-shadow" x="531" y="34.4" width="22" height="281.2"/>
+          <text class="svg-label" x="80" y="280" text-anchor="middle">光源</text>
+          <text class="svg-label" x="240" y="280" text-anchor="middle">不透明遮挡物</text>
+          <text class="svg-label" x="542" y="365" text-anchor="middle">承影面</text>
+          <g class="shadow-labels">
+            <text class="svg-small" x="390" y="178" text-anchor="middle">相应区域获得的光较少</text>
+            <path d="M575 175 L555 175" fill="none" stroke="#53677c" stroke-width="1.5"/>
+            <text class="svg-small" x="580" y="168">较暗</text><text class="svg-small" x="580" y="187">区域</text>
+          </g>
+        </svg>
+        <p class="diagram-caption" id="light-caption" aria-live="polite">在这组简化条件中，物体挡住部分光，承影面出现比周围暗的区域。此图说明物理关系，不代表儿童已经这样理解。</p>
+      </div>
+      <p class="small">开灯后能否辨认影子，还与位置、承影面和背景照明有关。若看不到清晰影子，先检查装置条件，保留儿童真实观察；不把“开灯必定看见”作为标准结果。</p>
+      <h3>儿童可以怎样进入与推进</h3>
+      <ol class="procedure">
+        <li><div><strong>请她重现原来的意思</strong><p>邀请用材料、动作或画图摆出先前的情境。教师先了解她怎样说明，避免替她完成解释。</p></div></li>
+        <li><div><strong>让儿童先有预想，再操作</strong><p>可以问开关灯后想看什么、准备怎样试。首轮尽量保持位置基本相同，只改变开关。</p></div></li>
+        <li><div><strong>允许重复，也允许自己提出新问题</strong><p>儿童可轮换操作、观察与表达。若他们已在自主比较，教师继续记录，不必连续提问。</p></div></li>
+        <li><div><strong>回看这一小段经验</strong><p>请儿童指认、画出或说明发现；保留前后差异以及尚未说清的地方，作为下一轮依据。</p></div></li>
+      </ol>
+      <details class="analysis"><summary>展开可备用的教师支持语</summary><div class="detail-body">
+        <p><span class="badge demo">示范支持语</span>这些是教师可以按需要选用的表达，未在原案例中逐句出现。</p>
+        <ul><li>“你能用这些材料摆出刚才发生的情况吗？”</li><li>“你打算怎样让影子再出现？”</li><li>“刚才你改了哪里？还有什么没有改？”</li><li>“你想再试一次，还是换一种办法？”</li></ul>
+        <p>教师也可给出必要的操作示范、描述儿童实际改变的条件，或在适当时机提供信息。本书强调，准备了问题，不意味着必须全部使用。</p>
+      </div></details>
+      <p class="output-line"><strong>这一步的产出：</strong>另一位教师能够理解并接手的具体方案，且每项准备都能说出与儿童表现的联系。</p>
+      <p class="source-ref">方案字段与收束方法：第7章 pp.94–96；原书材料：第5章 p.64。具体小组安排、流程与图示为本导读补充。</p>
+      <div class="discussion"><p class="discussion-label">停下来讨论 4</p><p>假如移走一项材料，你会移走什么？假如只能保留一个观察重点，你会保留什么？请说明它与儿童原有表现的联系。</p>
+        <label class="note-label" for="note4">本组记录：最必要的材料／最重要的观察点</label><textarea class="note" id="note4" data-note="形成具体设计" placeholder="最要保留……，因为它能让儿童……；我们优先观察……"></textarea><div class="print-note" data-print-for="note4"></div>
+        <details class="analysis"><summary>展开参考分析</summary><div class="detail-body"><p>如果首轮聚焦关灯后的解释，备用纸箱和遮盖材料可以暂缓。优先保留可自主重复的光源操作、容易辨认的投影条件，以及儿童操作前后怎样解释的记录。</p><p>材料多并不保证经验更深入。每增加一个条件，都要考虑它能让什么关系更容易察觉，或者是否会让当前问题变得模糊。</p></div></details>
+      </div>
+    </section>
+
+    <section class="section step" id="step5" aria-labelledby="s5-title">
+      <div class="section-head"><div class="step-number" aria-hidden="true">5</div><div><h2 id="s5-title">让现场回应进入设计</h2><p class="en-name">Set Up and Facilitate Play　布置与支持游戏／活动</p></div></div>
+      <p class="step-question">什么时候继续等？什么时候给工具、示范、信息或问题？</p>
+      <p>先试用材料、布置环境，再邀请儿童。实施时观察儿童真实的目标和策略，判断成人怎样进入才有价值。支持方式包括等待、描述、示范、提供信息、调整材料和提出问题。</p>
+      <div class="callout demo"><p>以下是为共读准备的<strong>可能情境与回应</strong>，尚未实施，不是这名儿童真实发生的后续。</p></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">如果出现这样的表现</th><th scope="col">教师可以怎样回应</th><th scope="col">继续观察什么</th></tr></thead>
+        <tbody>
+          <tr><td>儿童已经重复操作、比较并讨论</td><td>留出时间，记录自主形成的问题和分歧</td><td>他们在改什么条件，比较的依据是否清楚</td></tr>
+          <tr><td>儿童有想法，但不会操作开关或摆材料</td><td>提供简短示范，让操作困难得到解决</td><td>技能支持之后，儿童是否继续自己的尝试</td></tr>
+          <tr><td>儿童仍用进入身体来解释</td><td>请用操作、指认或图画进一步表达，了解这句话对她的意义</td><td>语言、图画和实际操作之间是否一致</td></tr>
+          <tr><td>儿童转而调整站位、追踪影子大小或位置</td><td>重新判断其当前关注，考虑转向路径 B</td><td>新方向是否持续，与原先问题有什么联系</td></tr>
+          <tr><td>儿童开始编影子故事</td><td>先辨认当前目的，保留表达；科学比较可另找合适时机</td><td>是否还在尝试解释现象，还是主要进行故事创作</td></tr>
+        </tbody>
+      </table></div>
+      <p>实际介入也要记下来：教师给了什么材料，说了什么，儿童随后怎样回应。这样，反思时才能讨论支持与变化的联系。</p>
+      <p class="output-line"><strong>这一步的产出：</strong>儿童真实的新表现，以及教师实际做过的支持。它们共同成为下一轮证据。</p>
+      <p class="source-ref">实施方法：第7章 pp.110–111。上表为本次示范补充。</p>
+      <div class="discussion"><p class="discussion-label">停下来讨论 5</p><p>选一个情境，说出你会先做什么。再说出一个使你暂不介入的信号，以及一个需要改变计划的信号。</p>
+        <label class="note-label" for="note5">本组记录：等待／介入／改计划的条件</label><textarea class="note" id="note5" data-note="布置与支持活动" placeholder="如果观察到……，我会……；如果……，我会改变原计划，因为……"></textarea><div class="print-note" data-print-for="note5"></div>
+        <details class="analysis"><summary>展开参考分析</summary><div class="detail-body"><p>儿童自主比较时，成人的持续提问可能打断其思路；操作技能卡住时，一次示范可能比追加问题更有帮助。若儿童追踪的关系与教师原先理解不同，就要重新检查解释，而不只是把儿童拉回流程。</p><p>把改变计划的条件提前说出来，有助于教师在现场识别新证据。条件应描述具体表现，例如持续改变位置并作出预测，而不是笼统写“兴趣不高”。</p></div></details>
+      </div>
+    </section>
+
+    <section class="section step" id="step6" aria-labelledby="s6-title">
+      <div class="section-head"><div class="step-number" aria-hidden="true">6</div><div><h2 id="s6-title">用新证据决定下一步</h2><p class="en-name">Reflective Evaluation　反思评价</p></div></div>
+      <p class="step-question">什么表现支持“理解正在发展”？哪些结论还不能作出？</p>
+      <p>本书的反思表分别询问儿童反应、学习证据、与预设的关系、教师支持的影响、下一步、课程标准与记录质量。反思同时看儿童，也看材料、互动与观察方式。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">关注点</th><th scope="col">待观察的表现</th><th scope="col">可以怎样判断</th></tr></thead>
+        <tbody>
+          <tr><td>参与</td><td>主动回来、邀请同伴、持续操作、愿意交流</td><td>说明愿意参与或继续探索；还需结合具体过程分析学到了什么</td></tr>
+          <tr><td>探究方式</td><td>先作预测，改变一个条件，再重复检查；根据结果调整操作</td><td>可以支持对某种探究策略发展的判断，需记录具体情境</td></tr>
+          <tr><td>解释与认识</td><td>相较原来的解释，出现可追溯的补充、调整或新问题，并能结合具体操作说明</td><td>说清新增加或改变了什么；重现开关与影子可见性的对应关系，本身不足以说明进入身体的解释已经改变</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout interpret"><h3>先对照起点，再谈变化</h3><p>儿童起初已经把关灯与影子的变化联系起来。她后来再次做到这种对应，并不自动构成新的概念认识，也可能与原来的进入身体解释同时成立。需要继续看她是否补充、调整了原解释，或提出了什么新问题。</p></div>
+      <div class="callout pending"><h3>此刻没有儿童结果可供报告</h3><p>原书未提供该个案的后续实录。本页只能预先约定观察什么、怎样分析；不能宣布儿童已放弃原解释或掌握影子形成原理。</p></div>
+      <h3>新的观察，可能把课程带到哪里？</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">未来如果观察到……</th><th scope="col">可以考虑……</th></tr></thead>
+        <tbody>
+          <tr><td>主动开关灯重现变化，并开始关注影子的位置</td><td>进入路径 B，研究光源、身体或物体与影子的位置关系</td></tr>
+          <tr><td>语言、图画和操作含义仍不清楚</td><td>继续收集证据，换用动作、模型或画图交流，暂缓增加复杂条件</td></tr>
+          <tr><td>持续比较遮盖材料造成的明暗差异</td><td>进入路径 C，围绕实际材料表现开展比较</td></tr>
+          <tr><td>装置条件让现象难以辨认</td><td>先调整光源、位置、背景照明或承影面，再判断儿童的认识</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small"><span class="badge demo">条件分支</span>以上均为未来的可能方向，不是已经出现的结果，也不规定课程必须走向 B 或 C。</p>
+      <p class="output-line"><strong>这一步的产出：</strong>有证据支持的暂时判断、尚未解决的问题，以及下一次准备怎样观察和支持。</p>
+      <p class="source-ref">反思字段与参与、学习的区分：第8章 pp.114–117。具体光影观察指标和分支为本导读补充。</p>
+      <div class="discussion"><p class="discussion-label">停下来讨论 6</p><p>怎样的表现仍不足以说明理解发生变化？请补完：如果下次观察到____，我们会把计划改为____，因为____。</p>
+        <label class="note-label" for="note6">本组记录：证据边界／下一轮判断</label><textarea class="note" id="note6" data-note="反思与下一步" placeholder="还不能据……断定……；如果看到……，我们会……"></textarea><div class="print-note" data-print-for="note6"></div>
+        <details class="analysis"><summary>展开参考分析</summary><div class="detail-body"><p>热闹参与、完成作品、重复成人的一句话，都需要结合过程解释。更有价值的是能看见儿童怎样预测、操作、检查、解释和调整，并保留前后比较的证据。</p><p>一次成功也不自动证明理解稳定。下一轮可以看儿童是否主动采用某种策略、换个情境能否继续使用，以及什么新问题仍使她困惑。</p></div></details>
+      </div>
+      <div class="loop-back">回到新的观察：<a href="#step1">重看第1步需要留下什么</a>。新的证据可以支持原解释，也可以要求我们改主意。</div>
+    </section>
+
+    <section class="section" id="exercise" aria-labelledby="exercise-title">
+      <h2 id="exercise-title">把句子放回合适的位置</h2>
+      <p>下面五句话，分别属于原书记述、教师解释、本次示范，还是尚无证据？先作判断，再查看分类依据。</p>
+      <ol class="quiz-list">
+        <li class="quiz-item" data-answer="source" data-reason="这是第5章p.63中的作者转述，可以作为阅读材料中的事实依据；仍不能改写成逐字儿童实录。">
+          <label class="quiz-statement" for="q1">儿童把影子画在肚子所在的位置，并将关灯与影子进入身体联系起来。</label>
+          <select id="q1" aria-describedby="q1-feedback"><option value="">先选择分类</option><option value="source">原书记述</option><option value="interpret">教师解释</option><option value="demo">本次示范</option><option value="pending">尚无证据</option></select>
+          <p id="q1-feedback" class="quiz-feedback" hidden></p>
+        </li>
+        <li class="quiz-item" data-answer="interpret" data-reason="这是作者对儿童思维的分析，有观察线索支持，但没有直接看见儿童的内部思考。">
+          <label class="quiz-statement" for="q2">儿童正在协调有光时影子与身体相连、黑暗中看不见影子的经验。</label>
+          <select id="q2" aria-describedby="q2-feedback"><option value="">先选择分类</option><option value="source">原书记述</option><option value="interpret">教师解释</option><option value="demo">本次示范</option><option value="pending">尚无证据</option></select>
+          <p id="q2-feedback" class="quiz-feedback" hidden></p>
+        </li>
+        <li class="quiz-item" data-answer="demo" data-reason="至少提出三个行动问题是书中方法；将A开关灯、B变位置、C变遮盖列为本例的三个备选，是本导读补充。">
+          <label class="quiz-statement" for="q3">针对这名儿童，先比较开关灯、改变位置、改变遮盖三条路径。</label>
+          <select id="q3" aria-describedby="q3-feedback"><option value="">先选择分类</option><option value="source">原书记述</option><option value="interpret">教师解释</option><option value="demo">本次示范</option><option value="pending">尚无证据</option></select>
+          <p id="q3-feedback" class="quiz-feedback" hidden></p>
+        </li>
+        <li class="quiz-item" data-answer="source" data-reason="这是第5章p.64记载的材料安排；知道安排过什么，不等于已有学习效果证据。">
+          <label class="quiz-statement" for="q4">原书下一步提供固定灯、开窗纸箱和三块厚度不同的遮盖材料。</label>
+          <select id="q4" aria-describedby="q4-feedback"><option value="">先选择分类</option><option value="source">原书记述</option><option value="interpret">教师解释</option><option value="demo">本次示范</option><option value="pending">尚无证据</option></select>
+          <p id="q4-feedback" class="quiz-feedback" hidden></p>
+        </li>
+        <li class="quiz-item" data-answer="pending" data-reason="本案例没有提供后续实施与儿童解释变化的记录，不能把预期写成结果。">
+          <label class="quiz-statement" for="q5">完成上述操作后，儿童已经放弃影子进入身体的解释。</label>
+          <select id="q5" aria-describedby="q5-feedback"><option value="">先选择分类</option><option value="source">原书记述</option><option value="interpret">教师解释</option><option value="demo">本次示范</option><option value="pending">尚无证据</option></select>
+          <p id="q5-feedback" class="quiz-feedback" hidden></p>
+        </li>
+      </ol>
+      <div class="action-row quiz-controls"><button type="button" class="button primary" id="quiz-check">查看分类依据</button><button type="button" class="button" id="quiz-reset">重新判断</button></div>
+      <p class="quiz-result" id="quiz-result" role="status"></p>
+      <details class="analysis"><summary>展开全部参考答案</summary><div class="detail-body"><p>第1题：原书记述；第2题：教师解释；第3题：本次示范；第4题：原书记述；第5题：尚无证据。</p><p>“写在书里”不意味着都属于直接观察。作者对儿童的分析也需要辨认主体与依据。方案和预期同样不能替代实施后的证据。</p></div></details>
+    </section>
+
+    <section class="section" id="records" aria-labelledby="records-title">
+      <h2 id="records-title">让每组留下四句话</h2>
+      <p>可把前面六步的讨论收束为以下四句，并保留分歧。讨论共识只代表教师目前的判断，不是儿童已经学会的结果。</p>
+      <ul class="record-summary">
+        <li><strong>我们看见／读到什么</strong>只写已有材料支持的事件，标明转述与信息缺口。</li>
+        <li><strong>我们暂时怎样理解</strong>说明依据，同时保留其他解释和待核实项。</li>
+        <li><strong>我们下一步先做什么</strong>说清材料、条件和支持方式为什么合适。</li>
+        <li><strong>什么新证据会让我们改主意</strong>把改变计划的条件写成可观察的具体表现。</li>
+      </ul>
+      <label class="note-label" for="note-summary">本组四句话／仍有分歧的地方</label><textarea class="note" id="note-summary" data-note="共读收束" style="min-height:190px" placeholder="我们读到……&#10;我们暂时理解为……&#10;下一步先……&#10;如果看到……，我们会……&#10;尚有分歧……"></textarea><div class="print-note" data-print-for="note-summary"></div>
+      <p class="note-status" id="note-status" role="status">讨论内容仅留在当前浏览器，不会上传；可下载为 Markdown 留存。</p>
+      <div class="action-row"><button type="button" class="button primary" id="export-notes">下载共读记录 .md</button><button type="button" class="button" id="clear-notes">清空本页讨论</button></div>
+      <details class="analysis"><summary>展开带领者收束提示</summary><div class="detail-body"><p>比较的是判断与证据是否相连，不以是否接近作者的安排评优。若讨论变成寻找标准教案，回到儿童当前的问题；若结论超过记录，追问依据来自哪里；若只列材料，追问每项材料准备让儿童获得什么经验。</p><p>记录中将未确认的内容保留为假设或疑问。原书的五张表可以帮助教师展开思考；本页的讨论栏只是共读练习记录，不是原表的完整复制。</p></div></details>
+    </section>
+
+    <section class="section" id="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">回到原书核对</h2>
+      <p class="reference">Broderick, J. T., &amp; Hong, S. B. (2020). <em>From children’s interests to children’s thinking: Using a cycle of inquiry to plan curriculum</em>. National Association for the Education of Young Children.</p>
+      <p class="small">依据用户提供的 EPUB 定向研读。页码采用书内 page-list／page_N 标记，不是阅读器随字号变化的屏幕页码。本文用中文概述方法，并按教师共读需要重组内容，未复制整套原书表格。</p>
+      <div class="reference-grid">
+        <p><strong>总览与六环节、五张表</strong><br>导言 pp.3–4</p>
+        <p><strong>观察、备忘与教师工作假设</strong><br>第4章 pp.43、47–50</p>
+        <p><strong>光影个案与原书材料</strong><br>第5章 pp.63–64</p>
+        <p><strong>解释思维与拟写内心思考的边界</strong><br>第5章 pp.66–74；附录 p.139</p>
+        <p><strong>至少三个行动问题与策略</strong><br>第6章 pp.75–78、88；附录 p.141</p>
+        <p><strong>方案字段与从发散到收束</strong><br>第7章 pp.94–96；附录 pp.143–144</p>
+        <p><strong>布置、实施与教师支持</strong><br>第7章 pp.110–111</p>
+        <p><strong>反思、学习证据与后续</strong><br>第8章 pp.114–117</p>
+      </div>
+      <div class="callout demo"><h3>本导读补充的范围</h3><p>A/B/C 三个具体方向、优先选择 A 的理由、对象与时间参数、精简材料、详细流程、支持语、光影示意、实施分支、观察指标和共读练习，均为本次示范设计，尚未实施。</p></div>
+      <p class="small">这些材料用于讨论教师的课程判断。科学内容需要结合实际装置核查，儿童学习的判断需要实际观察支持。方法的合理性、案例叙述和学习成效的因果证据，各有不同的证据要求。</p>
+    </section>
+    <footer class="footer">教师共读导读　2026年11月14日<br>单文件离线版。正文可独立阅读；互动用于比较、讨论和记录。没有发送或上传功能。</footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+(function(){
+  'use strict';
+  const $ = function(s){return document.querySelector(s);};
+  const $$ = function(s){return Array.from(document.querySelectorAll(s));};
+  const storageKey = 'coi-teacher-reading-20261114-v1';
+  const fields = $$('.note');
+  const labels = {source:'原书记述',interpret:'教师解释',demo:'本次示范',pending:'尚无证据'};
+  let toastTimer;
+  function notify(message){
+    const toast = $('#toast'); toast.textContent = message; toast.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){toast.hidden = true;},2800);
+  }
+  function updatePrintNotes(){
+    $$('[data-print-for]').forEach(function(node){
+      const field = document.getElementById(node.dataset.printFor);
+      node.textContent = field ? field.value : '';
+    });
+  }
+  let stored = {};
+  try{ stored = JSON.parse(localStorage.getItem(storageKey) || '{}') || {}; }
+  catch(e){ $('#note-status').textContent = '当前浏览器未能读取本地记录。仍可填写并下载；内容不会上传。'; }
+  fields.forEach(function(field){ if(typeof stored[field.id] === 'string') field.value = stored[field.id]; });
+  updatePrintNotes();
+  function saveNotes(){
+    const values = {}; fields.forEach(function(field){values[field.id] = field.value;});
+    updatePrintNotes();
+    try{
+      localStorage.setItem(storageKey,JSON.stringify(values));
+      $('#note-status').textContent = '已保存在当前浏览器，内容不会上传。下载 Markdown 可另行留存；换浏览器或清理浏览器数据后可能无法恢复。';
+    }catch(e){
+      $('#note-status').textContent = '当前浏览器未能保存记录。内容仍在本页，请下载 Markdown 留存；不会上传。';
+    }
+  }
+  fields.forEach(function(field){field.addEventListener('input',saveNotes);});
+  if(fields.some(function(field){return field.value.trim();})){
+    $('#note-status').textContent = '已恢复当前浏览器保存的讨论内容。内容不会上传，可下载 Markdown 留存。';
+  }
+  $('#projector-toggle').addEventListener('click',function(){
+    const enabled = document.body.classList.toggle('projector');
+    this.setAttribute('aria-pressed',String(enabled));
+    this.textContent = enabled ? '恢复细读字号' : '投屏字号';
+  });
+  const analyses = $$('.analysis');
+  function updateExpandLabel(){
+    const allOpen = analyses.every(function(node){return node.open;});
+    $('#expand-toggle').textContent = allOpen ? '收起全部分析' : '展开全部分析';
+    $('#expand-toggle').setAttribute('aria-expanded',String(allOpen));
+  }
+  $('#expand-toggle').addEventListener('click',function(){
+    const open = !analyses.every(function(node){return node.open;});
+    analyses.forEach(function(node){node.open = open;}); updateExpandLabel();
+  });
+  analyses.forEach(function(node){node.addEventListener('toggle',updateExpandLabel);});
+  const pathButtons = $$('.path-tab');
+  function selectPath(button,focus){
+    pathButtons.forEach(function(item){
+      const selected = item === button;
+      item.setAttribute('aria-selected',String(selected));
+      item.tabIndex = selected ? 0 : -1;
+      document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+    });
+    if(focus) button.focus();
+  }
+  pathButtons.forEach(function(button,index){
+    button.addEventListener('click',function(){selectPath(button,false);});
+    button.addEventListener('keydown',function(event){
+      let next;
+      if(event.key === 'ArrowRight') next = (index + 1) % pathButtons.length;
+      if(event.key === 'ArrowLeft') next = (index + pathButtons.length - 1) % pathButtons.length;
+      if(event.key === 'Home') next = 0;
+      if(event.key === 'End') next = pathButtons.length - 1;
+      if(next !== undefined){event.preventDefault();selectPath(pathButtons[next],true);}
+    });
+  });
+  $('#light-toggle').addEventListener('click',function(){
+    const off = $('#light-diagram').classList.toggle('is-off');
+    this.setAttribute('aria-pressed',String(!off));
+    this.textContent = off ? '开启示意光源' : '关闭示意光源';
+    $('#light-svg-title').textContent = off ? '主光源关闭，原先的清晰投影条件发生变化' : '光被不透明物体遮挡，在承影面形成较暗区域';
+    $('#light-svg-desc').textContent = off
+      ? '左侧主光源已关闭，光束与局部阴影标注被移除，承影面显示为同一暗色。图示不把影子当作能藏入物体的实体。'
+      : '光源位于左侧，不透明挡板位于中间，承影面在右侧。图中扇形线表示光的行进，挡板后方相应区域获得的光较少。';
+    $('#light-caption').textContent = off
+      ? '示意光源已关闭：原先形成清晰投影的照明条件发生变化。图中没有把影子画成藏入物体的东西；真实活动中还要检查背景照明等条件。'
+      : '在这组简化条件中，物体挡住部分光，承影面出现比周围暗的区域。此图说明物理关系，不代表儿童已经这样理解。';
+  });
+  const quizItems = $$('.quiz-item');
+  $('#quiz-check').addEventListener('click',function(){
+    const unanswered = quizItems.filter(function(item){return !item.querySelector('select').value;});
+    if(unanswered.length){
+      $('#quiz-result').textContent = '还有 ' + unanswered.length + ' 题未选择。可先完成判断，也可展开下方全部参考答案。';
+      unanswered[0].querySelector('select').focus(); return;
+    }
+    let matched = 0;
+    quizItems.forEach(function(item){
+      const answer = item.dataset.answer;
+      const correct = item.querySelector('select').value === answer;
+      if(correct) matched += 1;
+      const feedback = item.querySelector('.quiz-feedback');
+      feedback.textContent = (correct ? '分类一致。' : '可重新辨认。') + '参考分类：' + labels[answer] + '。' + item.dataset.reason;
+      feedback.classList.toggle('recheck',!correct); feedback.hidden = false;
+    });
+    $('#quiz-result').textContent = matched + '/5 项与参考分类一致。请讨论分类依据，而不只核对答案。';
+  });
+  $('#quiz-reset').addEventListener('click',function(){
+    quizItems.forEach(function(item){item.querySelector('select').value = '';item.querySelector('.quiz-feedback').hidden = true;});
+    $('#quiz-result').textContent = ''; quizItems[0].querySelector('select').focus();
+  });
+  function exportMarkdown(){
+    const date = new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());
+    const out = ['# COI探究循环：教师共读记录','','导出时间：' + date,'','本记录是教师共读练习，不是儿童活动实施结果。','案例依据：Broderick与Hong（2020），第5章pp.63–64。','A/B/C备选、详细设计与反思分支为本导读示范补充。',''];
+    fields.forEach(function(field){
+      out.push('## ' + field.dataset.note,'',field.value.trim() || '（尚未填写）','');
+    });
+    out.push('## 参考书目','','Broderick, J. T., & Hong, S. B. (2020). From children’s interests to children’s thinking: Using a cycle of inquiry to plan curriculum. National Association for the Education of Young Children.','');
+    return out.join('\n');
+  }
+  $('#export-notes').addEventListener('click',function(){
+    const blob = new Blob([exportMarkdown()],{type:'text/markdown;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url; link.download = 'COI探究循环_教师共读记录.md';
+    document.body.appendChild(link); link.click(); link.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    notify('已发起 Markdown 下载，请查看浏览器下载位置。');
+  });
+  $('#clear-notes').addEventListener('click',function(){
+    if(!window.confirm('清空本页七处讨论记录？此操作不会删除已经下载的文件。')) return;
+    fields.forEach(function(field){field.value = '';}); updatePrintNotes();
+    try{localStorage.removeItem(storageKey);$('#note-status').textContent = '本页讨论已清空。重新填写后会尝试保存在当前浏览器；内容不会上传。';}
+    catch(e){$('#note-status').textContent = '本页内容已清空，但未能移除浏览器中的旧记录。请下载需要留存的内容。';}
+    notify('已清空本页讨论。');
+  });
+  let printDetails = [];
+  let printLightOff = false;
+  let printQuizState = [];
+  function preparePrint(){
+    updatePrintNotes();
+    printDetails = analyses.map(function(node){return node.open;});
+    analyses.forEach(function(node){node.open = true;});
+    printQuizState = quizItems.map(function(item){
+      const feedback = item.querySelector('.quiz-feedback');
+      const state = {hidden:feedback.hidden,text:feedback.textContent,className:feedback.className};
+      feedback.textContent = '参考分类：' + labels[item.dataset.answer] + '。' + item.dataset.reason;
+      feedback.hidden = false;
+      feedback.classList.remove('recheck');
+      return state;
+    });
+    printLightOff = $('#light-diagram').classList.contains('is-off');
+    if(printLightOff) $('#light-toggle').click();
+  }
+  function restorePrint(){
+    analyses.forEach(function(node,index){node.open = Boolean(printDetails[index]);});
+    quizItems.forEach(function(item,index){
+      const feedback = item.querySelector('.quiz-feedback');
+      const state = printQuizState[index];
+      if(state){feedback.hidden = state.hidden;feedback.textContent = state.text;feedback.className = state.className;}
+    });
+    if(printLightOff) $('#light-toggle').click();
+    updateExpandLabel();
+  }
+  window.addEventListener('beforeprint',preparePrint);
+  window.addEventListener('afterprint',restorePrint);
+  $('#print-button').addEventListener('click',function(){window.print();});
+  function updateProgress(){
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    $('#scroll-progress').style.width = (total > 0 ? Math.min(100,window.scrollY/total*100) : 0) + '%';
+    const offset = window.innerWidth <= 820 ? 110 : 150;
+    let active = null;
+    $$('.step').forEach(function(section){if(section.getBoundingClientRect().top <= offset) active = section.id;});
+    if(!active && $('#step1').getBoundingClientRect().top < window.innerHeight * .65) active = 'step1';
+    $$('.rail ol a').forEach(function(link){
+      if(link.getAttribute('href') === '#' + active) link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  let progressScheduled = false;
+  window.addEventListener('scroll',function(){
+    if(!progressScheduled){requestAnimationFrame(function(){updateProgress();progressScheduled = false;});progressScheduled = true;}
+  },{passive:true});
+  window.addEventListener('resize',updateProgress);
+  updateProgress();
+  window.coiReading = {exportMarkdown:exportMarkdown,saveNotes:saveNotes};
+})();
+</script>
+</body>
+</html>
